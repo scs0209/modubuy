@@ -23,6 +23,7 @@
     "prettier"
   ],
   "rules": {
+    "react/no-array-index-key": "warn",
     "no-plusplus": "off",
     "react/jsx-no-useless-fragment": "off",
     "react/require-default-props": "off",
