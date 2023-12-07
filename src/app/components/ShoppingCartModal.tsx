@@ -10,9 +10,10 @@ import {
 import { useShoppingCart } from 'use-shopping-cart'
 
 export default function ShoppingCartModal() {
-  const { cartCount } = useShoppingCart()
+  const { cartCount, shouldDisplayCart, handleCartClick } = useShoppingCart()
+
   return (
-    <Sheet defaultOpen>
+    <Sheet open={shouldDisplayCart} onOpenChange={handleCartClick}>
       <SheetContent className="sm:max-w-lg w-[90vw]">
         <SheetHeader>
           <SheetTitle>Shopping Cart</SheetTitle>
