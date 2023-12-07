@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import { Toaster } from '@/components/ui/toaster'
 import Navbar from './components/Navbar'
 import CartProvider from './components/Providers'
 import ShoppingCartModal from './components/ShoppingCartModal'
@@ -23,6 +24,7 @@ export default function RootLayout({
         <CartProvider>
           <Navbar />
           <ShoppingCartModal />
+          <Toaster />
           {children}
         </CartProvider>
       </body>
