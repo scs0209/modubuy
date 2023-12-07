@@ -1,5 +1,24 @@
-import React from 'react'
+'use client'
 
-export default function CartProvider() {
-  return <div>CartProvider</div>
+import React, { ReactNode } from 'react'
+import { CartProvider as USCProvider } from 'use-shopping-cart'
+
+export default function CartProvider({ children }: { children: ReactNode }) {
+  return (
+    <div>
+      <USCProvider
+        mode="payment"
+        cartMode="client-only"
+        stripe={process.env.NEXT_PUBLIC_STRIPE_KEY as string}
+        successUrl="http://localhost:3000/success"
+        cancelUrl="http://localhost:3000/error"
+        currency="USD"
+        billingAddressCollection
+        shouldPersist
+        language="en-US"
+      >
+        {children}
+      </USCProvider>
+    </div>
+  )
 }
