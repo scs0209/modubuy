@@ -28,7 +28,7 @@ export default function LoginPage() {
             }`}
           >
             <div
-              onClick={handleSignupClick}
+              onClick={handleLoginClick}
               className={`absolute flex top-0 flex-col items-center justify-center text-center px-[30px] cursor-pointer w-1/2 h-full transform transition-all duration-600 ease-in-out ${
                 isSignUpActive ? 'translate-x-0' : 'translate-x-[-200%]'
               }`}
@@ -40,7 +40,7 @@ export default function LoginPage() {
               <button className="side-btn">Sign In</button>
             </div>
             <div
-              onClick={handleLoginClick}
+              onClick={handleSignupClick}
               className={`absolute right-0 top-0 flex flex-col justify-center items-center text-center px-[30px] cursor-pointer w-1/2 h-full transform transition-all duration-600 ease-in-out ${
                 isSignUpActive ? 'translate-x-[200%]' : 'translate-x-0'
               }`}

@@ -76,10 +76,18 @@ module.exports = {
           from: { height: 'var(--radix-accordion-content-height)' },
           to: { height: 0 },
         },
+        move: {
+          '0%, 49.99%': { opacity: '0', zIndex: '1' },
+          '50%, 100%': { opacity: '1', zIndex: '5' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        move: 'move 0.6s',
+      },
+      width: {
+        200: '200%', // 200% width를 정의
       },
     },
   },

@@ -1,6 +1,6 @@
 'use client'
 
-import { useIsSignUpActive } from '@/store/authorStore'
+import { useAuthorActions, useIsSignUpActive } from '@/store/authorStore'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
@@ -17,6 +17,8 @@ export default function SignUpForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValue>({ mode: 'onChange' })
+  const { handleLoginClick } = useAuthorActions()
+
   async function signUp({ username, email, password }: FormValue) {
     const response = await fetch('http://localhost:3000/api/register', {
       method: 'POST',
@@ -124,7 +126,7 @@ export default function SignUpForm() {
         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
           Already have an account?{' '}
           <span
-            // onClick={() => dispatch(handleLoginClick())}
+            onClick={handleLoginClick}
             className="font-medium text-primary-600 hover:underline dark:text-primary-500"
           >
             Login

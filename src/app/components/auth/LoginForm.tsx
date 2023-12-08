@@ -4,7 +4,7 @@ import { signIn } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useIsSignUpActive } from '@/store/authorStore'
+import { useAuthorActions, useIsSignUpActive } from '@/store/authorStore'
 import SocialBtn from './SocialBtn'
 
 interface FormValue {
@@ -19,6 +19,7 @@ export default function LoginForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<FormValue>({ mode: 'onChange' })
+  const { handleSignupClick } = useAuthorActions()
   const router = useRouter()
 
   const onSubmit = handleSubmit(async (formData) => {
@@ -125,7 +126,7 @@ export default function LoginForm() {
         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
           Don’t have an account yet?{' '}
           <span
-            // onClick={() => dispatch(handleSignupClick())}
+            onClick={handleSignupClick}
             className="font-medium text-primary-600 hover:underline dark:text-primary-500"
           >
             Sign up
