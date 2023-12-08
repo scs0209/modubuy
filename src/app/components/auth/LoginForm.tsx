@@ -1,55 +1,47 @@
 'use client'
 
-import { useIsSignUpActive } from '@/store/authorStore'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { useIsSignUpActive } from '@/store/authorStore'
+import SocialBtn from './SocialBtn'
 
 interface FormValue {
   email: string
   password: string
-  username: string
 }
 
-export default function SignUpForm() {
+export default function LoginForm() {
   const isSignUpActive = useIsSignUpActive()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormValue>({ mode: 'onChange' })
-  async function signUp({ username, email, password }: FormValue) {
-    const response = await fetch('http://localhost:3000/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, email, password }),
-    })
-
-    if (!response.ok) {
-      throw new Error('Registration failed')
-    }
-
-    const result = await response.json()
-    return result
-  }
+  const router = useRouter()
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
-      await signUp({
-        username: formData.username,
+      const result = await signIn('credentials', {
+        redirect: false,
         email: formData.email,
         password: formData.password,
       })
+      if (result?.error) {
+        console.log(result.error)
+      } else {
+        router.push('/')
+      }
     } catch (error) {
-      console.error(error)
+      console.error('Error:', error)
     }
   })
 
   return (
     <div
-      className={`absolute w-1/2 opacity-0 left-0 top-0 h-full transition-all duration-600 ease-in-out ${
-        isSignUpActive ? 'translate-x-full opacity-100 z-50 animate-move' : ''
+      className={`absolute w-1/2 left-0 z-2 top-0 h-full transition-all duration-600 ease-in-out ${
+        isSignUpActive ? 'translate-x-full' : ''
       }`}
     >
       <form
@@ -57,28 +49,9 @@ export default function SignUpForm() {
         onSubmit={onSubmit}
       >
         <h1 className="text-xl font-bold text-gray-900 md:text-2xl dark:text-white">
-          회원가입
+          로그인
         </h1>
         <div className="w-full">
-          <div className="relative">
-            <input
-              type="text"
-              className="author-input2 peer"
-              placeholder="Name"
-              {...register('username', {
-                required: '닉네임은 필수입니다.',
-                pattern: {
-                  value: /^[a-zA-Z0-9_]+$/,
-                  message: '닉네임은 알파벳, 숫자, 밑줄만 허용합니다.',
-                },
-              })}
-            />
-            <label className="author-label2">Name</label>
-          </div>
-          {errors.username && (
-            <p className="text-red-500">{errors.username.message}</p>
-          )}
-
           <div className="relative">
             <input
               type="email"
@@ -92,7 +65,9 @@ export default function SignUpForm() {
                 },
               })}
             />
-            <label className="author-label2">Email</label>
+            <label id="email" className="author-label2">
+              Email
+            </label>
           </div>
           {errors.email && (
             <p className="text-red-500">{errors.email.message}</p>
@@ -111,26 +86,53 @@ export default function SignUpForm() {
                 },
               })}
             />
-            <label className="author-label2">Password</label>
+            <label id="password" className="author-label2">
+              Password
+            </label>
           </div>
           {errors.password && (
             <p className="text-red-500">{errors.password.message}</p>
           )}
         </div>
 
-        <button type="submit" className="author-btn mt-4">
-          Create an account
-        </button>
-        <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-          Already have an account?{' '}
+        <div className="flex items-center justify-between mt-2 w-full">
+          <div className="flex items-start">
+            <div className="flex items-center h-5">
+              <input
+                id="remember"
+                aria-describedby="remember"
+                type="checkbox"
+                className="author-checkbox"
+              />
+            </div>
+            <div className="ml-3 text-sm">
+              <label className="text-gray-500 dark:text-gray-300">
+                Remember me
+              </label>
+            </div>
+          </div>
           <span
-            // onClick={() => dispatch(handleLoginClick())}
+            // onClick={handleForgotPasswordClick}
+            className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+          >
+            Forgot password?
+          </span>
+        </div>
+        <button type="submit" className="author-btn" aria-label="Sign in">
+          Sign in
+        </button>
+        <SocialBtn />
+        <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+          Don’t have an account yet?{' '}
+          <span
+            // onClick={() => dispatch(handleSignupClick())}
             className="font-medium text-primary-600 hover:underline dark:text-primary-500"
           >
-            Login
+            Sign up
           </span>
         </p>
       </form>
+      {/* <FindPasswordModal open={showModal} onClose={handleCloseModal} /> */}
     </div>
   )
 }
