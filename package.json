@@ -25,6 +25,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@sanity/image-url": "^1.0.2",
     "@stripe/stripe-js": "^2.2.0",
+    "bcrypt": "^5.1.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "lucide-react": "^0.294.0",
@@ -41,6 +42,7 @@
     "use-shopping-cart": "^3.1.8"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
