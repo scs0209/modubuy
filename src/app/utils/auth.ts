@@ -62,21 +62,15 @@ export const authOptions = {
   ],
   callbacks: {
     async jwt({ token, user, account }) {
-      if (user) {
-        // Credentials 로그인 시 로직
-        return {
-          ...token,
-          id: user.id,
-        }
-      }
       if (account) {
         // OAuth 로그인 시 로직
         return {
           ...token,
+          id: account.id ? account.id : user.id,
           accessToken: account.access_token,
+          role: user.role,
         }
       }
-
       return token
     },
     async session({ session, token }) {
@@ -86,7 +80,8 @@ export const authOptions = {
           ...session.user,
           id: token.id,
           name: token.name,
-          accessToken: token.accessToken,
+          accessToken: token.accessToken ? token.accessToken : null,
+          role: token.role,
         },
       }
     },
