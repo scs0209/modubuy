@@ -30,6 +30,7 @@ export default function SignInForm() {
       description: 'A magic link has been sent to you',
     })
   }
+
   return (
     <form action={SignInWithEmail}>
       <div className="flex flex-col gap-y-2">

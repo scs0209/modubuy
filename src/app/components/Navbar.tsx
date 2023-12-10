@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { ShoppingBag } from 'lucide-react'
 import { useShoppingCart } from 'use-shopping-cart'
+import { signOut, useSession } from 'next-auth/react'
 
 const links = [
   { name: 'Home', href: '/' },
@@ -16,6 +17,9 @@ const links = [
 export default function Navbar() {
   const pathname = usePathname()
   const { handleCartClick } = useShoppingCart()
+  const { data: session } = useSession()
+
+  console.log(session)
 
   return (
     <header className="border-b">
@@ -59,6 +63,7 @@ export default function Navbar() {
               Cart
             </span>
           </Button>
+          <Button onClick={() => signOut()}>Logout</Button>
         </div>
       </div>
     </header>

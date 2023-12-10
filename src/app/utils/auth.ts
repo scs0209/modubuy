@@ -88,7 +88,6 @@ export const authOptions = {
           name: token.name,
         },
       }
-      return session
     },
   },
   session: {

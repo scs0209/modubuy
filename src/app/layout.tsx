@@ -5,6 +5,7 @@ import { Toaster } from '@/components/ui/toaster'
 import Navbar from './components/Navbar'
 import CartProvider from './components/Providers'
 import ShoppingCartModal from './components/ShoppingCartModal'
+import NextAuthProvider from './components/NextAuthProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,12 +22,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <CartProvider>
-          <Navbar />
-          <ShoppingCartModal />
-          <Toaster />
-          {children}
-        </CartProvider>
+        <NextAuthProvider>
+          <CartProvider>
+            <Navbar />
+            <ShoppingCartModal />
+            <Toaster />
+            {children}
+          </CartProvider>
+        </NextAuthProvider>
       </body>
     </html>
   )
