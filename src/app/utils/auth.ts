@@ -86,6 +86,7 @@ export const authOptions = {
           ...session.user,
           id: token.id,
           name: token.name,
+          accessToken: token.accessToken,
         },
       }
     },
