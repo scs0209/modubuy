@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 import { ShoppingBag } from 'lucide-react'
 import { useShoppingCart } from 'use-shopping-cart'
 import { useSession } from 'next-auth/react'
+import Image from 'next/image'
 import UserDropdownMenu from './DropDown'
 
 const links = [
@@ -25,7 +26,8 @@ export default function Navbar() {
   return (
     <header className="border-b">
       <div className="flex items-center justify-between mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl">
-        <Link href="/">
+        <Link href="/" className="flex items-center justify-center">
+          <Image src="/logo.png" alt="Logo" width={45} height={45} />
           <h1 className="text-2xl md:text-4xl font-bold">
             Modu<span className="text-primary">Buy</span>
           </h1>
