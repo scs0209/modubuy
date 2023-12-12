@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { signOut } from 'next-auth/react'
+import Link from 'next/link'
 
 interface Props {
   session: any
@@ -33,10 +34,13 @@ export default function UserDropdownMenu({ session }: Props) {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             {session ? (
-              <>
+              <Link
+                href="/my-page"
+                className="flex items-center justify-center"
+              >
                 <User className="mr-2 h-4 w-4" />
                 <span>Profile</span>
-              </>
+              </Link>
             ) : (
               <>
                 <LogIn className="mr-2 h-4 w-4" />
