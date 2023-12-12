@@ -5,8 +5,10 @@ import { ReactNode } from 'react'
 
 export default function NextAuthProvider({
   children,
+  session,
 }: {
   children: ReactNode
+  session: any
 }) {
-  return <SessionProvider>{children}</SessionProvider>
+  return <SessionProvider session={session}>{children}</SessionProvider>
 }

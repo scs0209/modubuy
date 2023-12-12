@@ -7,13 +7,11 @@ import { compare } from 'bcrypt'
 import prisma from './db'
 
 export const authOptions = {
-  secret: process.env.NEXT_AUTH_SECRET,
   adapter: PrismaAdapter(prisma),
   providers: [
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        username: { label: 'Username', type: 'text', placeholder: 'jsmith' },
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
@@ -62,12 +60,12 @@ export const authOptions = {
   ],
   callbacks: {
     async jwt({ token, user, account }) {
-      if (account) {
+      if (user) {
         // OAuth 로그인 시 로직
         return {
           ...token,
-          id: account.id ? account.id : user.id,
-          accessToken: account.access_token,
+          id: account?.id ? account.id : user.id,
+          accessToken: account?.access_token,
           role: user.role,
         }
       }
