@@ -20,8 +20,31 @@ async function getData() {
   return data
 }
 
+async function fetchPayment() {
+  try {
+    const response = await fetch(`http://localhost:3000/api/payment`, {
+      method: 'GET',
+    })
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+    const data = await response.json()
+
+    return data
+  } catch (error) {
+    console.error('There has been a problem with your fetch operation:', error)
+    throw error
+  }
+}
+
+export const dynamic = 'force-dynamic'
+
 export default async function Newest() {
   const data: simplifiedProduct[] = await getData()
+  const data2 = await fetchPayment()
+
+  console.log('data2: ', data2)
+
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
