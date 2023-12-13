@@ -5,14 +5,26 @@ import { client } from '../lib/sanity'
 import { simplifiedProduct } from '../interface'
 
 async function getData(category: string) {
-  const query = `*[_type == 'product' && category->name == '${category}'] {
-    _id,
+  let query
+  if (category === 'all') {
+    query = `*[_type == 'product'] {
+      _id,
       "imageUrl": images[0].asset->url,
       price,
       name,
       "slug": slug.current,
       "categoryName": category->name
-  }`
+    }`
+  } else {
+    query = `*[_type == 'product' && category->name == '${category}'] {
+      _id,
+      "imageUrl": images[0].asset->url,
+      price,
+      name,
+      "slug": slug.current,
+      "categoryName": category->name
+    }`
+  }
 
   const data = await client.fetch(query)
 
