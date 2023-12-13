@@ -8,7 +8,6 @@ import prisma from './db'
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
-  secret: process.env.NEXTAUTH_URL,
   providers: [
     CredentialsProvider({
       name: 'Credentials',

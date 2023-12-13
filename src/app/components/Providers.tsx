@@ -14,7 +14,7 @@ export default function CartProvider({ children }: { children: ReactNode }) {
         successUrl={`${backUrl}/stripe/success`}
         cancelUrl={`${backUrl}/stripe/error`}
         currency="USD"
-        billingAddressCollection
+        billingAddressCollection={false}
         shouldPersist
         language="en-US"
       >
