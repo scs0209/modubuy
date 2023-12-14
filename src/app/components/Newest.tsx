@@ -4,6 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import { simplifiedProduct } from '../interface'
 import { client } from '../lib/sanity'
+import { backUrl } from '../config/url'
 
 async function getData() {
   const query = `*[_type == 'product'][0...4] | order(_createdAt desc) {
@@ -22,7 +23,7 @@ async function getData() {
 
 async function fetchPayment() {
   try {
-    const response = await fetch(`http://localhost:3000/api/payment`, {
+    const response = await fetch(`${backUrl}/api/products`, {
       method: 'GET',
     })
     if (!response.ok) {

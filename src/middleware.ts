@@ -4,7 +4,6 @@ import { NextResponse } from 'next/server'
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
   function middleware(request: NextRequestWithAuth) {
-    console.log('request.nextauth.token: ', request.nextauth.token)
     if (!request.nextauth.token) {
       return NextResponse.rewrite(new URL('/login', request.url))
     }
