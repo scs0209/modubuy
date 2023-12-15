@@ -3,7 +3,9 @@ import { NextResponse } from 'next/server'
 import prisma from '../../utils/db'
 
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
-  const userId = 'clpz40ixe000013h30kpjga2v'
+  const url = new URL(req.url!)
+  const userId = url.searchParams.get('userId')!
+  console.log(userId)
 
   const user = await prisma.user.findUnique({
     where: {

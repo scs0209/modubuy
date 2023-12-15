@@ -35,7 +35,6 @@ const webhookHandler = async (req: NextRequest) => {
 
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object as any
-      console.log(session)
 
       const user = await prisma.user.findUnique({
         where: {

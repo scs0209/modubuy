@@ -27,9 +27,9 @@ export default function Navbar() {
 
   useEffect(() => {
     if (session) {
-      const fetchPayments = async () => {
+      const fetchPayments = async (userId: string) => {
         try {
-          const response = await fetch(`${backUrl}/api/user`)
+          const response = await fetch(`${backUrl}/api/user?userId=${userId}`)
           const data = await response.json()
           console.log(data)
         } catch (error) {
@@ -37,7 +37,7 @@ export default function Navbar() {
         }
       }
 
-      fetchPayments()
+      fetchPayments(session?.user.id)
     }
   }, [session])
 
