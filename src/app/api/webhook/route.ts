@@ -50,10 +50,10 @@ const webhookHandler = async (req: NextRequest) => {
             payments: {
               create: {
                 id: session.payment_intent,
-                paymentId: session.payment_intent, // 실제 결제 ID를 제공해야 합니다.
-                amount: session.amount_total / 100, // 실제 결제 금액을 제공해야 합니다.
-                status: 'completed', // 실제 결제 상태를 제공해야 합니다.
-                createdAt: new Date(), // 현재 시간을 제공합니다.
+                paymentId: session.payment_intent,
+                amount: session.amount_total / 100,
+                status: session.status, // 실제 결제 상태를 제공해야 합니다.
+                createdAt: new Date(),
               },
             },
           },

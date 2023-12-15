@@ -7,7 +7,9 @@ import { ShoppingBag } from 'lucide-react'
 import { useShoppingCart } from 'use-shopping-cart'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
+import { useEffect } from 'react'
 import UserDropdownMenu from './DropDown'
+import { backUrl } from '../config/url'
 
 const links = [
   { name: 'Home', href: '/' },
@@ -20,6 +22,24 @@ export default function Navbar() {
   const pathname = usePathname()
   const { handleCartClick } = useShoppingCart()
   const { data: session } = useSession()
+
+  console.log(session)
+
+  useEffect(() => {
+    if (session) {
+      const fetchPayments = async () => {
+        try {
+          const response = await fetch(`${backUrl}/api/user`)
+          const data = await response.json()
+          console.log(data)
+        } catch (error) {
+          console.error(error)
+        }
+      }
+
+      fetchPayments()
+    }
+  }, [session])
 
   return (
     <header className="border-b">

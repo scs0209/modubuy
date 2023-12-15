@@ -42,9 +42,7 @@ export const dynamic = 'force-dynamic'
 
 export default async function Newest() {
   const data: simplifiedProduct[] = await getData()
-  const data2 = await fetchPayment()
-
-  console.log('data2: ', data2)
+  await fetchPayment()
 
   return (
     <div className="bg-white">
