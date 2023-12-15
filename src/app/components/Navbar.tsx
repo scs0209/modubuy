@@ -30,8 +30,14 @@ export default function Navbar() {
       const fetchPayments = async (userId: string) => {
         try {
           const response = await fetch(`${backUrl}/api/user?userId=${userId}`)
-          const data = await response.json()
-          console.log(data)
+          const paymentIds = await response.json()
+
+          paymentIds.forEach(async (paymentId: string) => {
+            // 두 번째 호출: Stripe 결제 정보 불러오기
+            const result = await fetch(`${backUrl}/api/payment/${paymentId}`)
+            const paymentInfo = await result.json()
+            console.log(paymentInfo)
+          })
         } catch (error) {
           console.error(error)
         }
