@@ -6,9 +6,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
 })
 
 export async function GET({ params }: { params: { paymentId: string } }) {
-  console.log(params)
   const { paymentId } = params
-  console.log(paymentId)
 
   try {
     const payments = await stripe.paymentIntents.retrieve(paymentId)
