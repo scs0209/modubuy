@@ -23,7 +23,6 @@ export default function Navbar() {
   const { handleCartClick } = useShoppingCart()
   const { data: session } = useSession()
 
-  console.log(session)
 
   useEffect(() => {
     if (session) {
