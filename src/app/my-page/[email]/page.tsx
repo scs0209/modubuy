@@ -9,16 +9,23 @@ async function fetchPayments(userId: string | unknown) {
     const response = await fetch(`${backUrl}/api/user?userId=${userId}`)
     const paymentIds = await response.json()
 
-    paymentIds.forEach(async (paymentId: string) => {
-      // 두 번째 호출: Stripe 결제 정보 불러오기
-      const result = await fetch(`${backUrl}/api/payment/${paymentId}`)
-      const paymentInfo = await result.json()
-      console.log(paymentInfo)
-    })
+    // Promise.all과 Array.map을 사용하여 모든 요청을 병렬로 처리
+    const payments = await Promise.all(
+      paymentIds.map(async (paymentId: string) => {
+        const result = await fetch(`${backUrl}/api/payment/${paymentId}`)
+        return result.json()
+      }),
+    )
+
+    return payments // 결제 정보 배열 반환
   } catch (error) {
     console.error(error)
   }
+
+  return []
 }
+
+export const dynamic = 'force-dynamic'
 
 export default async function MyPage({
   params,
@@ -28,12 +35,12 @@ export default async function MyPage({
   const session = await getServerSession(authOptions)
   const data = await fetchPayments(session?.user.id)
 
-  console.log(data)
+  console.log('data:', data)
 
   return (
     <div className="max-w-screen-lg mx-auto">
       <div>{session?.user.name}</div>
-      <UserTable />
+      <UserTable data={data} />
     </div>
   )
 }
