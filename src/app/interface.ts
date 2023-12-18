@@ -28,3 +28,10 @@ export interface Image {
   _key: string
   asset: ImageAsset
 }
+
+export interface Payment {
+  id: string
+  amount: number
+  status: string
+  description: string
+}
