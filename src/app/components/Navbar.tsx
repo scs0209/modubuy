@@ -23,7 +23,6 @@ export default function Navbar() {
   const { handleCartClick } = useShoppingCart()
   const { data: session } = useSession()
 
-
   useEffect(() => {
     if (session) {
       const fetchPayments = async (userId: string) => {
