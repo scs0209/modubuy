@@ -69,5 +69,6 @@ model Payment {
   paymentId String    
   amount    Float
   status    String
+  product   String?   @default("Default product")
   createdAt DateTime  @default(now())
 }

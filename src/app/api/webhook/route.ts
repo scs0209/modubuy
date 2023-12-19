@@ -36,6 +36,18 @@ const webhookHandler = async (req: NextRequest) => {
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object as any
 
+      // Retrieve the checkout session to get line items
+      const checkoutSession = await stripe.checkout.sessions.retrieve(
+        session.id,
+        {
+          expand: ['line_items'],
+        },
+      )
+
+      const productNames = checkoutSession.line_items?.data
+        .map((lineItem) => lineItem.description)
+        .join(', ')
+
       const user = await prisma.user.findUnique({
         where: {
           email: session.customer_details.email,
@@ -51,6 +63,7 @@ const webhookHandler = async (req: NextRequest) => {
                 id: session.payment_intent,
                 paymentId: session.payment_intent,
                 amount: session.amount_total / 100,
+                product: productNames,
                 status: session.status === 'complete' ? 'success' : 'failed',
                 createdAt: new Date(),
               },
