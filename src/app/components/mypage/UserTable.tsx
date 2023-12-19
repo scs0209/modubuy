@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import {
   ColumnFiltersState,
   SortingState,
@@ -37,14 +37,34 @@ interface paymentProps {
   data: Payment[]
 }
 
+async function requestRefund(chargeId: string, paymentId: string) {
+  try {
+    const response = await fetch(
+      `/api/payment/refund?chargeId=${chargeId}&paymentId=${paymentId}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+
+    const refund = await response.json()
+    console.log(refund)
+  } catch (error) {
+    console.error('There has been a problem with your fetch operation:', error)
+  }
+}
+
 export default function UserTable({ data }: paymentProps) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [rowSelection, setRowSelection] = useState({})
 
   console.log(data)
 
@@ -66,6 +86,7 @@ export default function UserTable({ data }: paymentProps) {
       rowSelection,
     },
   })
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
@@ -178,6 +199,7 @@ export default function UserTable({ data }: paymentProps) {
           >
             Next
           </Button>
+          <Button onClick={() => requestRefund('', '')}>refund</Button>
         </div>
       </div>
     </div>

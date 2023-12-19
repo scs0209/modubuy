@@ -9,7 +9,6 @@ async function fetchPayments(userId: string | unknown) {
     const response = await fetch(`${backUrl}/api/user?userId=${userId}`)
     const paymentIds = await response.json()
 
-    // Promise.all과 Array.map을 사용하여 모든 요청을 병렬로 처리
     const payments = await Promise.all(
       paymentIds.map(async (paymentId: string) => {
         const result = await fetch(`${backUrl}/api/payment/${paymentId}`)
@@ -25,6 +24,30 @@ async function fetchPayments(userId: string | unknown) {
   return []
 }
 
+async function fetchPaymentsInfo(userId: string | unknown) {
+  try {
+    const response = await fetch(
+      `${backUrl}/api/payment-info?userId=${userId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+
+    if (!response.ok) {
+      throw new Error(`An error occurred: ${response.statusText}`)
+    }
+
+    const payments = await response.json()
+    return payments
+  } catch (error) {
+    console.error('Failed to fetch payments:', error)
+    return null
+  }
+}
+
 export const dynamic = 'force-dynamic'
 
 export default async function MyPage({
@@ -34,8 +57,9 @@ export default async function MyPage({
 }) {
   const session = await getServerSession(authOptions)
   const data = await fetchPayments(session?.user.id)
+  const paymentsInfo = await fetchPaymentsInfo(session?.user.id)
 
-  console.log('data:', data)
+  console.log('data:', paymentsInfo)
 
   return (
     <div className="max-w-screen-lg mx-auto">
