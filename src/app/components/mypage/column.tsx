@@ -42,7 +42,7 @@ export const columns: ColumnDef<Payment>[] = [
     ),
   },
   {
-    accessorKey: 'description',
+    accessorKey: 'product',
     header: ({ column }) => {
       return (
         <Button
@@ -55,7 +55,7 @@ export const columns: ColumnDef<Payment>[] = [
       )
     },
     cell: ({ row }) => (
-      <div className="lowercase">{row.getValue('description')}</div>
+      <div className="lowercase">{row.getValue('product')}</div>
     ),
   },
   {

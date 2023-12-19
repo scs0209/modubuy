@@ -64,7 +64,7 @@ export default async function MyPage({
   return (
     <div className="max-w-screen-lg mx-auto">
       <div>{session?.user.name}</div>
-      <UserTable data={data} />
+      <UserTable data={paymentsInfo} />
     </div>
   )
 }
