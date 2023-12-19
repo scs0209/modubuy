@@ -31,7 +31,8 @@ export interface Image {
 
 export interface Payment {
   id: string
+  chargeId: string
   amount: number
   status: string
-  description: string
+  product: string
 }

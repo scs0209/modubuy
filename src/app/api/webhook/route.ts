@@ -48,6 +48,12 @@ const webhookHandler = async (req: NextRequest) => {
         .map((lineItem) => lineItem.description)
         .join(', ')
 
+      const paymentIntent = await stripe.paymentIntents.retrieve(
+        session.payment_intent,
+      )
+
+      const latestCharge = paymentIntent.latest_charge as string
+
       const user = await prisma.user.findUnique({
         where: {
           email: session.customer_details.email,
@@ -62,6 +68,7 @@ const webhookHandler = async (req: NextRequest) => {
               create: {
                 id: session.payment_intent,
                 paymentId: session.payment_intent,
+                chargeId: latestCharge,
                 amount: session.amount_total / 100,
                 product: productNames,
                 status: session.status === 'complete' ? 'success' : 'failed',

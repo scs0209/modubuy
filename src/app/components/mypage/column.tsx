@@ -11,6 +11,29 @@ import {
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
 
+async function requestRefund(chargeId: string, paymentId: string) {
+  try {
+    const response = await fetch(
+      `/api/payment/refund?chargeId=${chargeId}&paymentId=${paymentId}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+
+    const refund = await response.json()
+    console.log(refund)
+  } catch (error) {
+    console.error('There has been a problem with your fetch operation:', error)
+  }
+}
+
 export const columns: ColumnDef<Payment>[] = [
   {
     id: 'select',
@@ -96,6 +119,12 @@ export const columns: ColumnDef<Payment>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
             <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem
+              className="text-red-500"
+              onClick={() => requestRefund(payment.chargeId, payment.id)}
+            >
+              Refund
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

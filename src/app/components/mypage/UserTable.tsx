@@ -92,11 +92,9 @@ export default function UserTable({ data }: paymentProps) {
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter products..."
-          value={
-            (table.getColumn('description')?.getFilterValue() as string) ?? ''
-          }
+          value={(table.getColumn('product')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('description')?.setFilterValue(event.target.value)
+            table.getColumn('product')?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
