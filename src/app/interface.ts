@@ -36,3 +36,11 @@ export interface Payment {
   status: string
   product: string
 }
+
+export interface User {
+  id: string
+  name: string
+  email: string
+  role: 'user' | 'admin'
+  payments: Payment[]
+}
