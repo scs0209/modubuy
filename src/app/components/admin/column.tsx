@@ -7,11 +7,26 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { User } from '@/app/interface'
+import { backUrl } from '@/app/config/url'
+
+async function deleteUser(userId: string) {
+  try {
+    const response = await fetch(`${backUrl}/api/user?userId=${userId}`, {
+      method: 'DELETE',
+    })
+
+    const data = await response.json()
+
+    return data
+  } catch (error) {
+    console.error('An error occurred while deleting the user:', error)
+
+    return null
+  }
+}
 
 export const columns: ColumnDef<User>[] = [
   {
@@ -65,7 +80,8 @@ export const columns: ColumnDef<User>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
+      const user = row.original
+      console.log(user)
 
       return (
         <DropdownMenu>
@@ -76,9 +92,13 @@ export const columns: ColumnDef<User>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuSeparator />
             <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
+            <DropdownMenuItem
+              className="text-red-500"
+              onClick={() => deleteUser(user.id)}
+            >
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
