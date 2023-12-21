@@ -30,19 +30,21 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { User } from '@/app/interface'
+import { simplifiedProduct } from '@/app/interface'
 import { useState } from 'react'
 import { columns } from './column'
 
 interface Props {
-  data: User[]
+  data: simplifiedProduct[]
 }
 
-export default function UserDataTable({ data }: Props) {
+export default function ProductDataTable({ data }: Props) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
+
+  console.log(data)
 
   const table = useReactTable({
     data,
@@ -67,10 +69,10 @@ export default function UserDataTable({ data }: Props) {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
+          placeholder="Filter product..."
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('email')?.setFilterValue(event.target.value)
+            table.getColumn('name')?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />

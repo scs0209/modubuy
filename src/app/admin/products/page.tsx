@@ -1,8 +1,10 @@
+import ProductDataTable from '@/app/components/admin/product/ProductDataTable'
+import { simplifiedProduct } from '@/app/interface'
 import { client } from '@/app/lib/sanity'
 import React from 'react'
 
 async function getData() {
-  const query = `*[_type == 'product'][0] {
+  const query = `*[_type == 'product'] {
     _id,
       images,
       price,
@@ -18,7 +20,12 @@ async function getData() {
 }
 
 export default async function AdminProductsPage() {
-  const products = await getData()
-  console.log('products', products)
-  return <div>AdminProductsPage</div>
+  const products: simplifiedProduct[] = await getData()
+
+  return (
+    <div className="col-span-3 lg:col-span-4 lg:border-l p-4">
+      AdminProductsPage
+      <ProductDataTable data={products} />
+    </div>
+  )
 }

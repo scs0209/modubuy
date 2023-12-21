@@ -9,26 +9,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { User } from '@/app/interface'
-import { backUrl } from '@/app/config/url'
+import { simplifiedProduct } from '@/app/interface'
 
-async function deleteUser(userId: string) {
-  try {
-    const response = await fetch(`${backUrl}/api/user?userId=${userId}`, {
-      method: 'DELETE',
-    })
-
-    const data = await response.json()
-
-    return data
-  } catch (error) {
-    console.error('An error occurred while deleting the user:', error)
-
-    return null
-  }
-}
-
-export const columns: ColumnDef<User>[] = [
+export const columns: ColumnDef<simplifiedProduct>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -52,35 +35,37 @@ export const columns: ColumnDef<User>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: 'categoryName',
+    header: 'Category',
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue('categoryName')}</div>
+    ),
+  },
+  {
     accessorKey: 'name',
     header: 'Name',
     cell: ({ row }) => <div className="capitalize">{row.getValue('name')}</div>,
   },
   {
-    accessorKey: 'email',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      )
+    accessorKey: 'price',
+    header: () => <div className="text-right">Price</div>,
+    cell: ({ row }) => {
+      const price = parseFloat(row.getValue('price'))
+
+      // Format the price as a dollar price
+      const formatted = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }).format(price)
+
+      return <div className="text-right font-medium">{formatted}</div>
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue('email')}</div>,
-  },
-  {
-    accessorKey: 'role',
-    header: 'Role',
-    cell: ({ row }) => <div className="capitalize">{row.getValue('role')}</div>,
   },
   {
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const user = row.original
+      const product = row.original
 
       return (
         <DropdownMenu>
@@ -91,13 +76,7 @@ export const columns: ColumnDef<User>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem
-              className="text-red-500"
-              onClick={() => deleteUser(user.id)}
-            >
-              Delete
-            </DropdownMenuItem>
+            <DropdownMenuItem>Delete</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
