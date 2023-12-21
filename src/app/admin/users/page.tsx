@@ -4,7 +4,9 @@ import React from 'react'
 
 async function fetchUsers() {
   try {
-    const response = await fetch(`${backUrl}/api/user/all`)
+    const response = await fetch(`${backUrl}/api/user/all`, {
+      cache: 'no-cache',
+    })
 
     const data = await response.json()
 
