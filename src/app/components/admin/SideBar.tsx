@@ -1,5 +1,4 @@
 import { Button } from '@/components/ui/button'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { cn } from '@/lib/utils'
 import {
   BadgeDollarSign,
@@ -16,69 +15,96 @@ import Link from 'next/link'
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
 
+type MenuItem = {
+  title: string
+  path?: string
+  icon: JSX.Element
+}
+
+const menuItems: { title: string; list: MenuItem[] }[] = [
+  {
+    title: 'Pages',
+    list: [
+      {
+        title: 'Dashboard',
+        path: '/admin',
+        icon: <LayoutDashboard className="mr-2 h-4 w-4" />,
+      },
+      {
+        title: 'Users',
+        path: '/admin/users',
+        icon: <CircleUserRound className="mr-2 h-4 w-4" />,
+      },
+      {
+        title: 'Products',
+        path: '/admin/products',
+        icon: <ShoppingCart className="mr-2 h-4 w-4" />,
+      },
+    ],
+  },
+  {
+    title: 'Analytics',
+    list: [
+      {
+        title: 'Revenue',
+        icon: <BadgeDollarSign className="mr-2 h-4 w-4" />,
+      },
+      {
+        title: 'Report',
+        icon: <FileSearch className="mr-2 h-4 w-4" />,
+      },
+      {
+        title: 'Teams',
+        icon: <Users className="mr-2 h-4 w-4" />,
+      },
+    ],
+  },
+  {
+    title: 'Users',
+    list: [
+      {
+        title: 'Settings',
+        icon: <Settings className="mr-2 h-4 w-4" />,
+      },
+      {
+        title: 'Help',
+        icon: <HelpCircle className="mr-2 h-4 w-4" />,
+      },
+      {
+        title: 'Logout',
+        icon: <LogOut className="mr-2 h-4 w-4" />,
+      },
+    ],
+  },
+]
+
 export function Sidebar({ className }: SidebarProps) {
   return (
     <div className={cn('pb-12', className)}>
       <div className="space-y-4 py-4">
-        <div className="px-3 py-2">
-          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-            Pages
-          </h2>
-          <div className="space-y-1">
-            <Button variant="secondary" className="w-full justify-start">
-              <LayoutDashboard className="mr-2 h-4 w-4" />
-              Dashboard
-            </Button>
-            <Button variant="ghost" className="w-full justify-start">
-              <CircleUserRound className="mr-2 h-4 w-4" />
-              <Link href="/admin/users">Users</Link>
-            </Button>
-            <Button variant="ghost" className="w-full justify-start">
-              <ShoppingCart className="mr-2 h-4 w-4" />
-              Products
-            </Button>
-          </div>
-        </div>
-        <div className="px-3 py-2">
-          <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
-            Analytics
-          </h2>
-          <div className="space-y-1">
-            <Button variant="ghost" className="w-full justify-start">
-              <BadgeDollarSign className="mr-2 h-4 w-4" />
-              Revenue
-            </Button>
-            <Button variant="ghost" className="w-full justify-start">
-              <FileSearch className="mr-2 h-4 w-4" />
-              Report
-            </Button>
-            <Button variant="ghost" className="w-full justify-start">
-              <Users className="mr-2 h-4 w-4" />
-              Teams
-            </Button>
-          </div>
-        </div>
-        <div className="py-2">
-          <h2 className="relative px-7 text-lg font-semibold tracking-tight">
-            Users
-          </h2>
-          <ScrollArea className="h-[300px] px-1">
-            <div className="space-y-1 p-2">
-              <Button variant="ghost" className="w-full justify-start">
-                <Settings className="mr-2 h-4 w-4" />
-                Settings
-              </Button>
-              <Button variant="ghost" className="w-full justify-start">
-                <HelpCircle className="mr-2 h-4 w-4" />
-                Help
-              </Button>
-              <Button variant="ghost" className="w-full justify-start">
-                <LogOut className="mr-2 h-4 w-4" />
-                Logout
-              </Button>
+        {menuItems.map((menu, idx1) => (
+          <div className="px-3 py-2" key={idx1}>
+            <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
+              {menu.title}
+            </h2>
+            <div className="space-y-1">
+              {menu.list.map((item, idx2) => (
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start"
+                  key={idx2}
+                >
+                  {item.icon}
+                  {item.path ? (
+                    <Link href={item.path}>{item.title}</Link>
+                  ) : (
+                    item.title
+                  )}
+                </Button>
+              ))}
             </div>
-          </ScrollArea>
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   )
