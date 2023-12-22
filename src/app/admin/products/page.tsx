@@ -1,3 +1,4 @@
+import ProductCreateForm from '@/app/components/admin/product/ProductCreateForm'
 import ProductDataTable from '@/app/components/admin/product/ProductDataTable'
 import { simplifiedProduct } from '@/app/interface'
 import { client } from '@/app/lib/sanity'
@@ -26,6 +27,7 @@ export default async function AdminProductsPage() {
     <div className="col-span-3 lg:col-span-4 lg:border-l p-4">
       AdminProductsPage
       <ProductDataTable data={products} />
+      <ProductCreateForm />
     </div>
   )
 }
