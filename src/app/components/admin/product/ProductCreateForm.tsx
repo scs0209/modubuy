@@ -18,7 +18,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 interface Props {
@@ -27,6 +27,24 @@ interface Props {
 
 export default function ProductCreateForm({ data }: Props) {
   const methods = useForm()
+  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+
+  const handleImageChange = (e: any) => {
+    e.preventDefault()
+
+    let reader = new FileReader()
+    let file = e.target.files[0]
+
+    reader.onloadend = () => {
+      setSelectedImage(reader.result as string)
+    }
+
+    if (file) {
+      reader.readAsDataURL(file)
+    } else {
+      setSelectedImage(null)
+    }
+  }
   return (
     <Form {...methods}>
       <form>
@@ -48,8 +66,13 @@ export default function ProductCreateForm({ data }: Props) {
             <FormItem>
               <FormLabel>Product images</FormLabel>
               <FormControl>
-                <Input placeholder="product images" {...field} />
+                <Input
+                  type="file"
+                  onChange={handleImageChange}
+                  placeholder="product images"
+                />
               </FormControl>
+              {selectedImage && <img src={selectedImage} alt="selected" />}
               <FormMessage />
             </FormItem>
           )}
@@ -113,7 +136,6 @@ export default function ProductCreateForm({ data }: Props) {
                   ))}
                 </SelectContent>
               </Select>
-              <FormMessage />
             </FormItem>
           )}
         />
