@@ -20,8 +20,21 @@ async function getData() {
   return data
 }
 
+async function getCategory() {
+  const query = `*[_type == "category"]{
+    name
+  }`
+
+  const data = client.fetch(query)
+
+  return data
+}
+
 export default async function AdminProductsPage() {
   const products: simplifiedProduct[] = await getData()
+  const categories = await getCategory()
+
+  console.log(categories)
 
   return (
     <div className="col-span-3 lg:col-span-4 lg:border-l p-4">
