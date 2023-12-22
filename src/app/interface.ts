@@ -44,3 +44,10 @@ export interface User {
   role: 'user' | 'admin'
   payments: Payment[]
 }
+
+export interface Category {
+  _id: string
+  name: string
+  _type: string
+  _rev: string
+}

@@ -22,7 +22,10 @@ async function getData() {
 
 async function getCategory() {
   const query = `*[_type == "category"]{
-    name
+    _id,
+    name,
+    _type,
+    _rev
   }`
 
   const data = client.fetch(query)
@@ -40,7 +43,7 @@ export default async function AdminProductsPage() {
     <div className="col-span-3 lg:col-span-4 lg:border-l p-4">
       AdminProductsPage
       <ProductDataTable data={products} />
-      <ProductCreateForm />
+      <ProductCreateForm data={categories} />
     </div>
   )
 }

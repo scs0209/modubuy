@@ -1,5 +1,6 @@
 'use client'
 
+import { Category } from '@/app/interface'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -20,7 +21,11 @@ import {
 import React from 'react'
 import { useForm } from 'react-hook-form'
 
-export default function ProductCreateForm() {
+interface Props {
+  data: Category[]
+}
+
+export default function ProductCreateForm({ data }: Props) {
   const methods = useForm()
   return (
     <Form {...methods}>
@@ -97,13 +102,15 @@ export default function ProductCreateForm() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
+                    <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="m@example.com">m@example.com</SelectItem>
-                  <SelectItem value="m@google.com">m@google.com</SelectItem>
-                  <SelectItem value="m@support.com">m@support.com</SelectItem>
+                  {data.map((item) => (
+                    <SelectItem key={item._id} value={item._id}>
+                      {item.name}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <FormMessage />
