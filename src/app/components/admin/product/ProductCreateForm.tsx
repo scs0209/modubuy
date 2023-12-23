@@ -141,7 +141,12 @@ export default function ProductCreateForm({ data }: Props) {
               </FormControl>
               {selectedImages &&
                 selectedImages.map((img: any, index: number) => (
-                  <img key={index} src={img} alt="selected" />
+                  <img
+                    key={index}
+                    src={img}
+                    alt="selected"
+                    className="w-10 h-10"
+                  />
                 ))}
               <FormMessage />
             </FormItem>
@@ -220,7 +225,7 @@ export default function ProductCreateForm({ data }: Props) {
             </FormItem>
           )}
         />
-        <Button type="submit" className="mt-10">
+        <Button type="submit" className="mt-10 w-full">
           Submit
         </Button>
       </form>

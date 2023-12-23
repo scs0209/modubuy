@@ -30,15 +30,18 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { simplifiedProduct } from '@/app/interface'
+import { Category, simplifiedProduct } from '@/app/interface'
 import { useState } from 'react'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { columns } from './column'
+import ProductCreateForm from './ProductCreateForm'
 
 interface Props {
   data: simplifiedProduct[]
+  categories: Category[]
 }
 
-export default function ProductDataTable({ data }: Props) {
+export default function ProductDataTable({ data, categories }: Props) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -175,6 +178,14 @@ export default function ProductDataTable({ data }: Props) {
           >
             Next
           </Button>
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline">Create</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <ProductCreateForm data={categories} />
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
     </div>
