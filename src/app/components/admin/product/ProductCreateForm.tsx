@@ -32,16 +32,6 @@ type ImageAsset = {
   _id: string
 }
 
-type ProductValues = {
-  name: string
-  description: string
-  slug: string
-  price: number
-  price_id: string
-  category: string
-  images: File[]
-}
-
 const schema = z.object({
   name: z.string().nonempty({ message: 'Product name is required' }),
   price: z.string().min(0, { message: 'Price must be a positive number' }),
@@ -61,15 +51,6 @@ export default function ProductCreateForm({ data }: Props) {
 
   const name = form.watch('name')
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const files: File[] = Array.from(e.target.files)
-      const fileUrls = files.map((file) => URL.createObjectURL(file))
-      console.log(files, fileUrls)
-      setSelectedImages((prevImages) => [...prevImages, ...fileUrls])
-    }
-  }
-
   const uploadImages = async (imageFiles: File[]): Promise<string[]> => {
     const imageAssetIds: ImageAsset[] = await Promise.all(
       imageFiles.map((file: File) => client.assets.upload('image', file)),
@@ -80,12 +61,9 @@ export default function ProductCreateForm({ data }: Props) {
   const onSubmit = async (values: z.infer<typeof schema>) => {
     console.log(values)
     try {
-      // 먼저 이미지들을 업로드합니다.
       const imageAssetIds: string[] = await uploadImages(values.images)
 
-      console.log('imageAssetIds: ', imageAssetIds)
-
-      const res = await client.create({
+      await client.create({
         _type: 'product',
         name: values.name,
         description: values.description,
@@ -104,7 +82,6 @@ export default function ProductCreateForm({ data }: Props) {
           },
         })),
       })
-      console.log(`Product was created, document ID is ${res._id}`)
     } catch (error) {
       console.error('Error creating product', error)
     }
@@ -145,11 +122,20 @@ export default function ProductCreateForm({ data }: Props) {
                   accept=".jpg, .jpeg, .png, .svg, .gif, .mp4"
                   type="file"
                   multiple
-                  onChange={(e) =>
-                    field.onChange(
-                      e.target.files ? Array.from(e.target.files) : null,
-                    )
-                  }
+                  onChange={(e) => {
+                    if (e.target.files) {
+                      const files: File[] = Array.from(e.target.files)
+                      const fileUrls = files.map((file) =>
+                        URL.createObjectURL(file),
+                      )
+
+                      setSelectedImages((prevImages) => [
+                        ...prevImages,
+                        ...fileUrls,
+                      ])
+                      field.onChange(Array.from(e.target.files))
+                    }
+                  }}
                   placeholder="product images"
                 />
               </FormControl>
