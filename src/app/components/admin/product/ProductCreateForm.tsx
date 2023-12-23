@@ -27,24 +27,16 @@ interface Props {
 
 export default function ProductCreateForm({ data }: Props) {
   const methods = useForm()
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [selectedImages, setSelectedImages] = useState<string[]>([])
 
-  const handleImageChange = (e: any) => {
-    e.preventDefault()
-
-    let reader = new FileReader()
-    let file = e.target.files[0]
-
-    reader.onloadend = () => {
-      setSelectedImage(reader.result as string)
-    }
-
-    if (file) {
-      reader.readAsDataURL(file)
-    } else {
-      setSelectedImage(null)
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const files: File[] = Array.from(e.target.files)
+      const fileUrls = files.map((file) => URL.createObjectURL(file))
+      setSelectedImages((prevImages) => [...prevImages, ...fileUrls])
     }
   }
+
   return (
     <Form {...methods}>
       <form>
@@ -68,11 +60,15 @@ export default function ProductCreateForm({ data }: Props) {
               <FormControl>
                 <Input
                   type="file"
+                  multiple
                   onChange={handleImageChange}
                   placeholder="product images"
                 />
               </FormControl>
-              {selectedImage && <img src={selectedImage} alt="selected" />}
+              {selectedImages &&
+                selectedImages.map((img: any, index: number) => (
+                  <img key={index} src={img} alt="selected" /> // 선택한 각 이미지에 대한 미리보기를 표시합니다.
+                ))}
               <FormMessage />
             </FormItem>
           )}
