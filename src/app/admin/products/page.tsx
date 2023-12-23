@@ -33,6 +33,8 @@ async function getCategory() {
   return data
 }
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminProductsPage() {
   const products: simplifiedProduct[] = await getData()
   const categories = await getCategory()
