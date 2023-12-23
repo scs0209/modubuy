@@ -1,6 +1,7 @@
 'use client'
 
 import { Category } from '@/app/interface'
+import { client } from '@/app/lib/sanity'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -20,28 +21,107 @@ import {
 } from '@/components/ui/select'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import * as z from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
 interface Props {
   data: Category[]
 }
 
+type ImageAsset = {
+  _id: string
+}
+
+type ProductValues = {
+  name: string
+  description: string
+  slug: string
+  price: number
+  price_id: string
+  category: string
+  images: File[]
+}
+
+const schema = z.object({
+  name: z.string().nonempty({ message: 'Product name is required' }),
+  price: z.number().min(0, { message: 'Price must be a positive number' }),
+  description: z.string().nonempty({ message: 'Description is required' }),
+  images: z
+    .array(z.instanceof(File))
+    .nonempty({ message: 'Images are required' }),
+  slug: z.string().nonempty({ message: 'Product slug is required' }),
+  category: z.string().nonempty({ message: 'Category is required' }),
+})
+
 export default function ProductCreateForm({ data }: Props) {
-  const methods = useForm()
+  const form = useForm<z.infer<typeof schema>>({
+    resolver: zodResolver(schema),
+  })
   const [selectedImages, setSelectedImages] = useState<string[]>([])
+
+  const name = form.watch('name')
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files: File[] = Array.from(e.target.files)
       const fileUrls = files.map((file) => URL.createObjectURL(file))
+      console.log(files, fileUrls)
       setSelectedImages((prevImages) => [...prevImages, ...fileUrls])
     }
   }
 
+  const uploadImages = async (imageFiles: File[]): Promise<string[]> => {
+    const imageAssetIds: ImageAsset[] = await Promise.all(
+      imageFiles.map((file: File) => client.assets.upload('image', file)),
+    )
+    return imageAssetIds.map((asset: ImageAsset) => asset._id)
+  }
+
+  const onSubmit = async (values: z.infer<typeof schema>) => {
+    try {
+      // 먼저 이미지들을 업로드합니다.
+      const imageAssetIds: string[] = await uploadImages(values.images)
+
+      const res = await client.create({
+        _type: 'product',
+        name: values.name,
+        description: values.description,
+        slug: { current: values.slug },
+        price: values.price,
+        category: {
+          _type: 'reference',
+          _ref: values.category,
+        },
+        images: imageAssetIds.map((_id: string) => ({
+          // 이미지들을 asset 객체의 배열로 추가합니다.
+          _type: 'image',
+          asset: {
+            _type: 'reference',
+            _ref: _id,
+          },
+        })),
+      })
+      console.log(`Product was created, document ID is ${res._id}`)
+    } catch (error) {
+      console.error('Error creating product', error)
+    }
+  }
+
+  function slugify(text: string) {
+    return text
+      .toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[^\w-]+/g, '')
+      .replace(/--+/g, '-')
+      .replace(/^-+/, '')
+      .replace(/-+$/, '')
+  }
+
   return (
-    <Form {...methods}>
-      <form>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
-          name="product"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Product</FormLabel>
@@ -53,7 +133,7 @@ export default function ProductCreateForm({ data }: Props) {
           )}
         />
         <FormField
-          name="product images"
+          name="images"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Product images</FormLabel>
@@ -67,14 +147,14 @@ export default function ProductCreateForm({ data }: Props) {
               </FormControl>
               {selectedImages &&
                 selectedImages.map((img: any, index: number) => (
-                  <img key={index} src={img} alt="selected" /> // 선택한 각 이미지에 대한 미리보기를 표시합니다.
+                  <img key={index} src={img} alt="selected" />
                 ))}
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
-          name="product description"
+          name="description"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Product description</FormLabel>
@@ -90,24 +170,33 @@ export default function ProductCreateForm({ data }: Props) {
           )}
         />
         <FormField
-          name="product slug"
+          name="slug"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Product slug</FormLabel>
               <FormControl>
                 <Input placeholder="product slug" {...field} />
               </FormControl>
+              <button
+                type="button"
+                onClick={() => {
+                  const slug = slugify(name)
+                  form.setValue('slug', slug)
+                }}
+              >
+                Generate Slug
+              </button>
               <FormMessage />
             </FormItem>
           )}
         />
         <FormField
-          name="product price"
+          name="price"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Product price</FormLabel>
               <FormControl>
-                <Input placeholder="product price" {...field} />
+                <Input type="number" placeholder="product price" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
