@@ -44,7 +44,7 @@ type ProductValues = {
 
 const schema = z.object({
   name: z.string().nonempty({ message: 'Product name is required' }),
-  price: z.number().min(0, { message: 'Price must be a positive number' }),
+  price: z.string().min(0, { message: 'Price must be a positive number' }),
   description: z.string().nonempty({ message: 'Description is required' }),
   images: z
     .array(z.instanceof(File))
@@ -78,22 +78,25 @@ export default function ProductCreateForm({ data }: Props) {
   }
 
   const onSubmit = async (values: z.infer<typeof schema>) => {
+    console.log(values)
     try {
       // 먼저 이미지들을 업로드합니다.
       const imageAssetIds: string[] = await uploadImages(values.images)
+
+      console.log('imageAssetIds: ', imageAssetIds)
 
       const res = await client.create({
         _type: 'product',
         name: values.name,
         description: values.description,
         slug: { current: values.slug },
-        price: values.price,
+        price: Number(values.price),
         category: {
           _type: 'reference',
           _ref: values.category,
         },
         images: imageAssetIds.map((_id: string) => ({
-          // 이미지들을 asset 객체의 배열로 추가합니다.
+          _key: `image-${_id}`,
           _type: 'image',
           asset: {
             _type: 'reference',
@@ -139,9 +142,14 @@ export default function ProductCreateForm({ data }: Props) {
               <FormLabel>Product images</FormLabel>
               <FormControl>
                 <Input
+                  accept=".jpg, .jpeg, .png, .svg, .gif, .mp4"
                   type="file"
                   multiple
-                  onChange={handleImageChange}
+                  onChange={(e) =>
+                    field.onChange(
+                      e.target.files ? Array.from(e.target.files) : null,
+                    )
+                  }
                   placeholder="product images"
                 />
               </FormControl>
@@ -174,18 +182,20 @@ export default function ProductCreateForm({ data }: Props) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Product slug</FormLabel>
-              <FormControl>
-                <Input placeholder="product slug" {...field} />
-              </FormControl>
-              <button
-                type="button"
-                onClick={() => {
-                  const slug = slugify(name)
-                  form.setValue('slug', slug)
-                }}
-              >
-                Generate Slug
-              </button>
+              <div className="flex">
+                <FormControl>
+                  <Input placeholder="product slug" {...field} />
+                </FormControl>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    const slug = slugify(name)
+                    form.setValue('slug', slug)
+                  }}
+                >
+                  Generate
+                </Button>
+              </div>
               <FormMessage />
             </FormItem>
           )}
@@ -196,7 +206,7 @@ export default function ProductCreateForm({ data }: Props) {
             <FormItem>
               <FormLabel>Product price</FormLabel>
               <FormControl>
-                <Input type="number" placeholder="product price" {...field} />
+                <Input placeholder="product price" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
