@@ -10,6 +10,16 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { simplifiedProduct } from '@/app/interface'
+import { client } from '@/app/lib/sanity'
+
+const deleteProduct = async (productId: string) => {
+  try {
+    await client.delete(productId)
+    console.log('Product deleted successfully')
+  } catch (error) {
+    console.error('Failed to delete the product', error)
+  }
+}
 
 export const columns: ColumnDef<simplifiedProduct>[] = [
   {
@@ -76,7 +86,9 @@ export const columns: ColumnDef<simplifiedProduct>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => deleteProduct(product._id)}>
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

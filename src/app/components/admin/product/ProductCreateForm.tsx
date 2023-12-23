@@ -23,6 +23,7 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { slugify } from '@/app/utils/slugify'
 
 interface Props {
   data: Category[]
@@ -85,16 +86,6 @@ export default function ProductCreateForm({ data }: Props) {
     } catch (error) {
       console.error('Error creating product', error)
     }
-  }
-
-  function slugify(text: string) {
-    return text
-      .toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[^\w-]+/g, '')
-      .replace(/--+/g, '-')
-      .replace(/^-+/, '')
-      .replace(/-+$/, '')
   }
 
   return (
