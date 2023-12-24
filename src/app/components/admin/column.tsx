@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { User } from '@/app/interface'
 import { backUrl } from '@/app/config/url'
+import Link from 'next/link'
 
 async function deleteUser(userId: string) {
   try {
@@ -91,7 +92,9 @@ export const columns: ColumnDef<User>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>View customer</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={`/admin/users/${user.id}`}>View customer</Link>
+            </DropdownMenuItem>
             <DropdownMenuItem
               className="text-red-500"
               onClick={() => deleteUser(user.id)}

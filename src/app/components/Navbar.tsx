@@ -27,7 +27,9 @@ export default function Navbar() {
     if (session) {
       const fetchPayments = async (userId: string) => {
         try {
-          const response = await fetch(`${backUrl}/api/user?userId=${userId}`)
+          const response = await fetch(
+            `${backUrl}/api/payment?userId=${userId}`,
+          )
           const paymentIds = await response.json()
 
           paymentIds.forEach(async (paymentId: string) => {

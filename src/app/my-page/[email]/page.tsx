@@ -1,28 +1,9 @@
 import UserTable from '@/app/components/mypage/UserTable'
 import { backUrl } from '@/app/config/url'
+import { fetchUserWithPayments } from '@/app/utils/apis/user'
 import { authOptions } from '@/app/utils/auth'
 import { getServerSession } from 'next-auth'
 import React from 'react'
-
-async function fetchPayments(userId: string | unknown) {
-  try {
-    const response = await fetch(`${backUrl}/api/user?userId=${userId}`)
-    const paymentIds = await response.json()
-
-    const payments = await Promise.all(
-      paymentIds.map(async (paymentId: string) => {
-        const result = await fetch(`${backUrl}/api/payment/${paymentId}`)
-        return result.json()
-      }),
-    )
-
-    return payments // 결제 정보 배열 반환
-  } catch (error) {
-    console.error(error)
-  }
-
-  return []
-}
 
 async function fetchPaymentsInfo(userId: string | unknown) {
   try {
@@ -56,7 +37,7 @@ export default async function MyPage({
   params: { email: string }
 }) {
   const session = await getServerSession(authOptions)
-  const data = await fetchPayments(session?.user.id)
+  const data = await fetchUserWithPayments(session?.user.id)
   const paymentsInfo = await fetchPaymentsInfo(session?.user.id)
 
   console.log('data:', paymentsInfo)

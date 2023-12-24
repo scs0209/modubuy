@@ -10,18 +10,13 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     where: {
       id: userId,
     },
-    include: {
-      payments: true,
-    },
   })
 
   if (!user) {
     return res.status(404).json({ error: 'User not found' })
   }
 
-  const paymentIds = user.payments.map((payment) => payment.paymentId)
-
-  return NextResponse.json(paymentIds)
+  return NextResponse.json(user)
 }
 
 export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
