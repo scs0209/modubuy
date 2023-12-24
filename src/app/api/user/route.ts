@@ -46,3 +46,29 @@ export async function DELETE(req: NextApiRequest, res: NextApiResponse) {
 
   return NextResponse.json(deletedUser)
 }
+
+export async function PUT(req: NextApiRequest, res: NextApiResponse) {
+  const url = new URL(req.url!)
+  const userId = url.searchParams.get('userId')!
+
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  })
+
+  if (!user) {
+    return NextResponse.json({ error: 'User not found' })
+  }
+
+  const updateData = req.body
+
+  const updatedUser = await prisma.user.update({
+    where: {
+      id: userId,
+    },
+    data: updateData,
+  })
+
+  return NextResponse.json(updatedUser)
+}
