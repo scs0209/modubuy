@@ -62,7 +62,6 @@ export const columns: ColumnDef<simplifiedProduct>[] = [
     cell: ({ row }) => {
       const price = parseFloat(row.getValue('price'))
 
-      // Format the price as a dollar price
       const formatted = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',

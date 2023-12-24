@@ -1,4 +1,3 @@
-import ProductCreateForm from '@/app/components/admin/product/ProductCreateForm'
 import ProductDataTable from '@/app/components/admin/product/ProductDataTable'
 import { simplifiedProduct } from '@/app/interface'
 import { client } from '@/app/lib/sanity'
