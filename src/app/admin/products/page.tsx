@@ -12,6 +12,7 @@ async function getData() {
       "slug": slug.current,
       "categoryName": category->name,
       price_id,
+      product_id,
   }`
 
   const data = client.fetch(query)

@@ -38,6 +38,11 @@ export default {
       type: 'string',
     },
     {
+      name: 'product_id',
+      title: 'Stripe Product ID',
+      type: 'string',
+    },
+    {
       name: 'category',
       title: 'Product Category',
       type: 'reference',

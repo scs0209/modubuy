@@ -95,6 +95,7 @@ export default function ProductCreateForm({ data }: Props) {
         slug: { current: values.slug },
         price: Number(values.price),
         price_id: stripePrice.id,
+        product_id: stripeProduct.id,
         category: {
           _type: 'reference',
           _ref: values.category,
