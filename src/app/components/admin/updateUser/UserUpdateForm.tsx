@@ -49,7 +49,7 @@ export default function UserUpdateForm() {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="example@xxxx.com" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -62,7 +62,7 @@ export default function UserUpdateForm() {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="Write your name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -75,7 +75,7 @@ export default function UserUpdateForm() {
               <FormItem>
                 <FormLabel>Role</FormLabel>
                 <FormControl>
-                  <Input placeholder="shadcn" {...field} />
+                  <Input placeholder="Role" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

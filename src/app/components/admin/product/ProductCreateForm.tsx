@@ -1,7 +1,7 @@
 'use client'
 
 import { Category } from '@/app/interface'
-import { client } from '@/app/lib/sanity'
+import { client, urlFor } from '@/app/lib/sanity'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -24,6 +24,11 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { slugify } from '@/app/utils/slugify'
+import Stripe from 'stripe'
+
+const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY as string, {
+  apiVersion: '2023-10-16',
+})
 
 interface Props {
   data: Category[]
@@ -59,10 +64,29 @@ export default function ProductCreateForm({ data }: Props) {
     return imageAssetIds.map((asset: ImageAsset) => asset._id)
   }
 
+  const getImageUrls = async (imageAssetIds: string[]): Promise<string[]> => {
+    return imageAssetIds.map((id: string) => urlFor(id).url())
+  }
+
   const onSubmit = async (values: z.infer<typeof schema>) => {
     console.log(values)
     try {
       const imageAssetIds: string[] = await uploadImages(values.images)
+      const imageUrls: string[] = await getImageUrls(imageAssetIds)
+
+      // Create a product in Stripe
+      const stripeProduct = await stripe.products.create({
+        name: values.name,
+        description: values.description,
+        images: imageUrls,
+      })
+
+      // Create a price in Stripe
+      const stripePrice = await stripe.prices.create({
+        product: stripeProduct.id,
+        unit_amount: Number(values.price) * 100, // Stripe uses cents as the unit
+        currency: 'usd',
+      })
 
       await client.create({
         _type: 'product',
@@ -70,6 +94,7 @@ export default function ProductCreateForm({ data }: Props) {
         description: values.description,
         slug: { current: values.slug },
         price: Number(values.price),
+        price_id: stripePrice.id,
         category: {
           _type: 'reference',
           _ref: values.category,
