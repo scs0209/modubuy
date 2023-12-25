@@ -15,27 +15,51 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { User } from '@/app/interface'
+import { backUrl } from '@/app/config/url'
+
+interface Props {
+  data: User
+}
 
 const schema = z.object({
   email: z.string().email({
     message: 'Invalid email address.',
   }),
-  username: z.string().min(2, {
+  name: z.string().min(2, {
     message: 'Username must be at least 2 characters.',
   }),
   role: z.enum(['admin', 'user']),
 })
 
-export default function UserUpdateForm() {
+export default function UserUpdateForm({ data }: Props) {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
-      username: '',
+      email: data.email,
+      name: data.name,
+      role: data.role,
     },
   })
 
-  function onSubmit(values: z.infer<typeof schema>) {
-    console.log(values)
+  async function onSubmit(values: z.infer<typeof schema>) {
+    console.log(JSON.stringify(values))
+    try {
+      const response = await fetch(`${backUrl}/api/user?userId=${data.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
+
+      console.log('response', response)
+
+      const updatedData = await response.json()
+      console.log(updatedData) // 업데이트된 유저 데이터를 출력
+    } catch (error) {
+      console.error(error) // 에러 발생 시 콘솔에 에러 출력
+    }
   }
 
   return (
@@ -57,7 +81,7 @@ export default function UserUpdateForm() {
           />
           <FormField
             control={form.control}
-            name="username"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Username</FormLabel>

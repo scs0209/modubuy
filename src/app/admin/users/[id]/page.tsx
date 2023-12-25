@@ -11,8 +11,6 @@ export default async function UserUpdatePage({
   const { id } = params
   const data = await fetchUser(id)
 
-  console.log('data: ', data)
-
   return (
     <div className="col-span-3 lg:col-span-4 lg:border-l p-4 grid grid-cols-3">
       <div className="col-span-1 flex justify-center">
@@ -26,7 +24,7 @@ export default async function UserUpdatePage({
         </Avatar>
       </div>
       <div className="col-span-2">
-        <UserUpdateForm />
+        <UserUpdateForm data={data} />
       </div>
     </div>
   )

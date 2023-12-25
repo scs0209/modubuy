@@ -23,8 +23,12 @@ export async function fetchUserWithPayments(userId: string | unknown) {
 
 export async function fetchUser(userId: string | unknown) {
   try {
-    const response = await fetch(`${backUrl}/api/user?userId=${userId}`)
+    const response = await fetch(`${backUrl}/api/user?userId=${userId}`, {
+      cache: 'no-cache',
+    })
     const user = await response.json()
+
+    console.log(user)
 
     return user
   } catch (error) {
@@ -43,10 +47,6 @@ async function updateUser(userId: string, updateData: User) {
       },
       body: JSON.stringify(updateData),
     })
-
-    if (!response.ok) {
-      throw new Error('Response is not OK')
-    }
 
     const data = await response.json()
     console.log('User updated successfully', data)

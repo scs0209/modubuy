@@ -10,11 +10,21 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     where: {
       id: userId,
     },
+    select: {
+      id: true,
+      name: true,
+      email: true,
+      emailVerified: true,
+      image: true,
+      role: true,
+    },
   })
 
   if (!user) {
     return res.status(404).json({ error: 'User not found' })
   }
+
+  console.log(user)
 
   return NextResponse.json(user)
 }
@@ -53,7 +63,7 @@ export async function PUT(req: NextApiRequest, res: NextApiResponse) {
   })
 
   if (!user) {
-    return NextResponse.json({ error: 'User not found' })
+    return res.status(404).json({ error: 'User not found' })
   }
 
   const updateData = req.body

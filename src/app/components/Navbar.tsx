@@ -36,7 +36,6 @@ export default function Navbar() {
             // 두 번째 호출: Stripe 결제 정보 불러오기
             const result = await fetch(`${backUrl}/api/payment/${paymentId}`)
             const paymentInfo = await result.json()
-            console.log(paymentInfo)
           })
         } catch (error) {
           console.error(error)
