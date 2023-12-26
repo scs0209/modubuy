@@ -43,7 +43,6 @@ export default function UserUpdateForm({ data }: Props) {
   })
 
   async function onSubmit(values: z.infer<typeof schema>) {
-    console.log(JSON.stringify(values))
     try {
       const response = await fetch(`${backUrl}/api/user?userId=${data.id}`, {
         method: 'PUT',
