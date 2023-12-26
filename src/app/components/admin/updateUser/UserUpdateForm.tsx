@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { User } from '@/app/interface'
-import { backUrl } from '@/app/config/url'
+import { updateUser } from '@/app/utils/apis/user'
 
 interface Props {
   data: User
@@ -44,20 +44,9 @@ export default function UserUpdateForm({ data }: Props) {
 
   async function onSubmit(values: z.infer<typeof schema>) {
     try {
-      const response = await fetch(`${backUrl}/api/user?userId=${data.id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(values),
-      })
-
-      console.log('response', response)
-
-      const updatedData = await response.json()
-      console.log(updatedData) // 업데이트된 유저 데이터를 출력
+      await updateUser(data.id, values)
     } catch (error) {
-      console.error(error) // 에러 발생 시 콘솔에 에러 출력
+      console.error(error)
     }
   }
 

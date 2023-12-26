@@ -1,5 +1,6 @@
 import { backUrl } from '@/app/config/url'
-import { User } from '@/app/interface'
+import { UpdateUser } from '@/app/interface'
+import { toast } from '@/components/ui/use-toast'
 
 export async function fetchUserWithPayments(userId: string | unknown) {
   try {
@@ -38,7 +39,7 @@ export async function fetchUser(userId: string | unknown) {
   return []
 }
 
-async function updateUser(userId: string, updateData: User) {
+export async function updateUser(userId: string, updateData: UpdateUser) {
   try {
     const response = await fetch(`${backUrl}/api/user?userId=${userId}`, {
       method: 'PUT',
@@ -49,7 +50,9 @@ async function updateUser(userId: string, updateData: User) {
     })
 
     const data = await response.json()
-    console.log('User updated successfully', data)
+    toast({
+      title: 'User updated successfully!',
+    })
   } catch (error) {
     console.error('Failed to update user', error)
   }

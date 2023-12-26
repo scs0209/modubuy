@@ -46,6 +46,13 @@ export interface User {
   payments: Payment[]
 }
 
+export interface UpdateUser {
+  name: string
+  email: string
+  role: 'user' | 'admin'
+  payments?: Payment[]
+}
+
 export interface Category {
   _id: string
   name: string
