@@ -8,10 +8,21 @@ import {
 } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import React from 'react'
+import { FullPayment } from '@/app/interface'
 import Overview from './Overview'
 import RecentSales from './RecentSales'
 
-export default function Dashboard() {
+interface Props {
+  payments: FullPayment[]
+}
+
+export default function Dashboard({ payments }: Props) {
+  const totalRevenue = payments.reduce(
+    (sum, payment) => sum + payment.amount,
+    0,
+  )
+  const totalSales = payments.length
+
   return (
     <div className="col-span-3 lg:col-span-4 lg:border-l">
       <div className="hidden flex-col md:flex">
@@ -58,7 +69,7 @@ export default function Dashboard() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">$45,231.89</div>
+                    <div className="text-2xl font-bold">$ {totalRevenue}</div>
                     <p className="text-xs text-muted-foreground">
                       +20.1% from last month
                     </p>
@@ -109,7 +120,7 @@ export default function Dashboard() {
                     </svg>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-2xl font-bold">+12,234</div>
+                    <div className="text-2xl font-bold">+{totalSales}</div>
                     <p className="text-xs text-muted-foreground">
                       +19% from last month
                     </p>
@@ -147,7 +158,7 @@ export default function Dashboard() {
                     <CardTitle>Overview</CardTitle>
                   </CardHeader>
                   <CardContent className="pl-2">
-                    <Overview />
+                    <Overview payments={payments} />
                   </CardContent>
                 </Card>
                 <Card className="col-span-3">

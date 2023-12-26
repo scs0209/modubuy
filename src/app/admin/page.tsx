@@ -1,10 +1,15 @@
 import React from 'react'
 import Dashboard from '../components/admin/Dashboard'
+import { fetchPayments } from '../utils/apis/payment'
 
-export default function AdminPage() {
+export default async function AdminPage() {
+  const paymentData = await fetchPayments()
+
+  console.log(paymentData)
+
   return (
     <>
-      <Dashboard />
+      <Dashboard payments={paymentData} />
     </>
   )
 }

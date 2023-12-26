@@ -38,6 +38,17 @@ export interface Payment {
   product: string
 }
 
+export interface FullPayment {
+  id: string
+  userId: string
+  chargeId: string
+  paymentId: string
+  amount: number
+  status: string
+  product: string
+  createdAt: string
+}
+
 export interface User {
   id: string
   name: string
