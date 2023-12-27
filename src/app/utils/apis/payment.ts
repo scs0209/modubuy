@@ -20,3 +20,27 @@ export async function fetchPayments() {
     return null
   }
 }
+
+export async function fetchPaymentsInfo(userId: string | unknown) {
+  try {
+    const response = await fetch(
+      `${backUrl}/api/payment-info?userId=${userId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
+
+    if (!response.ok) {
+      throw new Error(`An error occurred: ${response.statusText}`)
+    }
+
+    const payments = await response.json()
+    return payments
+  } catch (error) {
+    console.error('Failed to fetch payments:', error)
+    return null
+  }
+}

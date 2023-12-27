@@ -1,13 +1,13 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import '../globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import { getServerSession } from 'next-auth'
-import Navbar from './components/Navbar'
-import CartProvider from './components/Providers'
-import ShoppingCartModal from './components/ShoppingCartModal'
-import NextAuthProvider from './contexts/NextAuthProvider'
-import { authOptions } from './utils/auth'
+import Navbar from '../components/Navbar'
+import CartProvider from '../components/Providers'
+import ShoppingCartModal from '../components/ShoppingCartModal'
+import NextAuthProvider from '../contexts/NextAuthProvider'
+import { authOptions } from '../utils/auth'
 
 const inter = Inter({ subsets: ['latin'] })
 

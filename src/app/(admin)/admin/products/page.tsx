@@ -40,9 +40,8 @@ export default async function AdminProductsPage() {
   const categories = await getCategory()
 
   return (
-    <div className="col-span-3 lg:col-span-4 lg:border-l p-4">
-      AdminProductsPage
+    <>
       <ProductDataTable data={products} categories={categories} />
-    </div>
+    </>
   )
 }

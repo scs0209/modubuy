@@ -7,9 +7,9 @@ import {
 } from '@/components/ui/card'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
-import { authOptions } from '../utils/auth'
-import SignInForm from '../components/auth/SignInForm'
-import SigninWithGithub from '../components/auth/SigninWithGithub.'
+import { authOptions } from '../../utils/auth'
+import SignInForm from '../../components/auth/SignInForm'
+import SigninWithGithub from '../../components/auth/SigninWithGithub.'
 
 export default async function LoginPage() {
   const session = await getServerSession(authOptions)

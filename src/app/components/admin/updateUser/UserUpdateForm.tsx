@@ -17,6 +17,13 @@ import {
 import { Input } from '@/components/ui/input'
 import { User } from '@/app/interface'
 import { updateUser } from '@/app/utils/apis/user'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 
 interface Props {
   data: User
@@ -31,6 +38,8 @@ const schema = z.object({
   }),
   role: z.enum(['admin', 'user']),
 })
+
+const roles = ['admin', 'user']
 
 export default function UserUpdateForm({ data }: Props) {
   const form = useForm<z.infer<typeof schema>>({
@@ -86,9 +95,23 @@ export default function UserUpdateForm({ data }: Props) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Role</FormLabel>
-                <FormControl>
-                  <Input placeholder="Role" {...field} />
-                </FormControl>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a role" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {roles.map((role) => (
+                      <SelectItem key={role} value={role}>
+                        {role}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}

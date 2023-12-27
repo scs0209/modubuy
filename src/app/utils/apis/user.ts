@@ -2,6 +2,23 @@ import { backUrl } from '@/app/config/url'
 import { UpdateUser } from '@/app/interface'
 import { toast } from '@/components/ui/use-toast'
 
+export async function fetchUsers() {
+  try {
+    const response = await fetch(`${backUrl}/api/user/all`, {
+      cache: 'no-cache',
+    })
+
+    const data = await response.json()
+    console.dir(data, { depth: null })
+
+    return data
+  } catch (error) {
+    console.error('An error occurred while fetching the payment IDs:', error)
+
+    return null
+  }
+}
+
 export async function fetchUserWithPayments(userId: string | unknown) {
   try {
     const response = await fetch(`${backUrl}/api/payment?userId=${userId}`)
@@ -14,7 +31,7 @@ export async function fetchUserWithPayments(userId: string | unknown) {
       }),
     )
 
-    return payments // 결제 정보 배열 반환
+    return payments
   } catch (error) {
     console.error(error)
   }
@@ -28,8 +45,6 @@ export async function fetchUser(userId: string | unknown) {
       cache: 'no-cache',
     })
     const user = await response.json()
-
-    console.log(user)
 
     return user
   } catch (error) {

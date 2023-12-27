@@ -180,7 +180,7 @@ export default function ProductDataTable({ data, categories }: Props) {
           </Button>
           <Dialog>
             <DialogTrigger asChild>
-              <Button variant="outline">Create</Button>
+              <Button>Create</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
               <ProductCreateForm data={categories} />

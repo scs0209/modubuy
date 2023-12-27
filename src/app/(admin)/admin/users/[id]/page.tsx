@@ -12,7 +12,7 @@ export default async function UserUpdatePage({
   const data = await fetchUser(id)
 
   return (
-    <div className="col-span-3 lg:col-span-4 lg:border-l p-4 grid grid-cols-3">
+    <div className="grid grid-cols-3">
       <div className="col-span-1 flex justify-center">
         <Avatar className="h-52 w-52 rounded-md">
           <AvatarImage

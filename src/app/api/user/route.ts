@@ -24,8 +24,6 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
     return res.status(404).json({ error: 'User not found' })
   }
 
-  console.log(user)
-
   return NextResponse.json(user)
 }
 
@@ -67,8 +65,6 @@ export async function PUT(req: Request, res: NextApiResponse) {
   }
 
   const updateData = await req.json()
-
-  console.log('updateData: ', updateData)
 
   const updatedUser = await prisma.user.update({
     where: {
