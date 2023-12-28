@@ -52,6 +52,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   payments      Payment[]
+  likes         Like[]
 }
 
 model VerificationToken {
@@ -72,4 +73,13 @@ model Payment {
   status    String
   product   String?   @default("Default product")
   createdAt DateTime  @default(now())
+}
+
+model Like {
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  productId String
+  createdAt DateTime @default(now())
+
+  @@id([userId, productId])
 }
