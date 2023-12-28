@@ -1,10 +1,13 @@
 import AddToBag from '@/app/components/AddToBag'
 import CheckoutNow from '@/app/components/CheckoutNow'
 import ImageGallery from '@/app/components/ImageGallery'
+import LikesButton from '@/app/components/mypage/LikesButton'
 import { fullProduct } from '@/app/interface'
 import { client } from '@/app/lib/sanity'
+import { authOptions } from '@/app/utils/auth'
 import { Button } from '@/components/ui/button'
 import { Star, Truck } from 'lucide-react'
+import { getServerSession } from 'next-auth'
 import React from 'react'
 
 async function getData(slug: string) {
@@ -32,6 +35,9 @@ export default async function ProductPage({
   params: { slug: string }
 }) {
   const data: fullProduct = await getData(params.slug)
+  const userData = await getServerSession(authOptions)
+
+  console.log(userData?.user.id)
 
   return (
     <div className="bg-white">
@@ -50,10 +56,12 @@ export default async function ProductPage({
             </div>
 
             <div className="mb-6 flex items-center gap-3 md:mb-10">
-              <Button className="rounded-full grap-x-2">
+              <Button className="rounded-full gap-x-2">
                 <span className="text-sm">4.2</span>
                 <Star className="h-5 w-5" />
               </Button>
+
+              <LikesButton user={userData?.user} data={data} />
 
               <span className="text-sm text-gray-500 transition duration-100">
                 56 Ratings
