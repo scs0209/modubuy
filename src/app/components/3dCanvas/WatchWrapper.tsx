@@ -1,11 +1,7 @@
 'use client'
 
 import { Canvas } from '@react-three/fiber'
-import {
-  PresentationControls,
-  Environment,
-  ContactShadows,
-} from '@react-three/drei'
+import { Environment, ContactShadows, OrbitControls } from '@react-three/drei'
 import Watch from './Watch'
 
 export default function WatchCanvas() {
@@ -19,19 +15,13 @@ export default function WatchCanvas() {
         shadow-mapSize={2048}
         castShadow
       />
-      <PresentationControls
-        config={{ mass: 2, tension: 500 }}
-        snap={{ mass: 4, tension: 1500 }}
-        rotation={[0, 0.3, 0]}
-        polar={[-Math.PI / 3, Math.PI / 3]}
-        azimuth={[-Math.PI / 1.4, Math.PI / 2]}
-      >
-        <Watch
-          rotation={[-Math.PI / 2, 0, 0]}
-          position={[0, 0.25, 0]}
-          scale={0.003}
-        />
-      </PresentationControls>
+      <OrbitControls />
+      <Watch
+        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, 0.25, 0]}
+        scale={0.003}
+      />
+
       <ContactShadows
         position={[0, -1.4, 0]}
         opacity={0.75}

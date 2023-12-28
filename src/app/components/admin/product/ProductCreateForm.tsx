@@ -141,7 +141,7 @@ export default function ProductCreateForm({ data }: Props) {
               <FormLabel>Product images</FormLabel>
               <FormControl>
                 <Input
-                  accept=".jpg, .jpeg, .png, .svg, .gif, .mp4"
+                  accept=".jpg, .jpeg, .png, .svg, .gif, .mp4, .webp"
                   type="file"
                   multiple
                   onChange={(e) => {
