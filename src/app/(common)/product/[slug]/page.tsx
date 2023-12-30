@@ -1,6 +1,7 @@
 import AddToBag from '@/app/components/AddToBag'
 import CheckoutNow from '@/app/components/CheckoutNow'
 import ImageGallery from '@/app/components/ImageGallery'
+import CommentForm from '@/app/components/comment/CommentForm'
 import LikesButton from '@/app/components/mypage/LikesButton'
 import { fullProduct } from '@/app/interface'
 import { client } from '@/app/lib/sanity'
@@ -114,6 +115,8 @@ export default async function ProductPage({
             </p>
           </div>
         </div>
+
+        <CommentForm user={userData?.user} product={data} />
       </div>
     </div>
   )
