@@ -5,19 +5,20 @@ import prisma from '../../../utils/db'
 // 리뷰를 가져오는 기능
 export async function GET(req: NextApiRequest, res: NextApiResponse) {
   const url = new URL(req.url!)
-  const reviewId = url.searchParams.get('reviewId')!
+  const productId = url.searchParams.get('productId')!
+  const userId = url.searchParams.get('userId')!
 
-  const review = await prisma.review.findUnique({
+  const reviews = await prisma.review.findMany({
     where: {
-      id: reviewId,
+      AND: [{ productId }, { userId }],
     },
   })
 
-  if (!review) {
+  if (!reviews) {
     return NextResponse.json({ error: 'Review not found' }, { status: 404 })
   }
 
-  return NextResponse.json(review, { status: 200 })
+  return NextResponse.json(reviews, { status: 200 })
 }
 
 // 리뷰를 작성하는 기능

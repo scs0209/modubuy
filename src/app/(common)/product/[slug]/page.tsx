@@ -2,6 +2,7 @@ import AddToBag from '@/app/components/AddToBag'
 import CheckoutNow from '@/app/components/CheckoutNow'
 import ImageGallery from '@/app/components/ImageGallery'
 import CommentForm from '@/app/components/comment/CommentForm'
+import CommentList from '@/app/components/comment/CommentList'
 import LikesButton from '@/app/components/mypage/LikesButton'
 import { fullProduct } from '@/app/interface'
 import { client } from '@/app/lib/sanity'
@@ -117,6 +118,7 @@ export default async function ProductPage({
         </div>
 
         <CommentForm user={userData?.user} product={data} />
+        <CommentList productId={data._id} userId={userData?.user.id} />
       </div>
     </div>
   )
