@@ -1,7 +1,7 @@
 'use client'
-
 import { fetchReview } from '@/app/utils/apis/review'
 import React, { useEffect, useState } from 'react'
+import CommentHeader from './CommentHeader'
 
 interface Props {
   productId: string
@@ -30,8 +30,12 @@ export default function CommentList({ productId, userId }: Props) {
     <div>
       {comments.map((comment: any) => (
         <div key={comment.id}>
-          <h4>{comment.userId}</h4>
-          <p>{comment.content}</p>
+          <article className="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
+            <CommentHeader review={comment} />
+            <p className="text-gray-500 dark:text-gray-400">
+              {comment.content}
+            </p>
+          </article>
         </div>
       ))}
     </div>
