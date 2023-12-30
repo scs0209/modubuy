@@ -53,6 +53,7 @@ model User {
   sessions      Session[]
   payments      Payment[]
   likes         Like[]
+  reviews       Review[]
 }
 
 model VerificationToken {
@@ -82,4 +83,15 @@ model Like {
   createdAt DateTime @default(now())
 
   @@id([userId, productId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  content   String
+  rating    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    String
+  productId String
+  user      User     @relation(fields: [userId], references: [id])
 }

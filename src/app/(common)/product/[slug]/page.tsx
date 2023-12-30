@@ -56,12 +56,12 @@ export default async function ProductPage({
             </div>
 
             <div className="mb-6 flex items-center gap-3 md:mb-10">
+              <LikesButton user={userData?.user} data={data} />
+
               <Button className="rounded-full gap-x-2">
                 <span className="text-sm">4.2</span>
                 <Star className="h-5 w-5" />
               </Button>
-
-              <LikesButton user={userData?.user} data={data} />
 
               <span className="text-sm text-gray-500 transition duration-100">
                 56 Ratings

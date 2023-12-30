@@ -14,7 +14,6 @@ interface Props {
 export default function LikesButton({ data, user }: Props) {
   const [liked, setLiked] = useState(false)
 
-  // 페이지 로드 시 사용자의 좋아요 상태를 확인
   useEffect(() => {
     fetchLikes(user.id)
       .then((likes) => {
@@ -26,7 +25,6 @@ export default function LikesButton({ data, user }: Props) {
       })
   }, [liked])
 
-  // 좋아요 버튼을 눌렀을 때의 핸들러
   const handleLikeClick = () => {
     toggleLike(user.id, data._id)
       .then((result) => {
@@ -40,7 +38,11 @@ export default function LikesButton({ data, user }: Props) {
 
   console.log(user.id)
   return (
-    <Button className="rounded-full" onClick={handleLikeClick}>
+    <Button
+      variant="outline"
+      className="rounded-full"
+      onClick={handleLikeClick}
+    >
       <Heart className={`h-5 w-5 ${liked ? 'text-red-500' : ''}`} />
     </Button>
   )
