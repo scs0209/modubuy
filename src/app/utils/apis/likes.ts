@@ -23,11 +23,12 @@ export const toggleLike = async (
   }
 }
 
-export const getLikes = async (userId: string) => {
+export const fetchLikes = async (userId: string) => {
   const response = await fetch(
     `${backUrl}/api/products/likes?userId=${userId}`,
     {
       method: 'GET',
+      cache: 'no-cache',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -38,7 +39,8 @@ export const getLikes = async (userId: string) => {
 
   if (response.ok) {
     console.log(`사용자가 좋아요한 상품들: `, data)
-  } else {
-    console.error(`좋아요한 상품들을 가져오는 데 실패했습니다: ${data.error}`)
+    return data
   }
+  console.error(`좋아요한 상품들을 가져오는 데 실패했습니다: ${data.error}`)
+  throw new Error(data.error)
 }
