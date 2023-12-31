@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useReviewActions } from '@/store/reviewStore'
+import { deleteReview } from '@/app/utils/apis/review'
 
 interface Props {
   reviewId: string
@@ -16,6 +17,15 @@ interface Props {
 
 export default function ReviewDropDown({ reviewId }: Props) {
   const { startEditing } = useReviewActions()
+
+  const handleDeleteClick = async () => {
+    try {
+      await deleteReview(reviewId)
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -26,7 +36,7 @@ export default function ReviewDropDown({ reviewId }: Props) {
           <EditIcon className="mr-2 h-4 w-4" />
           <span>Edit</span>
         </DropdownMenuItem>
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleDeleteClick}>
           <DeleteIcon className="mr-2 h-4 w-4" color="red" />
           <span className="text-red-500">Remove</span>
         </DropdownMenuItem>

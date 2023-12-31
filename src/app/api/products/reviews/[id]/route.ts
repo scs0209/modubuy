@@ -5,7 +5,6 @@ import prisma from '../../../../utils/db'
 // 리뷰를 수정하는 기능
 export async function PUT(
   req: Request,
-  res: NextApiResponse,
   { params }: { params: { id: string } },
 ) {
   const { id } = params
@@ -27,7 +26,6 @@ export async function PUT(
 // 리뷰를 삭제하는 기능
 export async function DELETE(
   req: Request,
-  res: NextApiResponse,
   { params }: { params: { id: string } },
 ) {
   const { id } = params
