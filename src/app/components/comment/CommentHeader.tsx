@@ -1,9 +1,10 @@
 import React from 'react'
 import { formatDate } from '@/app/utils/func'
+import { Review } from '@/app/interface'
 import CommentDropDown from './CommentDropDown'
 
 interface Props {
-  review: any
+  review: Review
 }
 
 export default function CommentHeader({ review }: Props) {

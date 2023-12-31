@@ -70,3 +70,13 @@ export interface Category {
   _type: string
   _rev: string
 }
+
+export interface Review {
+  id: string
+  content: string
+  rating: number
+  createdAt: string
+  updatedAt: string
+  userId: string
+  productId: string
+}

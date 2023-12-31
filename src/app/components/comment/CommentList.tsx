@@ -2,6 +2,7 @@
 
 import { fetchReview } from '@/app/utils/apis/review'
 import React, { useEffect, useState } from 'react'
+import { Review } from '@/app/interface'
 import CommentHeader from './CommentHeader'
 
 interface Props {
@@ -10,7 +11,7 @@ interface Props {
 }
 
 export default function CommentList({ productId, userId }: Props) {
-  const [comments, setComments] = useState([])
+  const [comments, setComments] = useState<Review[]>([])
 
   useEffect(() => {
     const getComments = async () => {
@@ -25,11 +26,9 @@ export default function CommentList({ productId, userId }: Props) {
     getComments()
   }, [productId])
 
-  console.log(comments)
-
   return (
     <div>
-      {comments.map((comment: any) => (
+      {comments.map((comment) => (
         <div key={comment.id}>
           <article className="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
             <CommentHeader review={comment} />

@@ -16,8 +16,7 @@ import {
 } from '@/components/ui/form'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
-import { createReview } from '@/app/utils/apis/review'
-import { fullProduct } from '@/app/interface'
+import { updateReview } from '@/app/utils/apis/review'
 
 const FormSchema = z.object({
   content: z.string().min(10, {
@@ -34,22 +33,24 @@ const FormSchema = z.object({
 })
 
 interface Props {
-  user: any
-  product: fullProduct
+  comment: any
 }
 
-export default function CommentForm({ user, product }: Props) {
+export default function CommentEditForm({ comment }: Props) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: {
+      content: comment.content,
+      rate: comment.rate,
+    },
   })
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
-      const reviewData = await createReview(
+      const updatedComment = await updateReview(
+        comment.id,
         data.content,
         data.rate,
-        user.id,
-        product._id,
       )
       toast({
         title: 'Review submitted successfully',
@@ -73,15 +74,8 @@ export default function CommentForm({ user, product }: Props) {
               <FormItem>
                 <FormLabel>Reviews</FormLabel>
                 <FormControl>
-                  <Textarea
-                    placeholder="Please, write your review."
-                    className="resize-none"
-                    {...field}
-                  />
+                  <Textarea className="resize-none" {...field} />
                 </FormControl>
-                <FormDescription>
-                  Your review will be helpful to other buyers
-                </FormDescription>
                 <FormMessage />
               </FormItem>
             )
