@@ -38,7 +38,7 @@ interface Props {
   product: fullProduct
 }
 
-export default function CommentForm({ user, product }: Props) {
+export default function ReviewForm({ user, product }: Props) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })

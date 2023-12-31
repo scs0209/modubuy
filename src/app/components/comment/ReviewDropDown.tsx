@@ -1,3 +1,5 @@
+'use client'
+
 import { DeleteIcon, EditIcon, Menu } from 'lucide-react'
 
 import {
@@ -6,15 +8,21 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { useReviewActions } from '@/store/reviewStore'
 
-export default function CommentDropDown() {
+interface Props {
+  reviewId: string
+}
+
+export default function ReviewDropDown({ reviewId }: Props) {
+  const { startEditing } = useReviewActions()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Menu color="black" />
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-24">
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={() => startEditing(reviewId)}>
           <EditIcon className="mr-2 h-4 w-4" />
           <span>Edit</span>
         </DropdownMenuItem>

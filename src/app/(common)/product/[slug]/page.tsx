@@ -1,8 +1,8 @@
 import AddToBag from '@/app/components/AddToBag'
 import CheckoutNow from '@/app/components/CheckoutNow'
 import ImageGallery from '@/app/components/ImageGallery'
-import CommentForm from '@/app/components/comment/CommentForm'
-import CommentList from '@/app/components/comment/CommentList'
+import ReviewForm from '@/app/components/comment/ReviewForm'
+import CommentList from '@/app/components/comment/ReviewList'
 import LikesButton from '@/app/components/mypage/LikesButton'
 import { fullProduct } from '@/app/interface'
 import { client } from '@/app/lib/sanity'
@@ -38,8 +38,6 @@ export default async function ProductPage({
 }) {
   const data: fullProduct = await getData(params.slug)
   const userData = await getServerSession(authOptions)
-
-  console.log(userData?.user.id)
 
   return (
     <div className="bg-white">
@@ -117,7 +115,7 @@ export default async function ProductPage({
           </div>
         </div>
 
-        <CommentForm user={userData?.user} product={data} />
+        <ReviewForm user={userData?.user} product={data} />
         <CommentList productId={data._id} userId={userData?.user.id} />
       </div>
     </div>

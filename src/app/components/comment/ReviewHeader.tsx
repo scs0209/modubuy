@@ -1,13 +1,13 @@
 import React from 'react'
 import { formatDate } from '@/app/utils/func'
 import { Review } from '@/app/interface'
-import CommentDropDown from './CommentDropDown'
+import ReviewDropDown from './ReviewDropDown'
 
 interface Props {
   review: Review
 }
 
-export default function CommentHeader({ review }: Props) {
+export default function ReviewHeader({ review }: Props) {
   return (
     <div className="flex justify-between items-center mb-2">
       <div className="flex items-center">
@@ -19,7 +19,7 @@ export default function CommentHeader({ review }: Props) {
         </p>
       </div>
 
-      <CommentDropDown />
+      <ReviewDropDown reviewId={review.id} />
     </div>
   )
 }

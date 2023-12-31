@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,6 +16,8 @@ import {
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
 import { updateReview } from '@/app/utils/apis/review'
+import { Review } from '@/app/interface'
+import { useReviewActions } from '@/store/reviewStore'
 
 const FormSchema = z.object({
   content: z.string().min(10, {
@@ -33,22 +34,23 @@ const FormSchema = z.object({
 })
 
 interface Props {
-  comment: any
+  review: Review
 }
 
-export default function CommentEditForm({ comment }: Props) {
+export default function ReviewEditForm({ review }: Props) {
+  const { stopEditing } = useReviewActions()
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      content: comment.content,
-      rate: comment.rate,
+      content: review.content,
+      rate: review.rating,
     },
   })
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
     try {
       const updatedComment = await updateReview(
-        comment.id,
+        review.id,
         data.content,
         data.rate,
       )
@@ -116,6 +118,9 @@ export default function CommentEditForm({ comment }: Props) {
           }}
         />
         <Button type="submit">Submit</Button>
+        <Button variant="outline" onClick={() => stopEditing(review.id)}>
+          Cancel
+        </Button>
       </form>
     </Form>
   )
