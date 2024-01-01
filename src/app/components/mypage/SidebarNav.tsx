@@ -16,6 +16,8 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
 export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
   const pathname = usePathname()
 
+  console.log(pathname)
+
   return (
     <nav
       className={cn(
@@ -27,7 +29,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
       {items.map((item) => (
         <Link
           key={item.href}
-          href={item.href}
+          href={pathname + item.href}
           className={cn(
             buttonVariants({ variant: 'ghost' }),
             pathname === item.href
