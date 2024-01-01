@@ -76,10 +76,7 @@ export function ProfileForm() {
               <FormControl>
                 <Input placeholder="shadcn" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
-              </FormDescription>
+              <FormDescription>Update your name.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

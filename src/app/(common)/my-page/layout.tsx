@@ -4,8 +4,8 @@ import { Metadata } from 'next'
 import Image from 'next/image'
 
 export const metadata: Metadata = {
-  title: 'Forms',
-  description: 'Advanced form example using react-hook-form and Zod.',
+  title: 'Settings',
+  description: 'This is a settings page',
 }
 
 const sidebarNavItems = [
@@ -14,20 +14,8 @@ const sidebarNavItems = [
     href: '/profile',
   },
   {
-    title: 'Account',
-    href: '/account',
-  },
-  {
     title: 'Appearance',
     href: '/appearance',
-  },
-  {
-    title: 'Notifications',
-    href: '/notifications',
-  },
-  {
-    title: 'Display',
-    href: '/display',
   },
 ]
 
