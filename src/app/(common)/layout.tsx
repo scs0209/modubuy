@@ -8,6 +8,7 @@ import CartProvider from '../components/Providers'
 import ShoppingCartModal from '../components/ShoppingCartModal'
 import NextAuthProvider from '../contexts/NextAuthProvider'
 import { authOptions } from '../utils/auth'
+import { ThemeProvider } from '../components/ThemeProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,12 +27,19 @@ export default async function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <NextAuthProvider session={session}>
-          <CartProvider>
-            <Navbar />
-            <ShoppingCartModal />
-            <Toaster />
-            {children}
-          </CartProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <CartProvider>
+              <Navbar />
+              <ShoppingCartModal />
+              <Toaster />
+              {children}
+            </CartProvider>
+          </ThemeProvider>
         </NextAuthProvider>
       </body>
     </html>

@@ -17,7 +17,7 @@ export default async function MyPage({
   const paymentsInfo = await fetchPaymentsInfo(session?.user.id)
 
   return (
-    <div className="max-w-screen-lg mx-auto">
+    <div className="max-w-screen-lg mx-auto dark:bg-black">
       <div>{session?.user.name}</div>
       <UserTable data={paymentsInfo} />
     </div>
