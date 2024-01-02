@@ -16,7 +16,7 @@ export function PostcodeModal() {
   const { setAddress } = useAddressActions()
 
   const handleComplete = (data: any) => {
-    let fullAddress = '(' + data.zonecode + ') ' // 우편번호를 주소 앞에 추가
+    let fullAddress = `(${data.zonecode}) ` // 우편번호를 주소 앞에 추가
     let extraAddress = ''
 
     if (data.addressType === 'R') {

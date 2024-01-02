@@ -22,6 +22,7 @@ import {
   useAddressActions,
   useDetailAddress,
 } from '@/store/addressStore'
+import { useSession } from 'next-auth/react'
 import { PostcodeModal } from './PostcodeModal'
 
 const profileFormSchema = z.object({
@@ -33,32 +34,28 @@ const profileFormSchema = z.object({
     .max(30, {
       message: 'Username must not be longer than 30 characters.',
     }),
-  email: z
-    .string({
-      required_error: 'Please select an email to display.',
-    })
-    .email({
-      message: 'Please enter a valid email format.',
-    }),
+  email: z.string().email({
+    message: 'Please enter a valid email format.',
+  }),
   address: z.string(),
   detail_address: z.string(),
 })
-
-type ProfileFormValues = z.infer<typeof profileFormSchema>
-
-const defaultValues: Partial<ProfileFormValues> = {}
 
 export function ProfileForm() {
   const address = useAddress()
   const detailAddress = useDetailAddress()
   const { handleDetailAddressChange } = useAddressActions()
-  const form = useForm<ProfileFormValues>({
+  const { data: session } = useSession()
+  const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues,
+    defaultValues: {
+      username: session?.user.name || '',
+      email: session?.user.email || '',
+    },
     mode: 'onChange',
   })
 
-  function onSubmit(data: ProfileFormValues) {
+  function onSubmit(data: z.infer<typeof profileFormSchema>) {
     toast({
       title: 'You submitted the following values:',
       description: (
