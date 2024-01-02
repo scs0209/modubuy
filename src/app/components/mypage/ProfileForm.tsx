@@ -16,6 +16,13 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
+import { Label } from '@/components/ui/label'
+import {
+  useAddress,
+  useAddressActions,
+  useDetailAddress,
+} from '@/store/addressStore'
+import { PostcodeModal } from './PostcodeModal'
 
 const profileFormSchema = z.object({
   username: z
@@ -33,13 +40,8 @@ const profileFormSchema = z.object({
     .email({
       message: 'Please enter a valid email format.',
     }),
-  urls: z
-    .array(
-      z.object({
-        value: z.string().url({ message: 'Please enter a valid URL.' }),
-      }),
-    )
-    .optional(),
+  address: z.string(),
+  detail_address: z.string(),
 })
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>
@@ -47,6 +49,9 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>
 const defaultValues: Partial<ProfileFormValues> = {}
 
 export function ProfileForm() {
+  const address = useAddress()
+  const detailAddress = useDetailAddress()
+  const { handleDetailAddressChange } = useAddressActions()
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
@@ -94,6 +99,19 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
+        <div>
+          <Label>Address</Label>
+          <div className="flex">
+            <Input type="text" value={address} readOnly />
+            <PostcodeModal />
+          </div>
+          <Label>Detail Address</Label>
+          <Input
+            type="text"
+            value={detailAddress}
+            onChange={handleDetailAddressChange}
+          />
+        </div>
         <Button type="submit">Update profile</Button>
       </form>
     </Form>
