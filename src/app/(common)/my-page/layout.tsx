@@ -18,6 +18,10 @@ const sidebarNavItems = [
     href: '/profile',
   },
   {
+    title: 'Likes',
+    href: '/likes',
+  },
+  {
     title: 'Appearance',
     href: '/appearance',
   },

@@ -80,3 +80,25 @@ export interface Review {
   userId: string
   productId: string
 }
+
+export interface LikesProduct {
+  name: string
+  slug: string
+  categoryName: string
+  price_id: string
+  product_id: string
+  _id: string
+  images: Images
+  price: number
+}
+
+export interface Images {
+  _key: string
+  asset: Asset
+  _type: string
+}
+
+export interface Asset {
+  _ref: string
+  _type: string
+}

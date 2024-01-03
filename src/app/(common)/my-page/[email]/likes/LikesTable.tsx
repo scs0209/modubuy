@@ -30,15 +30,15 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { Payment } from '@/app/interface'
 import { requestRefund } from '@/app/utils/apis/product'
-import { columns } from './coulumn'
+import { LikesProduct } from '@/app/interface'
+import { columns } from './column'
 
-interface paymentProps {
-  data: Payment[]
+interface Props {
+  data: LikesProduct[]
 }
 
-export default function UserTable({ data }: paymentProps) {
+export default function LikesTable({ data }: Props) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
@@ -63,6 +63,7 @@ export default function UserTable({ data }: paymentProps) {
     },
   })
 
+  console.log(table)
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
@@ -122,8 +123,8 @@ export default function UserTable({ data }: paymentProps) {
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+            {table?.getRowModel().rows?.length ? (
+              table?.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}

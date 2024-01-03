@@ -4,6 +4,7 @@ import { fetchLikes } from '@/app/utils/apis/likes'
 import { getProduct } from '@/app/utils/apis/product'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
+import LikesTable from './LikesTable'
 
 export default function LikesPage() {
   const { data: session } = useSession()
@@ -30,5 +31,5 @@ export default function LikesPage() {
   console.log(likes)
   console.log(products)
 
-  return <div>LikesPage</div>
+  return <>{products && <LikesTable data={products!} />}</>
 }
