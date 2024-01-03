@@ -1,5 +1,4 @@
 import { LikesProduct } from '@/app/interface'
-import { requestRefund } from '@/app/utils/apis/product'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -38,9 +37,10 @@ export const columns: ColumnDef<LikesProduct>[] = [
   {
     accessorKey: 'categoryName',
     header: 'categoryName',
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue('categoryName')}</div>
-    ),
+    cell: ({ row }) => {
+      console.log(row.getValue('name'), row.original) // 여기에 console.log 추가
+      return <div className="capitalize">{row.getValue('categoryName')}</div>
+    },
   },
   {
     accessorKey: 'name',
@@ -59,15 +59,14 @@ export const columns: ColumnDef<LikesProduct>[] = [
   },
   {
     accessorKey: 'price',
-    header: () => <div className="text-right">price</div>,
+    header: () => <div className="text-right">Price</div>,
     cell: ({ row }) => {
       const price = parseFloat(row.getValue('price'))
 
-      // Format the price as a dollar price
       const formatted = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
-      }).format(price / 100)
+      }).format(price)
 
       return <div className="text-right font-medium">{formatted}</div>
     },
@@ -76,7 +75,8 @@ export const columns: ColumnDef<LikesProduct>[] = [
     id: 'actions',
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
+      const product = row.original
+      console.log(product)
 
       return (
         <DropdownMenu>

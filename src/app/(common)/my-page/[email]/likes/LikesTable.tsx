@@ -30,7 +30,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { requestRefund } from '@/app/utils/apis/product'
 import { LikesProduct } from '@/app/interface'
 import { columns } from './column'
 
@@ -63,15 +62,16 @@ export default function LikesTable({ data }: Props) {
     },
   })
 
-  console.log(table)
+  console.log(data)
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter products..."
-          value={(table.getColumn('product')?.getFilterValue() as string) ?? ''}
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
-            table.getColumn('product')?.setFilterValue(event.target.value)
+            table.getColumn('name')?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -174,7 +174,6 @@ export default function LikesTable({ data }: Props) {
           >
             Next
           </Button>
-          <Button onClick={() => requestRefund('', '')}>refund</Button>
         </div>
       </div>
     </div>

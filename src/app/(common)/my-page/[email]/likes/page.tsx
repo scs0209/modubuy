@@ -23,7 +23,7 @@ export default function LikesPage() {
           )
           return Promise.all(productPromises)
         })
-        .then((productsData: any) => setProducts(productsData))
+        .then((productsData: any) => setProducts(productsData.flat()))
         .catch((err) => console.error(err))
     }
   }, [session])
