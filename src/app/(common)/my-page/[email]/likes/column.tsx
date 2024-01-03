@@ -1,4 +1,5 @@
 import { LikesProduct } from '@/app/interface'
+import { urlFor } from '@/app/lib/sanity'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -10,6 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
+import Image from 'next/image'
 
 export const columns: ColumnDef<LikesProduct>[] = [
   {
@@ -36,10 +38,22 @@ export const columns: ColumnDef<LikesProduct>[] = [
   },
   {
     accessorKey: 'categoryName',
-    header: 'categoryName',
+    header: 'category',
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue('categoryName')}</div>
+    ),
+  },
+  {
+    accessorKey: 'images',
+    header: 'Images',
     cell: ({ row }) => {
-      console.log(row.getValue('name'), row.original) // 여기에 console.log 추가
-      return <div className="capitalize">{row.getValue('categoryName')}</div>
+      const img = row.getValue('images')
+
+      const imgUrl = urlFor(img).url()
+
+      return (
+        <Image src={imgUrl} alt={row.getValue('name')} width={30} height={30} />
+      )
     },
   },
   {
@@ -76,7 +90,6 @@ export const columns: ColumnDef<LikesProduct>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const product = row.original
-      console.log(product)
 
       return (
         <DropdownMenu>
