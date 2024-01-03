@@ -4,6 +4,7 @@ import { fetchLikes } from '@/app/utils/apis/likes'
 import { getProduct } from '@/app/utils/apis/product'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
+import { Separator } from '@/components/ui/separator'
 import LikesTable from './LikesTable'
 
 export default function LikesPage() {
@@ -28,8 +29,17 @@ export default function LikesPage() {
     }
   }, [session])
 
-  console.log(likes)
-  console.log(products)
-
-  return <>{products && <LikesTable data={products!} />}</>
+  return (
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-medium">Likes</h3>
+        <p className="text-sm text-muted-foreground">
+          These are the products you&apos;ve expressed interest in by clicking
+          the &apos;Like&apos; button. Others will see these in your profile.
+        </p>
+      </div>
+      <Separator />
+      {products && <LikesTable data={products!} />}
+    </div>
+  )
 }

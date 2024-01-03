@@ -99,7 +99,9 @@ export const columns: ColumnDef<LikesProduct>[] = [
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" />
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem className="text-red-500">Delete</DropdownMenuItem>
+          </DropdownMenuContent>
         </DropdownMenu>
       )
     },
