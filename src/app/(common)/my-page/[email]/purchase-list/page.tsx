@@ -2,6 +2,7 @@ import UserTable from '@/app/components/mypage/UserTable'
 import { fetchPaymentsInfo } from '@/app/utils/apis/payment'
 import { fetchUserWithPayments } from '@/app/utils/apis/user'
 import { authOptions } from '@/app/utils/auth'
+import { Separator } from '@/components/ui/separator'
 import { getServerSession } from 'next-auth'
 import React from 'react'
 
@@ -16,9 +17,17 @@ export default async function MyPage({
   const data = await fetchUserWithPayments(session?.user.id)
   const paymentsInfo = await fetchPaymentsInfo(session?.user.id)
 
+  console.log(paymentsInfo)
   return (
-    <div className="max-w-screen-lg mx-auto dark:bg-black">
-      <div>{session?.user.name}</div>
+    <div className="space-y-6">
+      <div>
+        <h3 className="text-lg font-medium">Purchase list</h3>
+        <p className="text-sm text-muted-foreground">
+          This is a list of products you have purchased. It helps you keep track
+          of your transactions and manage your purchases.
+        </p>
+      </div>
+      <Separator />
       <UserTable data={paymentsInfo} />
     </div>
   )

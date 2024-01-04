@@ -5,6 +5,7 @@ import { getProduct } from '@/app/utils/apis/product'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import { Separator } from '@/components/ui/separator'
+import { Loader2 } from 'lucide-react'
 import LikesTable from './LikesTable'
 
 export default function LikesPage() {
@@ -39,7 +40,11 @@ export default function LikesPage() {
         </p>
       </div>
       <Separator />
-      {products && <LikesTable data={products!} />}
+      {products ? (
+        <LikesTable data={products!} />
+      ) : (
+        <Loader2 className="h-10 w-10 animate-spin" />
+      )}
     </div>
   )
 }

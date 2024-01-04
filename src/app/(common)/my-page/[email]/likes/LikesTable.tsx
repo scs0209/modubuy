@@ -68,7 +68,7 @@ export default function LikesTable({ data }: Props) {
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter products..."
+          placeholder="Filter names..."
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('name')?.setFilterValue(event.target.value)

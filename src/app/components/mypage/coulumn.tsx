@@ -117,8 +117,6 @@ export const columns: ColumnDef<Payment>[] = [
               Copy payment ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
             <DropdownMenuItem
               className="text-red-500"
               onClick={() => requestRefund(payment.chargeId, payment.id)}

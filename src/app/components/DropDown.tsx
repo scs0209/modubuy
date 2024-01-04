@@ -35,7 +35,7 @@ export default function UserDropdownMenu({ session }: Props) {
           <DropdownMenuItem>
             {session ? (
               <Link
-                href={`/my-page/${session.user.email}`}
+                href={`/my-page/${session.user.email}/profile`}
                 className="flex items-center justify-center"
               >
                 <User className="mr-2 h-4 w-4" />

@@ -21,7 +21,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           enableSystem
           disableTransitionOnChange
         >
-          <div className="grid lg:grid-cols-5">
+          <div className="grid lg:grid-cols-5 h-screen">
             <Sidebar />
             <div className="col-span-3 lg:col-span-4 lg:border-l p-4">
               {children}
