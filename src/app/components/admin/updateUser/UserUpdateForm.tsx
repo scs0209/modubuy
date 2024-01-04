@@ -25,6 +25,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { toast } from '@/components/ui/use-toast'
+import { PostcodeModal } from '../../mypage/PostcodeModal'
 
 interface Props {
   data: User
@@ -38,6 +39,8 @@ const schema = z.object({
     message: 'Username must be at least 2 characters.',
   }),
   role: z.enum(['admin', 'user']),
+  address: z.string().readonly(),
+  detail_address: z.string(),
 })
 
 const roles = ['admin', 'user']
@@ -49,6 +52,8 @@ export default function UserUpdateForm({ data }: Props) {
       email: data.email,
       name: data.name,
       role: data.role,
+      address: data.address,
+      detail_address: data.detail_address,
     },
   })
 
@@ -120,6 +125,30 @@ export default function UserUpdateForm({ data }: Props) {
               </FormItem>
             )}
           />
+          <div>
+            <FormField
+              control={form.control}
+              name="address"
+              render={({ field }) => (
+                <div>
+                  <FormLabel>Address</FormLabel>
+                  <div className="flex">
+                    <Input {...field} type="text" readOnly />
+                    <PostcodeModal setValue={form.setValue} />
+                  </div>
+                </div>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="detail_address"
+              render={({ field }) => (
+                <div>
+                  <Input {...field} />
+                </div>
+              )}
+            />
+          </div>
           <Button type="submit">Update</Button>
         </form>
       </Form>

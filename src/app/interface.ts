@@ -54,14 +54,18 @@ export interface User {
   name: string
   email: string
   role: 'user' | 'admin'
+  address: string
+  detail_address: string
   payments: Payment[]
 }
 
 export interface UpdateUser {
+  id?: string
   name: string
   email: string
   role?: 'user' | 'admin'
   address?: string
+  detail_address?: string
   payments?: Payment[]
 }
 

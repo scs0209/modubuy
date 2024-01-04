@@ -19,7 +19,7 @@ type Inputs = {
   detail_address: string
 }
 interface Props {
-  setValue: UseFormSetValue<Inputs>
+  setValue: UseFormSetValue<any>
 }
 
 export function PostcodeModal({ setValue }: Props) {

@@ -15,6 +15,8 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
       name: true,
       email: true,
       emailVerified: true,
+      address: true,
+      detail_address: true,
       image: true,
       role: true,
     },

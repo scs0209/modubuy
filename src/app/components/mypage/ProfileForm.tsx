@@ -16,7 +16,6 @@ import {
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
-import { Label } from '@/components/ui/label'
 import { useSession } from 'next-auth/react'
 import { updateUser } from '@/app/utils/apis/user'
 import { PostcodeModal } from './PostcodeModal'
@@ -101,7 +100,7 @@ export default function ProfileForm() {
             name="address"
             render={({ field }) => (
               <div>
-                <Label>Address</Label>
+                <FormLabel>Address</FormLabel>
                 <div className="flex">
                   <Input {...field} type="text" readOnly />
                   <PostcodeModal setValue={form.setValue} />
