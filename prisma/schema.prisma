@@ -48,6 +48,8 @@ model User {
   emailVerified DateTime?
   image         String?
   password      String?
+  address       String?
+  detail_address String? 
   role          Role?      @default(user)
   accounts      Account[]
   sessions      Session[]

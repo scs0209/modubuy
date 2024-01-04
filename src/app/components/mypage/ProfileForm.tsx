@@ -17,16 +17,12 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { Label } from '@/components/ui/label'
-import {
-  useAddress,
-  useAddressActions,
-  useDetailAddress,
-} from '@/store/addressStore'
 import { useSession } from 'next-auth/react'
+import { updateUser } from '@/app/utils/apis/user'
 import { PostcodeModal } from './PostcodeModal'
 
 const profileFormSchema = z.object({
-  username: z
+  name: z
     .string()
     .min(2, {
       message: 'Username must be at least 2 characters.',
@@ -37,33 +33,36 @@ const profileFormSchema = z.object({
   email: z.string().email({
     message: 'Please enter a valid email format.',
   }),
-  address: z.string(),
+  address: z.string().readonly(),
   detail_address: z.string(),
 })
 
-export function ProfileForm() {
-  const address = useAddress()
-  const detailAddress = useDetailAddress()
-  const { handleDetailAddressChange } = useAddressActions()
+export default function ProfileForm() {
   const { data: session } = useSession()
   const form = useForm<z.infer<typeof profileFormSchema>>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
-      username: session?.user.name || '',
+      name: session?.user.name || '',
       email: session?.user.email || '',
     },
-    mode: 'onChange',
   })
 
-  function onSubmit(data: z.infer<typeof profileFormSchema>) {
-    toast({
-      title: 'You submitted the following values:',
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+  async function onSubmit(values: z.infer<typeof profileFormSchema>) {
+    try {
+      await updateUser(session?.user.id, values)
+      toast({
+        title: 'You submitted the following values:',
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white">
+              {JSON.stringify(values, null, 2)}
+            </code>
+          </pre>
+        ),
+      })
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -71,7 +70,7 @@ export function ProfileForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="username"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
@@ -97,16 +96,27 @@ export function ProfileForm() {
           )}
         />
         <div>
-          <Label>Address</Label>
-          <div className="flex">
-            <Input type="text" value={address} readOnly />
-            <PostcodeModal />
-          </div>
-          <Label>Detail Address</Label>
-          <Input
-            type="text"
-            value={detailAddress}
-            onChange={handleDetailAddressChange}
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <div>
+                <Label>Address</Label>
+                <div className="flex">
+                  <Input {...field} type="text" readOnly />
+                  <PostcodeModal setValue={form.setValue} />
+                </div>
+              </div>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="detail_address"
+            render={({ field }) => (
+              <div>
+                <Input {...field} />
+              </div>
+            )}
           />
         </div>
         <Button type="submit">Update profile</Button>

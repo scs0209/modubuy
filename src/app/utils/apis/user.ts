@@ -54,7 +54,10 @@ export async function fetchUser(userId: string | unknown) {
   return []
 }
 
-export async function updateUser(userId: string, updateData: UpdateUser) {
+export async function updateUser(
+  userId: string | undefined,
+  updateData: UpdateUser,
+) {
   try {
     const response = await fetch(`${backUrl}/api/user?userId=${userId}`, {
       method: 'PUT',

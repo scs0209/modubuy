@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { toast } from '@/components/ui/use-toast'
 
 interface Props {
   data: User
@@ -54,6 +55,9 @@ export default function UserUpdateForm({ data }: Props) {
   async function onSubmit(values: z.infer<typeof schema>) {
     try {
       await updateUser(data.id, values)
+      toast({
+        title: 'Update completed',
+      })
     } catch (error) {
       console.error(error)
     }

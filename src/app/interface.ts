@@ -60,7 +60,8 @@ export interface User {
 export interface UpdateUser {
   name: string
   email: string
-  role: 'user' | 'admin'
+  role?: 'user' | 'admin'
+  address?: string
   payments?: Payment[]
 }
 

@@ -9,12 +9,20 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog'
-import { useAddressActions } from '@/store/addressStore'
 import DaumPostcode from 'react-daum-postcode'
+import { UseFormSetValue } from 'react-hook-form'
 
-export function PostcodeModal() {
-  const { setAddress } = useAddressActions()
+type Inputs = {
+  address: string
+  name: string
+  email: string
+  detail_address: string
+}
+interface Props {
+  setValue: UseFormSetValue<Inputs>
+}
 
+export function PostcodeModal({ setValue }: Props) {
   const handleComplete = (data: any) => {
     let fullAddress = `(${data.zonecode}) ` // 우편번호를 주소 앞에 추가
     let extraAddress = ''
@@ -31,7 +39,7 @@ export function PostcodeModal() {
     }
 
     fullAddress += ` ${data.address}`
-    setAddress(fullAddress)
+    setValue('address', fullAddress)
   }
 
   return (

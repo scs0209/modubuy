@@ -1,4 +1,4 @@
-import { ProfileForm } from '@/app/components/mypage/ProfileForm'
+import ProfileForm from '@/app/components/mypage/ProfileForm'
 import { Separator } from '@/components/ui/separator'
 import React from 'react'
 
