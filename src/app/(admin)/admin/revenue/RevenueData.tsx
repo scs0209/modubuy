@@ -5,7 +5,6 @@ import {
   ChartData,
   calculateRevenueByDay,
   calculateRevenueByMonth,
-  calculateRevenueByYear,
   createChartData,
 } from '@/app/utils/func'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -30,7 +29,6 @@ interface Props {
 
 export default function RevenueData({ payments }: Props) {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
-  const [dataByYear, setDataByYear] = useState<ChartData[]>([])
   const [dataByMonth, setDataByMonth] = useState<ChartData[]>([])
   const [dataByDay, setDataByDay] = useState<ChartData[]>([])
 
@@ -39,20 +37,17 @@ export default function RevenueData({ payments }: Props) {
       (payment) => new Date(payment.createdAt).getFullYear() === selectedYear,
     )
 
-    const revenueByYear = calculateRevenueByYear(filteredPayments)
     const revenueByMonth = calculateRevenueByMonth(filteredPayments)
     const revenueByDay = calculateRevenueByDay(payments)
 
-    const chartDataByYear = createChartData(revenueByYear)
     const chartDataByMonth = createChartData(revenueByMonth)
     const chartDataByDay = createChartData(revenueByDay)
 
-    setDataByYear(chartDataByYear)
     setDataByMonth(chartDataByMonth)
     setDataByDay(chartDataByDay)
   }, [payments, selectedYear])
 
-  console.log(dataByMonth, selectedYear)
+  console.log(dataByMonth)
 
   return (
     <>

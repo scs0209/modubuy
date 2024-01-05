@@ -56,19 +56,6 @@ export function convertToDesiredFormat(groupedData: {
   })
 }
 
-export function calculateRevenueByYear(
-  paymentsData: FullPayment[],
-): Record<string, number> {
-  return paymentsData.reduce(
-    (acc: Record<string, number>, payment: FullPayment) => {
-      const year = new Date(payment.createdAt).getFullYear()
-      acc[year] = (acc[year] || 0) + payment.amount
-      return acc
-    },
-    {},
-  )
-}
-
 export function calculateRevenueByMonth(
   paymentsData: FullPayment[],
 ): Record<string, number> {
