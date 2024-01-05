@@ -47,6 +47,7 @@ const menuItems: { title: string; list: MenuItem[] }[] = [
     list: [
       {
         title: 'Revenue',
+        path: '/admin/revenue',
         icon: <BadgeDollarSign className="mr-2 h-4 w-4" />,
       },
       {

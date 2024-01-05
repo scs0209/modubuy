@@ -8,7 +8,7 @@ export default async function AdminPage() {
   const paymentsData = await fetchPayments()
   const usersData = await fetchUsers()
 
-  console.dir(usersData, { depth: null })
+  console.dir(paymentsData, { depth: null })
 
   return (
     <>

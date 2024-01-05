@@ -1,3 +1,5 @@
+import { FullPayment } from '../interface'
+
 type Payment = {
   id: string
   userId: string
@@ -54,6 +56,62 @@ export function convertToDesiredFormat(groupedData: {
   })
 }
 
+export function calculateRevenueByYear(
+  paymentsData: FullPayment[],
+): Record<string, number> {
+  return paymentsData.reduce(
+    (acc: Record<string, number>, payment: FullPayment) => {
+      const year = new Date(payment.createdAt).getFullYear()
+      acc[year] = (acc[year] || 0) + payment.amount
+      return acc
+    },
+    {},
+  )
+}
+
+export function calculateRevenueByMonth(
+  paymentsData: FullPayment[],
+): Record<string, number> {
+  return paymentsData.reduce(
+    (acc: Record<string, number>, payment: FullPayment) => {
+      const date = new Date(payment.createdAt)
+      const month = `${date.getFullYear()}-${date.getMonth() + 1}`
+      acc[month] = (acc[month] || 0) + payment.amount
+      return acc
+    },
+    {},
+  )
+}
+
+export function calculateRevenueByDay(
+  paymentsData: FullPayment[],
+): Record<string, number> {
+  return paymentsData.reduce(
+    (acc: Record<string, number>, payment: FullPayment) => {
+      const date = new Date(payment.createdAt)
+      const day = `${date.getFullYear()}-${
+        date.getMonth() + 1
+      }-${date.getDate()}`
+      acc[day] = (acc[day] || 0) + payment.amount
+      return acc
+    },
+    {},
+  )
+}
+
+export type ChartData = {
+  name: string
+  Revenue: number
+}
+
+export function createChartData(
+  revenueByUnit: Record<string, number>,
+): ChartData[] {
+  return Object.keys(revenueByUnit).map((unit: string) => ({
+    name: unit,
+    Revenue: revenueByUnit[unit],
+  }))
+}
 export const formatDate = (dateString: string) => {
   const date = new Date(dateString)
   return date.toLocaleDateString('ko-KR', {
