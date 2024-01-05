@@ -20,8 +20,10 @@ import {
   XAxis,
   YAxis,
 } from 'recharts'
-import { Calendar } from '@/components/ui/calendar'
+import { DateRange } from 'react-day-picker'
+import { subDays } from 'date-fns'
 import { YearSelect } from './YearSelect'
+import { DatePickerWithRange } from './DatePicker'
 
 interface Props {
   payments: FullPayment[]
@@ -31,23 +33,34 @@ export default function RevenueData({ payments }: Props) {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
   const [dataByMonth, setDataByMonth] = useState<ChartData[]>([])
   const [dataByDay, setDataByDay] = useState<ChartData[]>([])
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: subDays(new Date(), 7),
+    to: new Date(),
+  })
 
   useEffect(() => {
     const filteredPayments = payments.filter(
       (payment) => new Date(payment.createdAt).getFullYear() === selectedYear,
     )
 
+    const filteredPaymentsDay = payments.filter((payment) => {
+      const paymentDate = new Date(payment.createdAt)
+      const from = new Date(dateRange!.from!).setHours(0, 0, 0, 0)
+      const to = new Date(dateRange!.to!).setHours(23, 59, 59, 999)
+      return paymentDate.getTime() >= from && paymentDate.getTime() <= to
+    })
+
     const revenueByMonth = calculateRevenueByMonth(filteredPayments)
-    const revenueByDay = calculateRevenueByDay(payments)
+    const revenueByDay = calculateRevenueByDay(filteredPaymentsDay, dateRange)
 
     const chartDataByMonth = createChartData(revenueByMonth)
     const chartDataByDay = createChartData(revenueByDay)
 
     setDataByMonth(chartDataByMonth)
     setDataByDay(chartDataByDay)
-  }, [payments, selectedYear])
+  }, [payments, selectedYear, dateRange])
 
-  console.log(selectedYear)
+  console.log(dateRange, dataByDay)
 
   return (
     <>
@@ -57,7 +70,7 @@ export default function RevenueData({ payments }: Props) {
         </CardHeader>
         <CardContent className="flex justify-center">
           <ResponsiveContainer width="100%" height={350}>
-            <Calendar numberOfMonths={2} />
+            <DatePickerWithRange onDateChange={setDateRange} date={dateRange} />
           </ResponsiveContainer>
         </CardContent>
       </Card>

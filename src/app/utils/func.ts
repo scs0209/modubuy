@@ -1,3 +1,4 @@
+import { DateRange } from 'react-day-picker'
 import { FullPayment } from '../interface'
 
 type Payment = {
@@ -77,22 +78,22 @@ export function calculateRevenueByMonth(
 
 export function calculateRevenueByDay(
   paymentsData: FullPayment[],
+  dateRange: DateRange | undefined,
 ): Record<string, number> {
   const dailyRevenue: Record<string, number> = {}
   const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토']
 
-  // 가장 최근 결제 날짜를 구하기
-  const latestPaymentDate = paymentsData.reduce((latestDate, payment) => {
-    const paymentDate = new Date(payment.createdAt)
-    return paymentDate > latestDate ? paymentDate : latestDate
-  }, new Date(0))
+  const from = new Date(dateRange!.from!).setHours(0, 0, 0, 0)
+  const to = new Date(dateRange!.to!).setHours(23, 59, 59, 999)
 
-  for (let i = 6; i >= 0; i--) {
-    const date = new Date(latestPaymentDate)
-    date.setDate(date.getDate() - i)
-    const dayOfWeek = daysOfWeek[date.getDay()]
-    const day = `${date.getMonth() + 1}-${date.getDate()} (${dayOfWeek})`
+  const currentDate = new Date(from)
+  while (currentDate.getTime() <= to) {
+    const dayOfWeek = daysOfWeek[currentDate.getDay()]
+    const day = `${
+      currentDate.getMonth() + 1
+    }-${currentDate.getDate()} (${dayOfWeek})`
     dailyRevenue[day] = 0
+    currentDate.setDate(currentDate.getDate() + 1)
   }
 
   paymentsData.forEach((payment) => {
