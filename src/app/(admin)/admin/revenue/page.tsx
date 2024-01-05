@@ -5,5 +5,13 @@ import RevenueData from './RevenueData'
 export default async function RevenuePage() {
   const paymentsData = await fetchPayments()
 
-  return <RevenueData payments={paymentsData} />
+  console.log(paymentsData)
+
+  return (
+    <>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+        <RevenueData payments={paymentsData} />
+      </div>
+    </>
+  )
 }

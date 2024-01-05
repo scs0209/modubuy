@@ -72,31 +72,42 @@ export function calculateRevenueByYear(
 export function calculateRevenueByMonth(
   paymentsData: FullPayment[],
 ): Record<string, number> {
+  const initialRevenue = Array.from(
+    { length: 12 },
+    (_, i) => `${i + 1}월`,
+  ).reduce((acc, curr) => ({ ...acc, [curr]: 0 }), {})
+
   return paymentsData.reduce(
     (acc: Record<string, number>, payment: FullPayment) => {
       const date = new Date(payment.createdAt)
-      const month = `${date.getFullYear()}-${date.getMonth() + 1}`
+      const month = `${date.getMonth() + 1}월`
       acc[month] = (acc[month] || 0) + payment.amount
       return acc
     },
-    {},
+    initialRevenue,
   )
 }
 
 export function calculateRevenueByDay(
   paymentsData: FullPayment[],
 ): Record<string, number> {
-  return paymentsData.reduce(
-    (acc: Record<string, number>, payment: FullPayment) => {
-      const date = new Date(payment.createdAt)
-      const day = `${date.getFullYear()}-${
-        date.getMonth() + 1
-      }-${date.getDate()}`
-      acc[day] = (acc[day] || 0) + payment.amount
-      return acc
-    },
-    {},
-  )
+  const dailyRevenue: Record<string, number> = {}
+  for (let i = 6; i >= 0; i--) {
+    const date = new Date()
+    date.setDate(date.getDate() - i)
+    const day = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    dailyRevenue[day] = 0
+  }
+
+  paymentsData.forEach((payment) => {
+    const date = new Date(payment.createdAt)
+    const day = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    if (Object.prototype.hasOwnProperty.call(dailyRevenue, day)) {
+      dailyRevenue[day] += payment.amount
+    }
+  })
+
+  return dailyRevenue
 }
 
 export type ChartData = {
