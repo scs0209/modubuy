@@ -92,8 +92,15 @@ export function calculateRevenueByDay(
   paymentsData: FullPayment[],
 ): Record<string, number> {
   const dailyRevenue: Record<string, number> = {}
+
+  // 가장 최근 결제 날짜를 구하기
+  const latestPaymentDate = paymentsData.reduce((latestDate, payment) => {
+    const paymentDate = new Date(payment.createdAt)
+    return paymentDate > latestDate ? paymentDate : latestDate
+  }, new Date(0))
+
   for (let i = 6; i >= 0; i--) {
-    const date = new Date()
+    const date = new Date(latestPaymentDate)
     date.setDate(date.getDate() - i)
     const day = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
     dailyRevenue[day] = 0

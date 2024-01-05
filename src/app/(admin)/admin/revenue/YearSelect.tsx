@@ -13,15 +13,18 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 
-export function YearSelect({
-  className,
-}: React.HTMLAttributes<HTMLDivElement>) {
+interface Props {
+  className?: React.HTMLAttributes<HTMLDivElement>
+  setSelected: any
+}
+
+export function YearSelect({ className, setSelected }: Props) {
   const currentYear = new Date().getFullYear()
   const years = Array.from({ length: 50 }, (_, i) => currentYear - i)
 
   return (
     <>
-      <Select>
+      <Select onValueChange={(e: string) => setSelected(Number(e))}>
         <SelectTrigger className="w-[180px]">
           <SelectValue
             placeholder={<CalendarIcon className="mr-2 h-4 w-4" />}

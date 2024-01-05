@@ -22,20 +22,25 @@ import {
   YAxis,
 } from 'recharts'
 import { Calendar } from '@/components/ui/calendar'
-import { YearSelect } from './DatePickerwithRange'
+import { YearSelect } from './YearSelect'
 
 interface Props {
   payments: FullPayment[]
 }
 
 export default function RevenueData({ payments }: Props) {
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear())
   const [dataByYear, setDataByYear] = useState<ChartData[]>([])
   const [dataByMonth, setDataByMonth] = useState<ChartData[]>([])
   const [dataByDay, setDataByDay] = useState<ChartData[]>([])
 
   useEffect(() => {
-    const revenueByYear = calculateRevenueByYear(payments)
-    const revenueByMonth = calculateRevenueByMonth(payments)
+    const filteredPayments = payments.filter(
+      (payment) => new Date(payment.createdAt).getFullYear() === selectedYear,
+    )
+
+    const revenueByYear = calculateRevenueByYear(filteredPayments)
+    const revenueByMonth = calculateRevenueByMonth(filteredPayments)
     const revenueByDay = calculateRevenueByDay(payments)
 
     const chartDataByYear = createChartData(revenueByYear)
@@ -45,7 +50,9 @@ export default function RevenueData({ payments }: Props) {
     setDataByYear(chartDataByYear)
     setDataByMonth(chartDataByMonth)
     setDataByDay(chartDataByDay)
-  }, [payments])
+  }, [payments, selectedYear])
+
+  console.log(dataByMonth, selectedYear)
 
   return (
     <>
@@ -54,7 +61,9 @@ export default function RevenueData({ payments }: Props) {
           <CardTitle>Calendar</CardTitle>
         </CardHeader>
         <CardContent className="flex justify-center">
-          <Calendar numberOfMonths={2} />
+          <ResponsiveContainer width="100%" height={350}>
+            <Calendar numberOfMonths={2} />
+          </ResponsiveContainer>
         </CardContent>
       </Card>
       <Card className="col-span-4">
@@ -82,7 +91,7 @@ export default function RevenueData({ payments }: Props) {
       <Card className="col-span-7">
         <CardHeader className="flex flex-row justify-between items-center">
           <CardTitle>Yearly Revenue</CardTitle>
-          <YearSelect />
+          <YearSelect setSelected={setSelectedYear} />
         </CardHeader>
         <CardContent className="pl-2">
           <ResponsiveContainer width="100%" height={350}>
