@@ -47,7 +47,7 @@ export default function RevenueData({ payments }: Props) {
     setDataByDay(chartDataByDay)
   }, [payments, selectedYear])
 
-  console.log(dataByMonth)
+  console.log(selectedYear)
 
   return (
     <>

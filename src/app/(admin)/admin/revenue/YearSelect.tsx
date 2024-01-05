@@ -15,7 +15,7 @@ import {
 
 interface Props {
   className?: React.HTMLAttributes<HTMLDivElement>
-  setSelected: any
+  setSelected: (value: number) => void
 }
 
 export function YearSelect({ className, setSelected }: Props) {
