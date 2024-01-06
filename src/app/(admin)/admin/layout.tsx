@@ -8,12 +8,12 @@ import {
   BadgeDollarSign,
   CircleUserRound,
   DoorClosed,
-  FileSearch,
+  Heart,
   LayoutDashboard,
   LogOut,
+  MessageSquarePlus,
   Settings,
   ShoppingCart,
-  Users,
 } from 'lucide-react'
 import AdminHeader from '@/app/components/AdminHeader'
 import { Sidebar } from '../../components/admin/SideBar'
@@ -61,17 +61,17 @@ const menuItems: { title: string; list: MenuItem[] }[] = [
         icon: <BadgeDollarSign className="mr-2 h-4 w-4" />,
       },
       {
-        title: 'Report',
-        icon: <FileSearch className="mr-2 h-4 w-4" />,
+        title: 'Reviews',
+        icon: <MessageSquarePlus className="mr-2 h-4 w-4" />,
       },
       {
-        title: 'Teams',
-        icon: <Users className="mr-2 h-4 w-4" />,
+        title: 'Likes',
+        icon: <Heart className="mr-2 h-4 w-4" />,
       },
     ],
   },
   {
-    title: 'Users',
+    title: 'Others',
     list: [
       {
         title: 'Settings',
