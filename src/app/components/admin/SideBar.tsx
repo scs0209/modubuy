@@ -1,93 +1,24 @@
+'use client'
+
+import { MenuItem } from '@/app/(admin)/admin/layout'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
+import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
-import {
-  BadgeDollarSign,
-  CircleUserRound,
-  DoorClosed,
-  FileSearch,
-  LayoutDashboard,
-  LogOut,
-  Settings,
-  ShoppingCart,
-  UserIcon,
-  Users,
-} from 'lucide-react'
+import { useTitleActions } from '@/store/headerStore'
+import { UserIcon } from 'lucide-react'
 import Link from 'next/link'
 import { HTMLAttributes } from 'react'
 
 interface SidebarProps {
   className?: HTMLAttributes<HTMLDivElement>
+  menuItems: { title: string; list: MenuItem[] }[]
   user: any
 }
 
-type MenuItem = {
-  title: string
-  path?: string
-  icon: JSX.Element
-}
+export function Sidebar({ className, user, menuItems }: SidebarProps) {
+  const { setCurrentTitle } = useTitleActions()
 
-const menuItems: { title: string; list: MenuItem[] }[] = [
-  {
-    title: 'Pages',
-    list: [
-      {
-        title: 'Dashboard',
-        path: '/admin',
-        icon: <LayoutDashboard className="mr-2 h-4 w-4" />,
-      },
-      {
-        title: 'Users',
-        path: '/admin/users',
-        icon: <CircleUserRound className="mr-2 h-4 w-4" />,
-      },
-      {
-        title: 'Products',
-        path: '/admin/products',
-        icon: <ShoppingCart className="mr-2 h-4 w-4" />,
-      },
-    ],
-  },
-  {
-    title: 'Analytics',
-    list: [
-      {
-        title: 'Revenue',
-        path: '/admin/revenue',
-        icon: <BadgeDollarSign className="mr-2 h-4 w-4" />,
-      },
-      {
-        title: 'Report',
-        icon: <FileSearch className="mr-2 h-4 w-4" />,
-      },
-      {
-        title: 'Teams',
-        icon: <Users className="mr-2 h-4 w-4" />,
-      },
-    ],
-  },
-  {
-    title: 'Users',
-    list: [
-      {
-        title: 'Settings',
-        icon: <Settings className="mr-2 h-4 w-4" />,
-      },
-      {
-        title: 'Exit',
-        path: '/',
-        icon: <DoorClosed className="mr-2 h-4 w-4" />,
-      },
-      {
-        title: 'Logout',
-        icon: <LogOut className="mr-2 h-4 w-4" />,
-      },
-    ],
-  },
-]
-
-export function Sidebar({ className, user }: SidebarProps) {
-  console.log(user)
   return (
     <div className={cn('pb-12', className)}>
       <div className="space-y-4 py-4">
@@ -104,6 +35,7 @@ export function Sidebar({ className, user }: SidebarProps) {
           </Avatar>
           <span className="text-sm ml-2">{user.user.email}</span>
         </div>
+        <Separator />
         {menuItems.map((menu, idx1) => (
           <div className="px-3 py-2" key={idx1}>
             <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
@@ -114,6 +46,7 @@ export function Sidebar({ className, user }: SidebarProps) {
                 <Button
                   variant="ghost"
                   className="w-full justify-start"
+                  onClick={() => setCurrentTitle(item.title)}
                   key={idx2}
                 >
                   {item.icon}

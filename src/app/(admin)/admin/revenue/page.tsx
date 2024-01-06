@@ -9,7 +9,7 @@ export default async function RevenuePage() {
 
   return (
     <>
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 p-8 py-4">
         <RevenueData payments={paymentsData} />
       </div>
     </>

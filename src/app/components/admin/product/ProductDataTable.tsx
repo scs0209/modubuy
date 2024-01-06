@@ -69,7 +69,7 @@ export default function ProductDataTable({ data, categories }: Props) {
   })
 
   return (
-    <div className="w-full">
+    <div className="w-full p-8 py-4">
       <div className="flex items-center py-4">
         <Input
           placeholder="Filter product..."

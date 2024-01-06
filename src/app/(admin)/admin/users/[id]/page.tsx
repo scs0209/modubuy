@@ -14,9 +14,9 @@ export default async function UserUpdatePage({
   console.log('user: ', data)
 
   return (
-    <div className="grid grid-cols-3">
+    <div className="grid grid-cols-3 p-8">
       <div className="col-span-1 flex justify-center">
-        <Avatar className="h-52 w-52 rounded-md">
+        <Avatar className="h-80 w-80 rounded-md">
           <AvatarImage
             src="/avatars/01.png"
             alt="Avatar"
