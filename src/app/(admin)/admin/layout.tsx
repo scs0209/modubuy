@@ -16,6 +16,7 @@ import {
   ShoppingCart,
 } from 'lucide-react'
 import AdminHeader from '@/app/components/AdminHeader'
+import { ADMIN_PATH } from '@/constants/path'
 import { Sidebar } from '../../components/admin/SideBar'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -37,17 +38,17 @@ const menuItems: { title: string; list: MenuItem[] }[] = [
     list: [
       {
         title: 'Dashboard',
-        path: '/admin',
+        path: `${ADMIN_PATH.HOME}`,
         icon: <LayoutDashboard className="mr-2 h-4 w-4" />,
       },
       {
         title: 'Users',
-        path: '/admin/users',
+        path: `${ADMIN_PATH.USERS}`,
         icon: <CircleUserRound className="mr-2 h-4 w-4" />,
       },
       {
         title: 'Products',
-        path: '/admin/products',
+        path: `${ADMIN_PATH.PRODUCTS}`,
         icon: <ShoppingCart className="mr-2 h-4 w-4" />,
       },
     ],
@@ -57,7 +58,7 @@ const menuItems: { title: string; list: MenuItem[] }[] = [
     list: [
       {
         title: 'Revenue',
-        path: '/admin/revenue',
+        path: `${ADMIN_PATH.REVENUE}`,
         icon: <BadgeDollarSign className="mr-2 h-4 w-4" />,
       },
       {
@@ -79,7 +80,7 @@ const menuItems: { title: string; list: MenuItem[] }[] = [
       },
       {
         title: 'Exit',
-        path: '/',
+        path: `${ADMIN_PATH.EXIT}`,
         icon: <DoorClosed className="mr-2 h-4 w-4" />,
       },
       {

@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useAuthorActions, useIsSignUpActive } from '@/store/authorStore'
-import SocialBtn from './SocialBtn'
 
 interface FormValue {
   email: string
@@ -96,22 +95,7 @@ export default function LoginForm() {
           )}
         </div>
 
-        <div className="flex items-center justify-between mt-2 w-full">
-          <div className="flex items-start">
-            <div className="flex items-center h-5">
-              <input
-                id="remember"
-                aria-describedby="remember"
-                type="checkbox"
-                className="author-checkbox"
-              />
-            </div>
-            <div className="ml-3 text-sm">
-              <label className="text-gray-500 dark:text-gray-300">
-                Remember me
-              </label>
-            </div>
-          </div>
+        <div className="flex flex-row-reverse items-center justify-between w-full">
           <span
             // onClick={handleForgotPasswordClick}
             className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
@@ -122,7 +106,6 @@ export default function LoginForm() {
         <button type="submit" className="author-btn" aria-label="Sign in">
           Sign in
         </button>
-        <SocialBtn />
         <p className="text-sm font-light text-gray-500 dark:text-gray-400">
           Don’t have an account yet?{' '}
           <span
@@ -133,7 +116,6 @@ export default function LoginForm() {
           </span>
         </p>
       </form>
-      {/* <FindPasswordModal open={showModal} onClose={handleCloseModal} /> */}
     </div>
   )
 }

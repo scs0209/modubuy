@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { COMMON_PATH } from '@/constants/path'
 import { client } from '../lib/sanity'
 import WatchCanvas from './3dCanvas/WatchWrapper'
 import ShoeCanvas from './3dCanvas/ShoeCanvas'
@@ -10,6 +11,12 @@ async function getData() {
 
   return data
 }
+
+const links = [
+  { name: 'Men', href: COMMON_PATH.CATEGORY_MEN },
+  { name: 'Women', href: COMMON_PATH.CATEGORY_WOMEN },
+  { name: 'Teens', href: COMMON_PATH.CATEGORY_TEENS },
+]
 
 export default async function Hero() {
   const ImageData = await getData()
@@ -40,24 +47,15 @@ export default async function Hero() {
 
       <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
         <div className="flex h-12 w-64 divide-x overflow-hidden rounded-lg border">
-          <Link
-            href="/category/Men"
-            className="flex w-1/3 items-center justify-center text-gray-500 transition duration-100 hover:bg-gray-100 active:bg-gray-200"
-          >
-            Men
-          </Link>
-          <Link
-            href="/category/Women"
-            className="flex w-1/3 items-center justify-center text-gray-500 transition duration-100 hover:bg-gray-100 active:bg-gray-200"
-          >
-            Women
-          </Link>
-          <Link
-            href="/category/Teens"
-            className="flex w-1/3 items-center justify-center text-gray-500 transition duration-100 hover:bg-gray-100 active:bg-gray-200"
-          >
-            Teens
-          </Link>
+          {links.map((link) => (
+            <Link
+              key={link.name}
+              href={link.href}
+              className="flex w-1/3 items-center justify-center text-gray-500 transition duration-100 hover:bg-gray-100 active:bg-gray-200"
+            >
+              {link.name}
+            </Link>
+          ))}
         </div>
       </div>
     </section>

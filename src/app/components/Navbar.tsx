@@ -8,14 +8,15 @@ import { useShoppingCart } from 'use-shopping-cart'
 import { useSession } from 'next-auth/react'
 import Image from 'next/image'
 import { useEffect } from 'react'
+import { COMMON_PATH } from '@/constants/path'
 import UserDropdownMenu from './DropDown'
 import { backUrl } from '../config/url'
 
 const links = [
-  { name: 'Home', href: '/' },
-  { name: 'Men', href: '/category/Men' },
-  { name: 'Women', href: '/category/Women' },
-  { name: 'Teens', href: '/category/Teens' },
+  { name: 'Home', href: `${COMMON_PATH.HOME}` },
+  { name: 'Men', href: `${COMMON_PATH.CATEGORY_MEN}` },
+  { name: 'Women', href: `${COMMON_PATH.CATEGORY_WOMEN}` },
+  { name: 'Teens', href: `${COMMON_PATH.CATEGORY_TEENS}` },
 ]
 
 export default function Navbar() {

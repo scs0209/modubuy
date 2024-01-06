@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
+import { COMMON_PATH } from '@/constants/path'
 
 interface Props {
   session: any
@@ -42,15 +43,21 @@ export default function UserDropdownMenu({ session }: Props) {
                 <span>Profile</span>
               </Link>
             ) : (
-              <Link href="/login" className="flex items-center justify-center">
+              <Link
+                href={COMMON_PATH.LOGIN}
+                className="flex items-center justify-center"
+              >
                 <LogIn className="mr-2 h-4 w-4" />
                 <span>Log In</span>
               </Link>
             )}
           </DropdownMenuItem>
-          {session.user.role === 'admin' && (
+          {session?.user.role === 'admin' && (
             <DropdownMenuItem>
-              <Link href="/admin" className="flex items-center justify-center">
+              <Link
+                href={COMMON_PATH.ADMIN}
+                className="flex items-center justify-center"
+              >
                 <LockKeyholeIcon className="mr-2 h-4 w-4" />
                 <span>Admin</span>
               </Link>
