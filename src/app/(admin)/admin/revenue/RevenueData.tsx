@@ -90,7 +90,7 @@ export default function RevenueData({ payments }: Props) {
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Bar dataKey="Revenue" fill="#8884d8" />
+              <Bar dataKey="Revenue" fill="#e4ea35" />
             </BarChart>
           </ResponsiveContainer>
         </CardContent>

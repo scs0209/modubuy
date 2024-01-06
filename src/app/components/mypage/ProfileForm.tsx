@@ -43,8 +43,12 @@ export default function ProfileForm() {
     defaultValues: {
       name: session?.user.name || '',
       email: session?.user.email || '',
+      address: session?.user.address || '',
+      detail_address: session?.user.detail_address,
     },
   })
+
+  console.log(session)
 
   async function onSubmit(values: z.infer<typeof profileFormSchema>) {
     try {

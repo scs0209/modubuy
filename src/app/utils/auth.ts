@@ -67,6 +67,8 @@ export const authOptions = {
           id: account?.id ? account.id : user.id,
           accessToken: account?.access_token,
           role: user.role,
+          address: user.address,
+          detail_address: user.detail_address,
         }
       }
       return token
@@ -80,6 +82,8 @@ export const authOptions = {
           name: token.name,
           accessToken: token.accessToken ? token.accessToken : null,
           role: token.role,
+          address: token.address,
+          detail_address: token.detail_address,
         },
       }
     },

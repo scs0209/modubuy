@@ -3,9 +3,19 @@ import { NextResponse } from 'next/server'
 
 export default withAuth(
   // `withAuth` augments your `Request` with the user's token.
-  function middleware(request: NextRequestWithAuth) {
-    if (!request.nextauth.token) {
-      return NextResponse.rewrite(new URL('/login', request.url))
+  function middleware(req: NextRequestWithAuth) {
+    console.log(req.nextUrl.pathname)
+    console.log(req.nextauth.token?.role)
+
+    if (
+      req.nextUrl.pathname.startsWith('/admin') &&
+      req.nextauth.token?.role !== 'admin'
+    ) {
+      return NextResponse.rewrite(new URL('/login', req.url))
+    }
+
+    if (!req.nextauth.token && req.nextUrl.pathname.startsWith('/my-page')) {
+      return NextResponse.rewrite(new URL('/login', req.url))
     }
     return NextResponse.next()
   },
@@ -20,4 +30,4 @@ export default withAuth(
   },
 )
 
-export const config = { matcher: ['/admin', '/'] }
+export const config = { matcher: ['/admin', '/my-page'] }

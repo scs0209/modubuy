@@ -15,7 +15,7 @@ export default function LikesButton({ data, user }: Props) {
   const [liked, setLiked] = useState(false)
 
   useEffect(() => {
-    fetchLikes(user.id)
+    fetchLikes(user?.id)
       .then((likes) => {
         const isLiked = likes.some((like: any) => like.productId === data._id)
         setLiked(isLiked)
@@ -36,7 +36,6 @@ export default function LikesButton({ data, user }: Props) {
       })
   }
 
-  console.log(user.id)
   return (
     <Button
       variant="outline"

@@ -42,10 +42,10 @@ export default function UserDropdownMenu({ session }: Props) {
                 <span>Profile</span>
               </Link>
             ) : (
-              <>
+              <Link href="/login" className="flex items-center justify-center">
                 <LogIn className="mr-2 h-4 w-4" />
                 <span>Log In</span>
-              </>
+              </Link>
             )}
           </DropdownMenuItem>
           <DropdownMenuItem>

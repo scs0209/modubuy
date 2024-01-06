@@ -13,9 +13,9 @@ import { backUrl } from '../config/url'
 
 const links = [
   { name: 'Home', href: '/' },
-  { name: 'Men', href: '/Men' },
-  { name: 'Women', href: '/Women' },
-  { name: 'Teens', href: '/Teens' },
+  { name: 'Men', href: '/category/Men' },
+  { name: 'Women', href: '/category/Women' },
+  { name: 'Teens', href: '/category/Teens' },
 ]
 
 export default function Navbar() {
