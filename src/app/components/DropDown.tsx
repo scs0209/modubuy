@@ -1,4 +1,4 @@
-import { LogIn, LogOut, Settings, User } from 'lucide-react'
+import { LockKeyholeIcon, LogIn, LogOut, User } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -48,10 +48,14 @@ export default function UserDropdownMenu({ session }: Props) {
               </Link>
             )}
           </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
-          </DropdownMenuItem>
+          {session.user.role === 'admin' && (
+            <DropdownMenuItem>
+              <Link href="/admin" className="flex items-center justify-center">
+                <LockKeyholeIcon className="mr-2 h-4 w-4" />
+                <span>Admin</span>
+              </Link>
+            </DropdownMenuItem>
+          )}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut()}>

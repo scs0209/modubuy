@@ -1,19 +1,25 @@
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import {
   BadgeDollarSign,
   CircleUserRound,
+  DoorClosed,
   FileSearch,
-  HelpCircle,
   LayoutDashboard,
   LogOut,
   Settings,
   ShoppingCart,
+  UserIcon,
   Users,
 } from 'lucide-react'
 import Link from 'next/link'
+import { HTMLAttributes } from 'react'
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface SidebarProps {
+  className?: HTMLAttributes<HTMLDivElement>
+  user: any
+}
 
 type MenuItem = {
   title: string
@@ -68,8 +74,9 @@ const menuItems: { title: string; list: MenuItem[] }[] = [
         icon: <Settings className="mr-2 h-4 w-4" />,
       },
       {
-        title: 'Help',
-        icon: <HelpCircle className="mr-2 h-4 w-4" />,
+        title: 'Exit',
+        path: '/',
+        icon: <DoorClosed className="mr-2 h-4 w-4" />,
       },
       {
         title: 'Logout',
@@ -79,10 +86,24 @@ const menuItems: { title: string; list: MenuItem[] }[] = [
   },
 ]
 
-export function Sidebar({ className }: SidebarProps) {
+export function Sidebar({ className, user }: SidebarProps) {
+  console.log(user)
   return (
     <div className={cn('pb-12', className)}>
       <div className="space-y-4 py-4">
+        <div className="flex px-7 items-center">
+          <Avatar className="h-9 w-9">
+            <AvatarImage
+              src="/avatars/01.png"
+              alt="Avatar"
+              className="rounded-md"
+            />
+            <AvatarFallback className="rounded-md">
+              <UserIcon />
+            </AvatarFallback>
+          </Avatar>
+          <span className="text-sm ml-2">{user.user.email}</span>
+        </div>
         {menuItems.map((menu, idx1) => (
           <div className="px-3 py-2" key={idx1}>
             <h2 className="mb-2 px-4 text-lg font-semibold tracking-tight">
