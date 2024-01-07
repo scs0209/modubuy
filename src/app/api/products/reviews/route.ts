@@ -1,9 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { NextResponse } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server'
 import prisma from '../../../utils/db'
 
 // 리뷰를 가져오는 기능
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   const url = new URL(req.url!)
   const productId = url.searchParams.get('productId')!
   const userId = url.searchParams.get('userId')!
@@ -22,7 +21,7 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
 }
 
 // 리뷰를 작성하는 기능
-export async function POST(req: Request, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
   const { content, rating, userId, productId } = await req.json()
 
   console.log('newReview: ', req.json())

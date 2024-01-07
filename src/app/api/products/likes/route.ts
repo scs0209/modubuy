@@ -1,9 +1,8 @@
-import { NextApiRequest, NextApiResponse } from 'next'
-import { NextResponse } from 'next/server'
+import { NextResponse, NextRequest } from 'next/server'
 import prisma from '../../../utils/db'
 
 // 유저가 좋아요를 누른 상품들을 가져오는 기능
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   const url = new URL(req.url!)
   const userId = url.searchParams.get('userId')!
 
@@ -14,13 +13,13 @@ export async function GET(req: NextApiRequest, res: NextApiResponse) {
   })
 
   if (!likes) {
-    return res.status(404).json({ error: 'Likes not found' })
+    return NextResponse.json({ error: 'Likes not found' }, { status: 404 })
   }
 
   return NextResponse.json(likes)
 }
 
-export async function POST(req: Request, res: NextApiResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
   const { userId, productId } = await req.json()
 
   // 이미 좋아요가 눌러진 상품인지 확인
