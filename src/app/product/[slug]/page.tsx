@@ -4,13 +4,13 @@ import ImageGallery from '@/app/components/ImageGallery'
 import ReviewForm from '@/app/components/comment/ReviewForm'
 import CommentList from '@/app/components/comment/ReviewList'
 import LikesButton from '@/app/components/mypage/LikesButton'
-import { fullProduct } from '@/app/interface'
+import { Review, fullProduct } from '@/app/interface'
 import { client } from '@/app/lib/sanity'
+import { fetchReview } from '@/app/utils/apis/review'
 import { authOptions } from '@/app/utils/auth'
 import { Button } from '@/components/ui/button'
 import { Star, Truck } from 'lucide-react'
 import { getServerSession } from 'next-auth'
-import React from 'react'
 
 async function getData(slug: string) {
   const query = `*[_type == 'product' && slug.current == "${slug}"][0] {
@@ -38,6 +38,10 @@ export default async function ProductPage({
 }) {
   const data: fullProduct = await getData(params.slug)
   const userData = await getServerSession(authOptions)
+  const rateData: Review[] = await fetchReview(data._id, userData?.user.id)
+  const averageRating = rateData
+    .reduce((total, review, _, { length }) => total + review.rating / length, 0)
+    .toFixed(2)
 
   return (
     <div className="bg-white">
@@ -59,12 +63,12 @@ export default async function ProductPage({
               <LikesButton user={userData?.user} data={data} />
 
               <Button className="rounded-full gap-x-2">
-                <span className="text-sm">4.2</span>
+                <span className="text-sm">{averageRating}</span>
                 <Star className="h-5 w-5" />
               </Button>
 
               <span className="text-sm text-gray-500 transition duration-100">
-                56 Ratings
+                {rateData.length} Ratings
               </span>
             </div>
 

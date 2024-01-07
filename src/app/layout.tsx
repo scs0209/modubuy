@@ -6,7 +6,7 @@ import { getServerSession } from 'next-auth'
 import Navbar from './components/Navbar'
 import CartProvider from './components/Providers'
 import ShoppingCartModal from './components/ShoppingCartModal'
-import NextAuthProvider from './contexts/NextAuthProvider'
+import NextAuthProvider from '../contexts/NextAuthProvider'
 import { authOptions } from './utils/auth'
 import { ThemeProvider } from './components/ThemeProvider'
 

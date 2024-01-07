@@ -1,6 +1,9 @@
 import { backUrl } from '@/app/config/url'
 
-export const fetchReview = async (productId: string, userId: string) => {
+export const fetchReview = async (
+  productId: string,
+  userId: string | unknown,
+) => {
   const response = await fetch(
     `${backUrl}/api/products/reviews?productId=${productId}&userId=${userId}`,
   )
