@@ -2,8 +2,8 @@
 
 import React from 'react'
 import { useAuthorActions, useIsSignUpActive } from '@/store/authorStore'
-import SignUpForm from '../../components/auth/SignUpForm'
-import LoginForm from '../../components/auth/LoginForm'
+import SignUpForm from '../components/auth/SignUpForm'
+import LoginForm from '../components/auth/LoginForm'
 
 export default function LoginPage() {
   const isSignUpActive = useIsSignUpActive()
