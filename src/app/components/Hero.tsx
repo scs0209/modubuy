@@ -1,25 +1,42 @@
+'use client'
+
 import Link from 'next/link'
 import { COMMON_PATH } from '@/constants/path'
-import { client } from '../lib/sanity'
+import { Canvas } from '@react-three/fiber'
+import { useState } from 'react'
 import WatchCanvas from './3dCanvas/WatchWrapper'
 import ShoeCanvas from './3dCanvas/ShoeCanvas'
-
-async function getData() {
-  const query = "*[_type == 'heroImage'][0]"
-
-  const data = await client.fetch(query)
-
-  return data
-}
+import Model from './3dCanvas/Model'
 
 const links = [
-  { name: 'Men', href: COMMON_PATH.CATEGORY_MEN },
-  { name: 'Women', href: COMMON_PATH.CATEGORY_WOMEN },
-  { name: 'Teens', href: COMMON_PATH.CATEGORY_TEENS },
+  {
+    name: 'Men',
+    href: COMMON_PATH.CATEGORY_MEN,
+    modelName: 'free_avatar_for_iclone/scene',
+  },
+  {
+    name: 'Women',
+    href: COMMON_PATH.CATEGORY_WOMEN,
+    modelName: 'nany_wheeler/scene',
+  },
+  {
+    name: 'Teens',
+    href: COMMON_PATH.CATEGORY_TEENS,
+    modelName: 'child_scout_secret_neighbor/scene',
+  },
 ]
 
-export default async function Hero() {
-  const ImageData = await getData()
+export default function Hero() {
+  const [modelName, setModelName] = useState<string | null>(null)
+
+  const handleMouseEnter = (path: string) => {
+    setModelName(path)
+  }
+
+  const handleMouseLeave = () => {
+    setModelName(null)
+  }
+
   return (
     <section className="mx-auto mt-8 mx-w-2xl px-4 sm:pb-6 lg:max-w-7xl lg:px-8">
       <div className="mb-8 flex flex-wrap justify-between md:mb-16">
@@ -46,15 +63,27 @@ export default async function Hero() {
       </div>
 
       <div className="flex flex-col items-center justify-between gap-8 md:flex-row">
-        <div className="flex h-12 w-64 divide-x overflow-hidden rounded-lg border">
+        <div className="flex h-12 w-64 divide-x rounded-lg border">
           {links.map((link) => (
-            <Link
+            <div
               key={link.name}
-              href={link.href}
-              className="flex w-1/3 items-center justify-center text-gray-500 transition duration-100 hover:bg-gray-100 active:bg-gray-200"
+              onMouseEnter={() => handleMouseEnter(link.modelName)}
+              onMouseLeave={handleMouseLeave}
+              className="relative flex w-1/3 items-center justify-center text-gray-500 transition duration-100 hover:bg-gray-100 active:bg-gray-200"
             >
-              {link.name}
-            </Link>
+              <Link key={link.name} href={link.href}>
+                {link.name}
+              </Link>
+              {modelName === link.modelName && (
+                <div className="absolute -top-full z-10">
+                  <Canvas dpr={[1, 2]} gl={{ preserveDrawingBuffer: true }}>
+                    <Model path={modelName} />
+                    <ambientLight intensity={1} />
+                    <pointLight position={[10, 10, 10]} />
+                  </Canvas>
+                </div>
+              )}
+            </div>
           ))}
         </div>
       </div>
