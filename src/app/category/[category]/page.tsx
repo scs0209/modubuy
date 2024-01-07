@@ -1,8 +1,8 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { client } from '../../../lib/sanity'
-import { simplifiedProduct } from '../../../interface'
+import { client } from '@/app/lib/sanity'
+import { simplifiedProduct } from '@/app/interface'
 
 async function getData(category: string) {
   let query
