@@ -95,13 +95,19 @@ export default function Hero() {
                 {link.name}
               </Link>
               {modelName === link.modelName && (
-                <div className="absolute -top-full z-10">
+                <motion.div
+                  variants={fadeIn('down', 0.5)}
+                  initial="hidden"
+                  animate="show"
+                  exit="hidden"
+                  className="absolute -top-full z-10"
+                >
                   <Canvas dpr={[1, 2]} gl={{ preserveDrawingBuffer: true }}>
                     <Model path={modelName} />
                     <ambientLight intensity={1} />
                     <pointLight position={[10, 10, 10]} />
                   </Canvas>
-                </div>
+                </motion.div>
               )}
             </div>
           ))}
