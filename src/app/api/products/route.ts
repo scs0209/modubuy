@@ -13,6 +13,6 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
     return NextResponse.json(payments)
   } catch (err: any) {
-    NextResponse.json({ message: err.message }, { status: 500 })
+    return NextResponse.json({ message: err.message }, { status: 500 })
   }
 }
