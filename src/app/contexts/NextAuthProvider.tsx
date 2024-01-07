@@ -1,6 +1,7 @@
 'use client'
 
 import { SessionProvider } from 'next-auth/react'
+import { AnimatePresence } from 'framer-motion'
 import { ReactNode } from 'react'
 
 export default function NextAuthProvider({
@@ -10,5 +11,9 @@ export default function NextAuthProvider({
   children: ReactNode
   session: any
 }) {
-  return <SessionProvider session={session}>{children}</SessionProvider>
+  return (
+    <SessionProvider session={session}>
+      <AnimatePresence>{children}</AnimatePresence>
+    </SessionProvider>
+  )
 }

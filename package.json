@@ -58,6 +58,7 @@
     "stripe": "^14.7.0",
     "tailwind-merge": "^2.1.0",
     "tailwindcss-animate": "^1.0.7",
+    "three": "^0.160.0",
     "use-shopping-cart": "^3.1.8",
     "zod": "^3.22.4",
     "zustand": "^4.4.7"
