@@ -15,6 +15,7 @@ export const authOptions = {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
+      /* @ts-ignore */
       async authorize(credentials) {
         if (!credentials?.email || !credentials.password) {
           throw new Error('Please enter an email and password')
