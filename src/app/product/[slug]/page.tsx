@@ -6,6 +6,7 @@ import CommentList from '@/app/components/comment/ReviewList'
 import LikesButton from '@/app/components/mypage/LikesButton'
 import { Review, fullProduct } from '@/app/interface'
 import { client } from '@/app/lib/sanity'
+import { fetchProductLikes } from '@/app/utils/apis/likes'
 import { fetchReview } from '@/app/utils/apis/review'
 import { authOptions } from '@/app/utils/auth'
 import { Button } from '@/components/ui/button'
@@ -39,9 +40,12 @@ export default async function ProductPage({
   const data: fullProduct = await getData(params.slug)
   const userData = await getServerSession(authOptions)
   const rateData: Review[] = await fetchReview(data._id, userData?.user.id)
+  const likeData = await fetchProductLikes(data._id)
   const averageRating = rateData
     .reduce((total, review, _, { length }) => total + review.rating / length, 0)
     .toFixed(2)
+
+  console.log('likeData', likeData)
 
   return (
     <div className="bg-white">
@@ -60,7 +64,11 @@ export default async function ProductPage({
             </div>
 
             <div className="mb-6 flex items-center gap-3 md:mb-10">
-              <LikesButton user={userData?.user} data={data} />
+              <LikesButton
+                user={userData?.user}
+                data={data}
+                likeData={likeData}
+              />
 
               <Button className="rounded-full gap-x-2">
                 <span className="text-sm">{averageRating}</span>

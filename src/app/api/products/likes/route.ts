@@ -4,13 +4,24 @@ import prisma from '../../../utils/db'
 // 유저가 좋아요를 누른 상품들을 가져오는 기능
 export async function GET(req: NextRequest, res: NextResponse) {
   const url = new URL(req.url!)
-  const userId = url.searchParams.get('userId')!
+  const userId = url.searchParams.get('userId')
+  const productId = url.searchParams.get('productId')
 
-  const likes = await prisma.like.findMany({
-    where: {
-      userId,
-    },
-  })
+  let likes
+
+  if (userId) {
+    likes = await prisma.like.findMany({
+      where: {
+        userId,
+      },
+    })
+  } else if (productId) {
+    likes = await prisma.like.findMany({
+      where: {
+        productId,
+      },
+    })
+  }
 
   if (!likes) {
     return NextResponse.json({ error: 'Likes not found' }, { status: 404 })

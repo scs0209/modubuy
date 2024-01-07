@@ -107,3 +107,9 @@ export interface Asset {
   _ref: string
   _type: string
 }
+
+export interface Like {
+  userId: string
+  productId: string
+  createdAt: string
+}

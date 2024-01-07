@@ -1,6 +1,6 @@
 'use client'
 
-import { fullProduct } from '@/app/interface'
+import { Like, fullProduct } from '@/app/interface'
 import { fetchLikes, toggleLike } from '@/app/utils/apis/likes'
 import { Button } from '@/components/ui/button'
 import { Heart } from 'lucide-react'
@@ -8,16 +8,17 @@ import React, { useEffect, useState } from 'react'
 
 interface Props {
   data: fullProduct
+  likeData: Like[]
   user: any
 }
 
-export default function LikesButton({ data, user }: Props) {
+export default function LikesButton({ data, user, likeData }: Props) {
   const [liked, setLiked] = useState(false)
 
   useEffect(() => {
     fetchLikes(user?.id)
       .then((likes) => {
-        const isLiked = likes.some((like: any) => like.productId === data._id)
+        const isLiked = likes.some((like: Like) => like.productId === data._id)
         setLiked(isLiked)
       })
       .catch((error) => {
@@ -42,7 +43,8 @@ export default function LikesButton({ data, user }: Props) {
       className="rounded-full"
       onClick={handleLikeClick}
     >
-      <Heart className={`h-5 w-5 ${liked ? 'text-red-500' : ''}`} />
+      <Heart className={`h-5 w-5 mr-2 ${liked ? 'text-red-500' : ''}`} />
+      <span>{likeData.length}</span>
     </Button>
   )
 }
