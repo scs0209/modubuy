@@ -39,3 +39,20 @@ export async function requestRefund(chargeId: string, paymentId: string) {
     console.error('There has been a problem with your fetch operation:', error)
   }
 }
+
+export async function getDetailProduct(slug: string) {
+  const query = `*[_type == 'product' && slug.current == "${slug}"][0] {
+    _id,
+      images,
+      price,
+      name,
+      description,
+      "slug": slug.current,
+      "categoryName": category->name,
+      price_id,
+  }`
+
+  const data = client.fetch(query)
+
+  return data
+}

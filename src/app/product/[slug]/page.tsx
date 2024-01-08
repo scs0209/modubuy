@@ -5,30 +5,13 @@ import ReviewForm from '@/app/components/comment/ReviewForm'
 import ReviewList from '@/app/components/comment/ReviewList'
 import LikesButton from '@/app/components/mypage/LikesButton'
 import { Review, fullProduct } from '@/app/interface'
-import { client } from '@/app/lib/sanity'
 import { fetchProductLikes } from '@/app/utils/apis/likes'
+import { getDetailProduct } from '@/app/utils/apis/product'
 import { fetchReviewProduct } from '@/app/utils/apis/review'
 import { authOptions } from '@/app/utils/auth'
 import { Button } from '@/components/ui/button'
 import { Star, Truck } from 'lucide-react'
 import { getServerSession } from 'next-auth'
-
-async function getData(slug: string) {
-  const query = `*[_type == 'product' && slug.current == "${slug}"][0] {
-    _id,
-      images,
-      price,
-      name,
-      description,
-      "slug": slug.current,
-      "categoryName": category->name,
-      price_id,
-  }`
-
-  const data = client.fetch(query)
-
-  return data
-}
 
 export const dynamic = 'force-dynamic'
 
@@ -37,15 +20,13 @@ export default async function ProductPage({
 }: {
   params: { slug: string }
 }) {
-  const data: fullProduct = await getData(params.slug)
+  const data: fullProduct = await getDetailProduct(params.slug)
   const userData = await getServerSession(authOptions)
   const rateData: Review[] = await fetchReviewProduct(data._id)
   const likeData = await fetchProductLikes(data._id)
   const averageRating = rateData
     .reduce((total, review, _, { length }) => total + review.rating / length, 0)
     .toFixed(2)
-
-  console.log('rateData', rateData)
 
   return (
     <div className="bg-white pt-4">

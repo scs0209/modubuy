@@ -28,8 +28,6 @@ export default function ReviewList({ productId }: Props) {
     getReviews()
   }, [productId])
 
-  console.log(reviews)
-
   return (
     <div>
       {reviews.map((review) => (
