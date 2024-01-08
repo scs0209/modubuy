@@ -18,9 +18,10 @@ export const toggleLike = async (
     console.log(
       `상품의 좋아요 상태가 변경되었습니다. 현재 상태: ${data.status}`,
     )
-  } else {
-    console.error(`좋아요 상태 변경에 실패했습니다: ${data.error}`)
+    return data
   }
+  console.error(`좋아요 상태 변경에 실패했습니다: ${data.error}`)
+  throw new Error(data.error)
 }
 
 export const fetchLikes = async (userId: string) => {
@@ -50,6 +51,7 @@ export const fetchProductLikes = async (productId: string) => {
     `${backUrl}/api/products/likes?productId=${productId}`,
     {
       method: 'GET',
+      cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
       },

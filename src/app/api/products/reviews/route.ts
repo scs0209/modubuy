@@ -40,10 +40,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
 }
 
 // 리뷰를 작성하는 기능
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const { content, rating, userId, productId } = await req.json()
-
-  console.log('newReview: ', req.json())
 
   const newReview = await prisma.review.create({
     data: {

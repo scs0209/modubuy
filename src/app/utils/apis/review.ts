@@ -41,6 +41,7 @@ export const createReview = async (
     body: JSON.stringify({ content, rating, userId, productId }),
   })
 
+  // 본문을 JSON 형태로 파싱합니다.
   const data = await response.json()
 
   if (response.ok) {
