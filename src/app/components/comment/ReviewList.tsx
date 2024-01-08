@@ -1,6 +1,6 @@
 'use client'
 
-import { fetchReview } from '@/app/utils/apis/review'
+import { fetchReviewProduct } from '@/app/utils/apis/review'
 import React, { useEffect, useState } from 'react'
 import { Review } from '@/app/interface'
 import { useEditingState } from '@/store/reviewStore'
@@ -9,17 +9,16 @@ import ReviewEditForm from './ReviewEditForm'
 
 interface Props {
   productId: string
-  userId: any
 }
 
-export default function ReviewList({ productId, userId }: Props) {
+export default function ReviewList({ productId }: Props) {
   const [reviews, setReviews] = useState<Review[]>([])
   const editing = useEditingState()
 
   useEffect(() => {
     const getReviews = async () => {
       try {
-        const reviewData = await fetchReview(productId, userId)
+        const reviewData = await fetchReviewProduct(productId)
         setReviews(reviewData)
       } catch (error) {
         console.error('Failed to fetch reviews:', error)
@@ -28,6 +27,8 @@ export default function ReviewList({ productId, userId }: Props) {
 
     getReviews()
   }, [productId])
+
+  console.log(reviews)
 
   return (
     <div>

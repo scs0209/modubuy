@@ -2,12 +2,12 @@ import AddToBag from '@/app/components/AddToBag'
 import CheckoutNow from '@/app/components/CheckoutNow'
 import ImageGallery from '@/app/components/ImageGallery'
 import ReviewForm from '@/app/components/comment/ReviewForm'
-import CommentList from '@/app/components/comment/ReviewList'
+import ReviewList from '@/app/components/comment/ReviewList'
 import LikesButton from '@/app/components/mypage/LikesButton'
 import { Review, fullProduct } from '@/app/interface'
 import { client } from '@/app/lib/sanity'
 import { fetchProductLikes } from '@/app/utils/apis/likes'
-import { fetchReview } from '@/app/utils/apis/review'
+import { fetchReviewProduct } from '@/app/utils/apis/review'
 import { authOptions } from '@/app/utils/auth'
 import { Button } from '@/components/ui/button'
 import { Star, Truck } from 'lucide-react'
@@ -39,16 +39,16 @@ export default async function ProductPage({
 }) {
   const data: fullProduct = await getData(params.slug)
   const userData = await getServerSession(authOptions)
-  const rateData: Review[] = await fetchReview(data._id, userData?.user.id)
+  const rateData: Review[] = await fetchReviewProduct(data._id)
   const likeData = await fetchProductLikes(data._id)
   const averageRating = rateData
     .reduce((total, review, _, { length }) => total + review.rating / length, 0)
     .toFixed(2)
 
-  console.log('likeData', likeData)
+  console.log('rateData', rateData)
 
   return (
-    <div className="bg-white">
+    <div className="bg-white pt-4">
       <div className="mx-auto max-w-screen-xl px-4 md:px-8">
         <div className="grid gap-8 md:grid-cols-2">
           <ImageGallery images={data.images} />
@@ -128,7 +128,7 @@ export default async function ProductPage({
         </div>
 
         <ReviewForm user={userData?.user} product={data} />
-        <CommentList productId={data._id} userId={userData?.user.id} />
+        <ReviewList productId={data._id} />
       </div>
     </div>
   )

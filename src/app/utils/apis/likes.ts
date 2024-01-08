@@ -28,7 +28,7 @@ export const fetchLikes = async (userId: string) => {
     `${backUrl}/api/products/likes?userId=${userId}`,
     {
       method: 'GET',
-      cache: 'no-cache',
+      cache: 'no-store',
       headers: {
         'Content-Type': 'application/json',
       },

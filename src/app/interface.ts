@@ -84,6 +84,7 @@ export interface Review {
   updatedAt: string
   userId: string
   productId: string
+  user: User
 }
 
 export interface LikesProduct {

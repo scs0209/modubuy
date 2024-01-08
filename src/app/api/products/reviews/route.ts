@@ -7,11 +7,30 @@ export async function GET(req: NextRequest, res: NextResponse) {
   const productId = url.searchParams.get('productId')!
   const userId = url.searchParams.get('userId')!
 
-  const reviews = await prisma.review.findMany({
-    where: {
-      AND: [{ productId }, { userId }],
-    },
-  })
+  let reviews
+
+  if (userId && productId) {
+    reviews = await prisma.review.findMany({
+      where: {
+        AND: [{ productId }, { userId }],
+      },
+    })
+  } else if (productId) {
+    reviews = await prisma.review.findMany({
+      where: {
+        productId,
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    })
+  }
 
   if (!reviews) {
     return NextResponse.json({ error: 'Review not found' }, { status: 404 })

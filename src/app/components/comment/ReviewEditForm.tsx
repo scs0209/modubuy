@@ -20,9 +20,6 @@ import { Review } from '@/app/interface'
 import { useReviewActions } from '@/store/reviewStore'
 
 const FormSchema = z.object({
-  content: z.string().min(10, {
-    message: 'Review must be at least 5 characters.',
-  }),
   rate: z
     .number()
     .min(1, {
@@ -31,6 +28,9 @@ const FormSchema = z.object({
     .max(5, {
       message: 'Rate must not be higher than 5.',
     }),
+  content: z.string().min(10, {
+    message: 'Review must be at least 5 characters.',
+  }),
 })
 
 interface Props {
@@ -70,21 +70,6 @@ export default function ReviewEditForm({ review }: Props) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
         <FormField
           control={form.control}
-          name="content"
-          render={({ field }) => {
-            return (
-              <FormItem>
-                <FormLabel>Reviews</FormLabel>
-                <FormControl>
-                  <Textarea className="resize-none" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )
-          }}
-        />
-        <FormField
-          control={form.control}
           name="rate"
           render={({ field }) => {
             return (
@@ -113,6 +98,21 @@ export default function ReviewEditForm({ review }: Props) {
                     ))}
                   </div>
                 </FormControl>
+              </FormItem>
+            )
+          }}
+        />
+        <FormField
+          control={form.control}
+          name="content"
+          render={({ field }) => {
+            return (
+              <FormItem>
+                <FormLabel>Reviews</FormLabel>
+                <FormControl>
+                  <Textarea className="resize-none" {...field} />
+                </FormControl>
+                <FormMessage />
               </FormItem>
             )
           }}

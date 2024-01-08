@@ -15,6 +15,18 @@ export const fetchReview = async (
   throw new Error(data.error)
 }
 
+export const fetchReviewProduct = async (productId: string) => {
+  const response = await fetch(
+    `${backUrl}/api/products/reviews?productId=${productId}`,
+  )
+  const data = await response.json()
+
+  if (response.ok) {
+    return data
+  }
+  throw new Error(data.error)
+}
+
 export const createReview = async (
   content: string,
   rating: number,
