@@ -1,5 +1,6 @@
 'use client'
 
+import { toast } from '@/components/ui/use-toast'
 import { useAuthorActions, useIsSignUpActive } from '@/store/authorStore'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -7,7 +8,7 @@ import { useForm } from 'react-hook-form'
 interface FormValue {
   email: string
   password: string
-  username: string
+  name: string
 }
 
 export default function SignUpForm() {
@@ -19,13 +20,13 @@ export default function SignUpForm() {
   } = useForm<FormValue>({ mode: 'onChange' })
   const { handleLoginClick } = useAuthorActions()
 
-  async function signUp({ username, email, password }: FormValue) {
+  async function signUp({ name, email, password }: FormValue) {
     const response = await fetch('http://localhost:3000/api/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, email, password }),
+      body: JSON.stringify({ name, email, password }),
     })
 
     if (!response.ok) {
@@ -33,13 +34,16 @@ export default function SignUpForm() {
     }
 
     const result = await response.json()
+    toast({
+      description: 'Sign up success.',
+    })
     return result
   }
 
   const onSubmit = handleSubmit(async (formData) => {
     try {
       await signUp({
-        username: formData.username,
+        name: formData.name,
         email: formData.email,
         password: formData.password,
       })
@@ -67,7 +71,7 @@ export default function SignUpForm() {
               type="text"
               className="author-input2 peer"
               placeholder="Name"
-              {...register('username', {
+              {...register('name', {
                 required: '닉네임은 필수입니다.',
                 pattern: {
                   value: /^[a-zA-Z0-9_]+$/,
@@ -77,9 +81,7 @@ export default function SignUpForm() {
             />
             <label className="author-label2">Name</label>
           </div>
-          {errors.username && (
-            <p className="text-red-500">{errors.username.message}</p>
-          )}
+          {errors.name && <p className="text-red-500">{errors.name.message}</p>}
 
           <div className="relative">
             <input

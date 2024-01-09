@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { useAuthorActions, useIsSignUpActive } from '@/store/authorStore'
+import { toast } from '@/components/ui/use-toast'
 
 interface FormValue {
   email: string
@@ -31,6 +32,9 @@ export default function LoginForm() {
       if (result?.error) {
         console.log(result.error)
       } else {
+        toast({
+          description: 'Login success.',
+        })
         router.push('/')
       }
     } catch (error) {
