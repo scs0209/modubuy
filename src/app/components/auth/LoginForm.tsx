@@ -30,7 +30,7 @@ export default function LoginForm() {
         password: formData.password,
       })
       if (result?.error) {
-        console.log(result.error)
+        toast({ variant: 'destructive', description: `${result?.error}` })
       } else {
         toast({
           description: 'Login success.',
@@ -38,7 +38,7 @@ export default function LoginForm() {
         router.push('/')
       }
     } catch (error) {
-      console.error('Error:', error)
+      toast({ variant: 'destructive', description: `${error}` })
     }
   })
 

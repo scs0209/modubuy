@@ -30,7 +30,7 @@ export default function SignUpForm() {
     })
 
     if (!response.ok) {
-      throw new Error('Registration failed')
+      toast({ variant: 'destructive', description: 'Registration failed' })
     }
 
     const result = await response.json()

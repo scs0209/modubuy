@@ -47,8 +47,6 @@ export default function ProductDataTable({ data, categories }: Props) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [rowSelection, setRowSelection] = useState({})
 
-  console.log(data)
-
   const table = useReactTable({
     data,
     columns,
