@@ -3,7 +3,6 @@
 import React from 'react'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -25,6 +24,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { toast } from '@/components/ui/use-toast'
+import { TUserUpdateSchema, userUpdateSchema } from '@/lib/types'
 import { PostcodeModal } from '../../mypage/PostcodeModal'
 import FormFieldComponent from '../../FormFieldComponent'
 
@@ -32,23 +32,11 @@ interface Props {
   data: User
 }
 
-const schema = z.object({
-  email: z.string().email({
-    message: 'Invalid email address.',
-  }),
-  name: z.string().min(2, {
-    message: 'Username must be at least 2 characters.',
-  }),
-  role: z.enum(['admin', 'user']),
-  address: z.string().readonly(),
-  detail_address: z.string(),
-})
-
 const roles = ['admin', 'user']
 
 export default function UserUpdateForm({ data }: Props) {
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const form = useForm<TUserUpdateSchema>({
+    resolver: zodResolver(userUpdateSchema),
     defaultValues: {
       email: data.email,
       name: data.name,
@@ -58,7 +46,7 @@ export default function UserUpdateForm({ data }: Props) {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof schema>) {
+  async function onSubmit(values: TUserUpdateSchema) {
     try {
       await updateUser(data.id, values)
       toast({
@@ -73,14 +61,14 @@ export default function UserUpdateForm({ data }: Props) {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormFieldComponent<z.infer<typeof schema>>
+          <FormFieldComponent<TUserUpdateSchema>
             form={form}
             name="email"
             label="Email"
             placeholder="example@xxxx.com"
             component={Input}
           />
-          <FormFieldComponent<z.infer<typeof schema>>
+          <FormFieldComponent<TUserUpdateSchema>
             form={form}
             name="name"
             label="Username"

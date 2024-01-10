@@ -2,43 +2,20 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form'
+import { Form, FormField, FormLabel } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { toast } from '@/components/ui/use-toast'
 import { useSession } from 'next-auth/react'
 import { updateUser } from '@/app/utils/apis/user'
+import { TProfileFormSchema, profileFormSchema } from '@/lib/types'
 import { PostcodeModal } from './PostcodeModal'
-
-const profileFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: 'Username must be at least 2 characters.',
-    })
-    .max(30, {
-      message: 'Username must not be longer than 30 characters.',
-    }),
-  email: z.string().email({
-    message: 'Please enter a valid email format.',
-  }),
-  address: z.string().readonly(),
-  detail_address: z.string(),
-})
+import FormFieldComponent from '../FormFieldComponent'
 
 export default function ProfileForm() {
   const { data: session } = useSession()
-  const form = useForm<z.infer<typeof profileFormSchema>>({
+  const form = useForm<TProfileFormSchema>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
       name: session?.user.name || '',
@@ -48,9 +25,7 @@ export default function ProfileForm() {
     },
   })
 
-  console.log(session)
-
-  async function onSubmit(values: z.infer<typeof profileFormSchema>) {
+  async function onSubmit(values: TProfileFormSchema) {
     try {
       await updateUser(session?.user.id, values)
       toast({
@@ -71,32 +46,20 @@ export default function ProfileForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
+        <FormFieldComponent<TProfileFormSchema>
+          form={form}
           name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-              <FormDescription>Update your name.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Username"
+          placeholder="Write your name."
+          description="Update your name."
+          component={Input}
         />
-        <FormField
-          control={form.control}
+        <FormFieldComponent<TProfileFormSchema>
+          form={form}
           name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Email"
+          placeholder="Email"
+          component={Input}
         />
         <div>
           <FormField

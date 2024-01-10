@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -16,21 +15,8 @@ import { toast } from '@/components/ui/use-toast'
 import { createReview } from '@/app/utils/apis/review'
 import { fullProduct } from '@/app/interface'
 import { Textarea } from '@/components/ui/textarea'
+import { TReviewFormSchema, reviewFormSchema } from '@/lib/types'
 import FormFieldComponent from '../FormFieldComponent'
-
-export const FormSchema = z.object({
-  content: z.string().min(10, {
-    message: 'Review must be at least 5 characters.',
-  }),
-  rate: z
-    .number()
-    .min(1, {
-      message: 'Rate must be at least 1.',
-    })
-    .max(5, {
-      message: 'Rate must not be higher than 5.',
-    }),
-})
 
 interface Props {
   user: any
@@ -38,11 +24,11 @@ interface Props {
 }
 
 export default function ReviewForm({ user, product }: Props) {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<TReviewFormSchema>({
+    resolver: zodResolver(reviewFormSchema),
   })
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: TReviewFormSchema) {
     try {
       const reviewData = await createReview(
         data.content,
@@ -64,7 +50,7 @@ export default function ReviewForm({ user, product }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        <FormFieldComponent<z.infer<typeof FormSchema>>
+        <FormFieldComponent<TReviewFormSchema>
           form={form}
           name="content"
           label="Reviews"

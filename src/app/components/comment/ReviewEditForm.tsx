@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 
 import { Button } from '@/components/ui/button'
 import {
@@ -17,21 +16,8 @@ import { updateReview } from '@/app/utils/apis/review'
 import { Review } from '@/app/interface'
 import { useReviewActions } from '@/store/reviewStore'
 import { Textarea } from '@/components/ui/textarea'
+import { TReviewEditFormSchema, reviewEditFormSchema } from '@/lib/types'
 import FormFieldComponent from '../FormFieldComponent'
-
-const FormSchema = z.object({
-  rate: z
-    .number()
-    .min(1, {
-      message: 'Rate must be at least 1.',
-    })
-    .max(5, {
-      message: 'Rate must not be higher than 5.',
-    }),
-  content: z.string().min(10, {
-    message: 'Review must be at least 5 characters.',
-  }),
-})
 
 interface Props {
   review: Review
@@ -39,15 +25,15 @@ interface Props {
 
 export default function ReviewEditForm({ review }: Props) {
   const { stopEditing } = useReviewActions()
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<TReviewEditFormSchema>({
+    resolver: zodResolver(reviewEditFormSchema),
     defaultValues: {
       content: review.content,
       rate: review.rating,
     },
   })
 
-  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  async function onSubmit(data: TReviewEditFormSchema) {
     try {
       const updatedComment = await updateReview(
         review.id,
@@ -102,7 +88,7 @@ export default function ReviewEditForm({ review }: Props) {
             )
           }}
         />
-        <FormFieldComponent<z.infer<typeof FormSchema>>
+        <FormFieldComponent<TReviewEditFormSchema>
           form={form}
           name="content"
           label="Reviews"

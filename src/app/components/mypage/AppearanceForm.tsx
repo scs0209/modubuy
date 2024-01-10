@@ -3,7 +3,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ChevronDownIcon } from 'lucide-react'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 
 import { cn } from '@/lib/utils'
 import { Button, buttonVariants } from '@/components/ui/button'
@@ -19,32 +18,21 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { toast } from '@/components/ui/use-toast'
 import { useTheme } from 'next-themes'
-
-const appearanceFormSchema = z.object({
-  theme: z.enum(['light', 'dark'], {
-    required_error: 'Please select a theme.',
-  }),
-  font: z.enum(['inter', 'manrope', 'system'], {
-    invalid_type_error: 'Select a font',
-    required_error: 'Please select a font.',
-  }),
-})
-
-type AppearanceFormValues = z.infer<typeof appearanceFormSchema>
+import { TAppearanceFormValues, appearanceFormSchema } from '@/lib/types'
 
 // This can come from your database or API.
-const defaultValues: Partial<AppearanceFormValues> = {
+const defaultValues: Partial<TAppearanceFormValues> = {
   theme: 'light',
 }
 
 export function AppearanceForm() {
   const { theme, setTheme } = useTheme()
-  const form = useForm<AppearanceFormValues>({
+  const form = useForm<TAppearanceFormValues>({
     resolver: zodResolver(appearanceFormSchema),
     defaultValues,
   })
 
-  function onSubmit(data: AppearanceFormValues) {
+  function onSubmit(data: TAppearanceFormValues) {
     toast({
       title: 'You submitted the following values:',
       description: (

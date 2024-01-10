@@ -21,11 +21,11 @@ import {
 } from '@/components/ui/select'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import * as z from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { slugify } from '@/app/utils/slugify'
 import Stripe from 'stripe'
 import { toast } from '@/components/ui/use-toast'
+import { TProductSchema, productSchema } from '@/lib/types'
 import FormFieldComponent from '../../FormFieldComponent'
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY as string, {
@@ -40,20 +40,9 @@ type ImageAsset = {
   _id: string
 }
 
-const schema = z.object({
-  name: z.string().nonempty({ message: 'Product name is required' }),
-  price: z.string().min(0, { message: 'Price must be a positive number' }),
-  description: z.string().nonempty({ message: 'Description is required' }),
-  images: z
-    .array(z.instanceof(File))
-    .nonempty({ message: 'Images are required' }),
-  slug: z.string().nonempty({ message: 'Product slug is required' }),
-  category: z.string().nonempty({ message: 'Category is required' }),
-})
-
 export default function ProductCreateForm({ data }: Props) {
-  const form = useForm<z.infer<typeof schema>>({
-    resolver: zodResolver(schema),
+  const form = useForm<TProductSchema>({
+    resolver: zodResolver(productSchema),
   })
   const [selectedImages, setSelectedImages] = useState<string[]>([])
 
@@ -70,7 +59,7 @@ export default function ProductCreateForm({ data }: Props) {
     return imageAssetIds.map((id: string) => urlFor(id).url())
   }
 
-  const onSubmit = async (values: z.infer<typeof schema>) => {
+  const onSubmit = async (values: TProductSchema) => {
     try {
       const imageAssetIds: string[] = await uploadImages(values.images)
       const imageUrls: string[] = await getImageUrls(imageAssetIds)
@@ -122,7 +111,7 @@ export default function ProductCreateForm({ data }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormFieldComponent<z.infer<typeof schema>>
+        <FormFieldComponent<TProductSchema>
           form={form}
           name="name"
           label="Product"
@@ -169,7 +158,7 @@ export default function ProductCreateForm({ data }: Props) {
             </FormItem>
           )}
         />
-        <FormFieldComponent<z.infer<typeof schema>>
+        <FormFieldComponent<TProductSchema>
           form={form}
           name="description"
           label="Product description"
@@ -200,7 +189,7 @@ export default function ProductCreateForm({ data }: Props) {
             </FormItem>
           )}
         />
-        <FormFieldComponent<z.infer<typeof schema>>
+        <FormFieldComponent<TProductSchema>
           form={form}
           name="price"
           label="Product price"
