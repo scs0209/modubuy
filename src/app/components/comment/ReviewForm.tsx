@@ -8,18 +8,17 @@ import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
 import { createReview } from '@/app/utils/apis/review'
 import { fullProduct } from '@/app/interface'
+import { Textarea } from '@/components/ui/textarea'
+import FormFieldComponent from '../FormFieldComponent'
 
-const FormSchema = z.object({
+export const FormSchema = z.object({
   content: z.string().min(10, {
     message: 'Review must be at least 5 characters.',
   }),
@@ -65,27 +64,13 @@ export default function ReviewForm({ user, product }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        <FormField
-          control={form.control}
+        <FormFieldComponent<z.infer<typeof FormSchema>>
+          form={form}
           name="content"
-          render={({ field }) => {
-            return (
-              <FormItem>
-                <FormLabel>Reviews</FormLabel>
-                <FormControl>
-                  <Textarea
-                    placeholder="Please, write your review."
-                    className="resize-none"
-                    {...field}
-                  />
-                </FormControl>
-                <FormDescription>
-                  Your review will be helpful to other buyers
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )
-          }}
+          label="Reviews"
+          description="Your review will be helpful to other buyers"
+          placeholder="Please, write your review."
+          component={Textarea}
         />
         <FormField
           control={form.control}

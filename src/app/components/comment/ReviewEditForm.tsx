@@ -11,13 +11,13 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form'
-import { Textarea } from '@/components/ui/textarea'
 import { toast } from '@/components/ui/use-toast'
 import { updateReview } from '@/app/utils/apis/review'
 import { Review } from '@/app/interface'
 import { useReviewActions } from '@/store/reviewStore'
+import { Textarea } from '@/components/ui/textarea'
+import FormFieldComponent from '../FormFieldComponent'
 
 const FormSchema = z.object({
   rate: z
@@ -102,20 +102,11 @@ export default function ReviewEditForm({ review }: Props) {
             )
           }}
         />
-        <FormField
-          control={form.control}
+        <FormFieldComponent<z.infer<typeof FormSchema>>
+          form={form}
           name="content"
-          render={({ field }) => {
-            return (
-              <FormItem>
-                <FormLabel>Reviews</FormLabel>
-                <FormControl>
-                  <Textarea className="resize-none" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )
-          }}
+          label="Reviews"
+          component={Textarea}
         />
         <Button type="submit">Submit</Button>
         <Button variant="outline" onClick={() => stopEditing(review.id)}>

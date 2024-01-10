@@ -26,6 +26,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { slugify } from '@/app/utils/slugify'
 import Stripe from 'stripe'
 import { toast } from '@/components/ui/use-toast'
+import FormFieldComponent from '../../FormFieldComponent'
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY as string, {
   apiVersion: '2023-10-16',
@@ -70,7 +71,6 @@ export default function ProductCreateForm({ data }: Props) {
   }
 
   const onSubmit = async (values: z.infer<typeof schema>) => {
-    console.log(values)
     try {
       const imageAssetIds: string[] = await uploadImages(values.images)
       const imageUrls: string[] = await getImageUrls(imageAssetIds)
@@ -122,17 +122,12 @@ export default function ProductCreateForm({ data }: Props) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
+        <FormFieldComponent<z.infer<typeof schema>>
+          form={form}
           name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product</FormLabel>
-              <FormControl>
-                <Input placeholder="product" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Product"
+          placeholder="product"
+          component={Input}
         />
         <FormField
           name="images"
@@ -174,21 +169,13 @@ export default function ProductCreateForm({ data }: Props) {
             </FormItem>
           )}
         />
-        <FormField
+        <FormFieldComponent<z.infer<typeof schema>>
+          form={form}
           name="description"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product description</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="product description"
-                  {...field}
-                  className="min-h-[100px]"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Product description"
+          placeholder="product description"
+          component={Input}
+          className="min-h-[100px]"
         />
         <FormField
           name="slug"
@@ -213,17 +200,12 @@ export default function ProductCreateForm({ data }: Props) {
             </FormItem>
           )}
         />
-        <FormField
+        <FormFieldComponent<z.infer<typeof schema>>
+          form={form}
           name="price"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product price</FormLabel>
-              <FormControl>
-                <Input placeholder="product price" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="Product price"
+          placeholder="product price"
+          component={Input}
         />
         <FormField
           name="category"

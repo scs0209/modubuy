@@ -22,7 +22,6 @@ export default function LikesButton({ data, user, likeData }: Props) {
       .then((likes) => {
         const isLiked = likes.some((like: Like) => like.productId === data._id)
         setLiked(isLiked)
-        router.refresh()
       })
       .catch((error) => {
         console.error('Error fetching likes: ', error)

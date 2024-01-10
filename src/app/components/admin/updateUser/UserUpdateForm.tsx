@@ -26,6 +26,7 @@ import {
 } from '@/components/ui/select'
 import { toast } from '@/components/ui/use-toast'
 import { PostcodeModal } from '../../mypage/PostcodeModal'
+import FormFieldComponent from '../../FormFieldComponent'
 
 interface Props {
   data: User
@@ -72,31 +73,19 @@ export default function UserUpdateForm({ data }: Props) {
     <>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormField
-            control={form.control}
+          <FormFieldComponent<z.infer<typeof schema>>
+            form={form}
             name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="example@xxxx.com" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Email"
+            placeholder="example@xxxx.com"
+            component={Input}
           />
-          <FormField
-            control={form.control}
+          <FormFieldComponent<z.infer<typeof schema>>
+            form={form}
             name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input placeholder="Write your name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            label="Username"
+            placeholder="Write your name"
+            component={Input}
           />
           <FormField
             control={form.control}
