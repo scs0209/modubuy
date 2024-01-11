@@ -1,10 +1,10 @@
-import UserTable from '@/app/components/mypage/UserTable'
 import { fetchPaymentsInfo } from '@/app/utils/apis/payment'
 import { fetchUserWithPayments } from '@/app/utils/apis/user'
 import { authOptions } from '@/app/utils/auth'
 import { Separator } from '@/components/ui/separator'
 import { getServerSession } from 'next-auth'
 import React from 'react'
+import UserTable from '@/app/components/mypage/UserTable'
 
 export const dynamic = 'force-dynamic'
 

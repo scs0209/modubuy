@@ -1,4 +1,4 @@
-import ProductDataTable from '@/app/components/admin/product/ProductDataTable'
+import ProductDataTable from '@/app/_components/admin/product/ProductDataTable'
 import { simplifiedProduct } from '@/app/interface'
 import { client } from '@/app/lib/sanity'
 import React from 'react'

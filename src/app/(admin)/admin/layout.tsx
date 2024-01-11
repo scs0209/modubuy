@@ -1,7 +1,7 @@
 import { Inter } from 'next/font/google'
 import { Metadata } from 'next'
 import '../../globals.css'
-import { ThemeProvider } from '@/app/components/ThemeProvider'
+import { ThemeProvider } from '@/app/_components/ThemeProvider'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/utils/auth'
 import {
@@ -15,9 +15,9 @@ import {
   Settings,
   ShoppingCart,
 } from 'lucide-react'
-import AdminHeader from '@/app/components/AdminHeader'
+import AdminHeader from '@/app/_components/AdminHeader'
 import { ADMIN_PATH } from '@/constants/path'
-import { Sidebar } from '../../components/admin/SideBar'
+import { Sidebar } from '../../_components/admin/SideBar'
 
 const inter = Inter({ subsets: ['latin'] })
 

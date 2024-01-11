@@ -1,5 +1,5 @@
-import Hero from './components/Hero'
-import Newest from './components/Newest'
+import Hero from './_components/Hero'
+import Newest from './_components/Newest'
 
 export const dynamic = 'force-dynamic'
 

@@ -1,6 +1,6 @@
-import UserDataTable from '@/app/components/admin/UsersDataTable'
 import { fetchUsers } from '@/app/utils/apis/user'
 import React from 'react'
+import UserDataTable from '@/app/components/admin/UsersDataTable'
 
 export const dynamic = 'force-dynamic'
 

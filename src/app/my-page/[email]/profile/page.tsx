@@ -1,6 +1,6 @@
-import ProfileForm from '@/app/components/mypage/ProfileForm'
 import { Separator } from '@/components/ui/separator'
 import React from 'react'
+import ProfileForm from '@/app/components/mypage/ProfileForm'
 
 export default function ProfilePage() {
   return (

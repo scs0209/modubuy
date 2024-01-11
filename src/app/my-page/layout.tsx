@@ -1,4 +1,4 @@
-import { SidebarNav } from '@/app/components/mypage/SidebarNav'
+import { SidebarNav } from '@/app/_components/mypage/SidebarNav'
 import { Separator } from '@/components/ui/separator'
 import { Metadata } from 'next'
 import Image from 'next/image'

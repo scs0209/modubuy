@@ -1,5 +1,5 @@
 import React from 'react'
-import Dashboard from '../../components/admin/Dashboard'
+import Dashboard from '../../_components/admin/Dashboard'
 import '../../globals.css'
 import { fetchPayments } from '../../utils/apis/payment'
 import { fetchUsers } from '../../utils/apis/user'
