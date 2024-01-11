@@ -1,5 +1,5 @@
 import { LikesProduct } from '@/app/interface'
-import { urlFor } from '@/app/lib/sanity'
+import { urlFor } from '@/app/_lib/sanity'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
@@ -12,7 +12,7 @@ import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
 import Image from 'next/image'
 
-export const columns: ColumnDef<LikesProduct>[] = [
+export const likeColumns: ColumnDef<LikesProduct>[] = [
   {
     id: 'select',
     header: ({ table }) => (

@@ -1,15 +1,17 @@
 import { fetchUsers } from '@/app/utils/apis/user'
 import React from 'react'
-import UserDataTable from '@/app/components/admin/UsersDataTable'
+import GenericDataTable from '@/app/_components/Table/GenericDataTable'
+import { User } from '@/app/interface'
+import { userColumns } from '@/app/(admin)/admin/users/column'
 
 export const dynamic = 'force-dynamic'
 
 export default async function UserDashboardPage() {
-  const data = await fetchUsers()
+  const userData = await fetchUsers()
 
   return (
     <>
-      <UserDataTable data={data} />
+      <GenericDataTable<User> data={userData} columns={userColumns} />
     </>
   )
 }

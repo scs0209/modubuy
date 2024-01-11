@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
-import { urlFor } from '../lib/sanity'
+import { urlFor } from '../_lib/sanity'
 import { ProductCart } from './AddToBag'
 
 export default function CheckoutNow({

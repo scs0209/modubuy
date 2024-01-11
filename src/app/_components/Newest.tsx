@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
 import { simplifiedProduct } from '../interface'
-import { client } from '../lib/sanity'
-import { backUrl } from '../config/url'
+import { client } from '../_lib/sanity'
+import { backUrl } from '../_config/url'
 
 async function getData() {
   const query = `*[_type == 'product'][0...4] | order(_createdAt desc) {

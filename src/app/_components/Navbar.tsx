@@ -10,7 +10,7 @@ import Image from 'next/image'
 import { useEffect } from 'react'
 import { COMMON_PATH } from '@/constants/path'
 import UserDropdownMenu from './DropDown'
-import { backUrl } from '../config/url'
+import { backUrl } from '../_config/url'
 
 const links = [
   { name: 'Home', href: `${COMMON_PATH.HOME}` },

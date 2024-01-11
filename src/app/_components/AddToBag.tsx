@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import React from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
 import { Image } from '../interface'
-import { urlFor } from '../lib/sanity'
+import { urlFor } from '../_lib/sanity'
 
 export interface ProductCart {
   name: string

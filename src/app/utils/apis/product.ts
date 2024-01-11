@@ -1,4 +1,4 @@
-import { client } from '@/app/lib/sanity'
+import { client } from '@/app/_lib/sanity'
 
 export async function getProduct(id: string) {
   const query = `*[_type == 'product' && _id == "${id}"] {

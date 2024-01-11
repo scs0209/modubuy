@@ -1,6 +1,10 @@
-import ProductDataTable from '@/app/_components/admin/product/ProductDataTable'
+import GenericDataTable from '@/app/_components/Table/GenericDataTable'
+import ProductCreateForm from '@/app/(admin)/admin/products/ProductCreateForm'
+import { productColumns } from '@/app/(admin)/admin/products/column'
 import { simplifiedProduct } from '@/app/interface'
-import { client } from '@/app/lib/sanity'
+import { client } from '@/app/_lib/sanity'
+import { Button } from '@/components/ui/button'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import React from 'react'
 
 async function getData() {
@@ -41,7 +45,16 @@ export default async function AdminProductsPage() {
 
   return (
     <>
-      <ProductDataTable data={products} categories={categories} />
+      <GenericDataTable data={products} columns={productColumns}>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>Create</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <ProductCreateForm data={categories} />
+          </DialogContent>
+        </Dialog>
+      </GenericDataTable>
     </>
   )
 }

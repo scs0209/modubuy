@@ -6,7 +6,9 @@ import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import { Separator } from '@/components/ui/separator'
 import { Loader2 } from 'lucide-react'
-import LikesTable from './LikesTable'
+import GenericDataTable from '@/app/_components/Table/GenericDataTable'
+import { LikesProduct } from '@/app/interface'
+import { likeColumns } from './column'
 
 export default function LikesPage() {
   const { data: session } = useSession()
@@ -41,7 +43,10 @@ export default function LikesPage() {
       </div>
       <Separator />
       {products ? (
-        <LikesTable data={products!} />
+        <GenericDataTable<LikesProduct>
+          data={products!}
+          columns={likeColumns}
+        />
       ) : (
         <Loader2 className="h-10 w-10 animate-spin" />
       )}

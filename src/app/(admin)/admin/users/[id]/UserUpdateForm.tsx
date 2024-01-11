@@ -25,8 +25,8 @@ import {
 } from '@/components/ui/select'
 import { toast } from '@/components/ui/use-toast'
 import { TUserUpdateSchema, userUpdateSchema } from '@/lib/types'
-import { PostcodeModal } from '../../mypage/PostcodeModal'
-import FormFieldComponent from '../../FormFieldComponent'
+import { PostcodeModal } from '../../../../_components/mypage/PostcodeModal'
+import FormFieldComponent from '../../../../_components/FormFieldComponent'
 
 interface Props {
   data: User

@@ -1,7 +1,7 @@
 'use client'
 
 import { Category } from '@/app/interface'
-import { client, urlFor } from '@/app/lib/sanity'
+import { client, urlFor } from '@/app/_lib/sanity'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -26,7 +26,7 @@ import { slugify } from '@/app/utils/slugify'
 import Stripe from 'stripe'
 import { toast } from '@/components/ui/use-toast'
 import { TProductSchema, productSchema } from '@/lib/types'
-import FormFieldComponent from '../../FormFieldComponent'
+import FormFieldComponent from '../../../_components/FormFieldComponent'
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY as string, {
   apiVersion: '2023-10-16',

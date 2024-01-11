@@ -1,3 +1,5 @@
+'use client'
+
 import { Payment } from '@/app/interface'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -34,7 +36,7 @@ async function requestRefund(chargeId: string, paymentId: string) {
   }
 }
 
-export const columns: ColumnDef<Payment>[] = [
+export const paymentColumns: ColumnDef<Payment>[] = [
   {
     id: 'select',
     header: ({ table }) => (

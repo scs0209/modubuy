@@ -4,7 +4,9 @@ import { authOptions } from '@/app/utils/auth'
 import { Separator } from '@/components/ui/separator'
 import { getServerSession } from 'next-auth'
 import React from 'react'
-import UserTable from '@/app/components/mypage/UserTable'
+import GenericDataTable from '@/app/_components/Table/GenericDataTable'
+import { Payment } from '@/app/interface'
+import { paymentColumns } from '@/app/my-page/[email]/purchase-list/coulumn'
 
 export const dynamic = 'force-dynamic'
 
@@ -17,7 +19,6 @@ export default async function MyPage({
   const data = await fetchUserWithPayments(session?.user.id)
   const paymentsInfo = await fetchPaymentsInfo(session?.user.id)
 
-  console.log(paymentsInfo)
   return (
     <div className="space-y-6">
       <div>
@@ -28,7 +29,7 @@ export default async function MyPage({
         </p>
       </div>
       <Separator />
-      <UserTable data={paymentsInfo} />
+      <GenericDataTable<Payment> data={paymentsInfo} columns={paymentColumns} />
     </div>
   )
 }

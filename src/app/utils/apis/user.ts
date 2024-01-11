@@ -1,4 +1,4 @@
-import { backUrl } from '@/app/config/url'
+import { backUrl } from '@/app/_config/url'
 import { UpdateUser } from '@/app/interface'
 import { toast } from '@/components/ui/use-toast'
 

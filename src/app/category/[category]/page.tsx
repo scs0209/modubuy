@@ -1,7 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { client } from '@/app/lib/sanity'
+import { client } from '@/app/_lib/sanity'
 import { simplifiedProduct } from '@/app/interface'
 
 async function getData(category: string) {

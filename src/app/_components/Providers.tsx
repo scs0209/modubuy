@@ -2,7 +2,7 @@
 
 import React, { ReactNode } from 'react'
 import { CartProvider as USCProvider } from 'use-shopping-cart'
-import { backUrl } from '../config/url'
+import { backUrl } from '../_config/url'
 
 export default function CartProvider({ children }: { children: ReactNode }) {
   return (

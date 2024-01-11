@@ -1,7 +1,7 @@
 import { fetchUser } from '@/app/utils/apis/user'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import React from 'react'
-import UserUpdateForm from '@/app/components/admin/updateUser/UserUpdateForm'
+import UserUpdateForm from '@/app/(admin)/admin/users/[id]/UserUpdateForm'
 
 export default async function UserUpdatePage({
   params,

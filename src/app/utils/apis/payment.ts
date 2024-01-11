@@ -1,4 +1,4 @@
-import { backUrl } from '@/app/config/url'
+import { backUrl } from '@/app/_config/url'
 
 export async function fetchPayments() {
   try {

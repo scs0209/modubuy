@@ -1,3 +1,5 @@
+'use client'
+
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
 
@@ -10,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { User } from '@/app/interface'
-import { backUrl } from '@/app/config/url'
+import { backUrl } from '@/app/_config/url'
 import Link from 'next/link'
 
 async function deleteUser(userId: string) {
@@ -29,7 +31,7 @@ async function deleteUser(userId: string) {
   }
 }
 
-export const columns: ColumnDef<User>[] = [
+export const userColumns: ColumnDef<User>[] = [
   {
     id: 'select',
     header: ({ table }) => (

@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { Image as ProductImage } from '../interface'
-import { urlFor } from '../lib/sanity'
+import { urlFor } from '../_lib/sanity'
 
 interface Props {
   images: ProductImage[]

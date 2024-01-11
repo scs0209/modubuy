@@ -1,4 +1,4 @@
-import { client } from '@/app/lib/sanity'
+import { client } from '@/app/_lib/sanity'
 
 export async function getHeroImgData() {
   const query = "*[_type == 'heroImage'][0]"

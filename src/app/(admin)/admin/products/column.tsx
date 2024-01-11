@@ -1,3 +1,5 @@
+'use client'
+
 import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 
@@ -10,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { simplifiedProduct } from '@/app/interface'
-import { client } from '@/app/lib/sanity'
+import { client } from '@/app/_lib/sanity'
 import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY as string, {
@@ -40,7 +42,7 @@ const deleteProduct = async (productId: string, stripeProductId: string) => {
   await deleteProductInSanity(productId)
 }
 
-export const columns: ColumnDef<simplifiedProduct>[] = [
+export const productColumns: ColumnDef<simplifiedProduct>[] = [
   {
     id: 'select',
     header: ({ table }) => (
