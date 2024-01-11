@@ -1,6 +1,24 @@
 import { client } from '@/app/_lib/sanity'
+import { clientStripe } from '@/app/_lib/stripe'
 
-export async function getProduct(id: string) {
+export async function getAllProduct() {
+  const query = `*[_type == 'product'] {
+    _id,
+      images,
+      price,
+      name,
+      "slug": slug.current,
+      "categoryName": category->name,
+      price_id,
+      product_id,
+  }`
+
+  const data = client.fetch(query)
+
+  return data
+}
+
+export async function getProductWithID(id: string) {
   const query = `*[_type == 'product' && _id == "${id}"] {
     _id,
     images[0],
@@ -15,29 +33,6 @@ export async function getProduct(id: string) {
   const data = await client.fetch(query)
 
   return data
-}
-
-export async function requestRefund(chargeId: string, paymentId: string) {
-  try {
-    const response = await fetch(
-      `/api/payment/refund?chargeId=${chargeId}&paymentId=${paymentId}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    )
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok')
-    }
-
-    const refund = await response.json()
-    console.log(refund)
-  } catch (error) {
-    console.error('There has been a problem with your fetch operation:', error)
-  }
 }
 
 export async function getDetailProduct(slug: string) {
@@ -55,4 +50,30 @@ export async function getDetailProduct(slug: string) {
   const data = client.fetch(query)
 
   return data
+}
+
+const deleteProductInStripe = async (stripeProductId: string) => {
+  try {
+    await clientStripe.products.update(stripeProductId, { active: false })
+    console.log('Product deleted in Stripe successfully')
+  } catch (error) {
+    console.error('Failed to delete the product in Stripe', error)
+  }
+}
+
+const deleteProductInSanity = async (productId: string) => {
+  try {
+    await client.delete(productId)
+    console.log('Product deleted in Sanity successfully')
+  } catch (error) {
+    console.error('Failed to delete the product in Sanity', error)
+  }
+}
+
+export const deleteProduct = async (
+  productId: string,
+  stripeProductId: string,
+) => {
+  await deleteProductInStripe(stripeProductId)
+  await deleteProductInSanity(productId)
 }

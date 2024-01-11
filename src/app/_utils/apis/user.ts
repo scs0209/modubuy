@@ -75,3 +75,19 @@ export async function updateUser(
     console.error('Failed to update user', error)
   }
 }
+
+export async function deleteUser(userId: string) {
+  try {
+    const response = await fetch(`${backUrl}/api/user?userId=${userId}`, {
+      method: 'DELETE',
+    })
+
+    const data = await response.json()
+
+    return data
+  } catch (error) {
+    console.error('An error occurred while deleting the user:', error)
+
+    return null
+  }
+}

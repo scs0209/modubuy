@@ -1,5 +1,6 @@
 'use client'
 
+import { requestRefund } from '@/app/_utils/apis/payment'
 import { Payment } from '@/app/interface'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -12,29 +13,6 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { ColumnDef } from '@tanstack/react-table'
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react'
-
-async function requestRefund(chargeId: string, paymentId: string) {
-  try {
-    const response = await fetch(
-      `/api/payment/refund?chargeId=${chargeId}&paymentId=${paymentId}`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      },
-    )
-
-    if (!response.ok) {
-      throw new Error('Network response was not ok')
-    }
-
-    const refund = await response.json()
-    console.log(refund)
-  } catch (error) {
-    console.error('There has been a problem with your fetch operation:', error)
-  }
-}
 
 export const paymentColumns: ColumnDef<Payment>[] = [
   {

@@ -12,35 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { simplifiedProduct } from '@/app/interface'
-import { client } from '@/app/_lib/sanity'
-import Stripe from 'stripe'
-
-const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY as string, {
-  apiVersion: '2023-10-16',
-})
-
-const deleteProductInStripe = async (stripeProductId: string) => {
-  try {
-    await stripe.products.update(stripeProductId, { active: false })
-    console.log('Product deleted in Stripe successfully')
-  } catch (error) {
-    console.error('Failed to delete the product in Stripe', error)
-  }
-}
-
-const deleteProductInSanity = async (productId: string) => {
-  try {
-    await client.delete(productId)
-    console.log('Product deleted in Sanity successfully')
-  } catch (error) {
-    console.error('Failed to delete the product in Sanity', error)
-  }
-}
-
-const deleteProduct = async (productId: string, stripeProductId: string) => {
-  await deleteProductInStripe(stripeProductId)
-  await deleteProductInSanity(productId)
-}
+import { deleteProduct } from '@/app/_utils/apis/product'
 
 export const productColumns: ColumnDef<simplifiedProduct>[] = [
   {

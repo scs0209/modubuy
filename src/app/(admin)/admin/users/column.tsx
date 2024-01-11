@@ -12,24 +12,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { User } from '@/app/interface'
-import { backUrl } from '@/app/_config/url'
 import Link from 'next/link'
-
-async function deleteUser(userId: string) {
-  try {
-    const response = await fetch(`${backUrl}/api/user?userId=${userId}`, {
-      method: 'DELETE',
-    })
-
-    const data = await response.json()
-
-    return data
-  } catch (error) {
-    console.error('An error occurred while deleting the user:', error)
-
-    return null
-  }
-}
+import { deleteUser } from '@/app/_utils/apis/user'
 
 export const userColumns: ColumnDef<User>[] = [
   {

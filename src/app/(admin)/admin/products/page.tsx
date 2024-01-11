@@ -6,41 +6,13 @@ import { client } from '@/app/_lib/sanity'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import React from 'react'
-
-async function getData() {
-  const query = `*[_type == 'product'] {
-    _id,
-      images,
-      price,
-      name,
-      "slug": slug.current,
-      "categoryName": category->name,
-      price_id,
-      product_id,
-  }`
-
-  const data = client.fetch(query)
-
-  return data
-}
-
-async function getCategory() {
-  const query = `*[_type == "category"]{
-    _id,
-    name,
-    _type,
-    _rev
-  }`
-
-  const data = client.fetch(query)
-
-  return data
-}
+import { getCategory } from '@/app/_utils/apis/category'
+import { getAllProduct } from '@/app/_utils/apis/product'
 
 export const dynamic = 'force-dynamic'
 
 export default async function AdminProductsPage() {
-  const products: simplifiedProduct[] = await getData()
+  const products: simplifiedProduct[] = await getAllProduct()
   const categories = await getCategory()
 
   return (

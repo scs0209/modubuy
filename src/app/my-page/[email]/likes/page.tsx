@@ -1,7 +1,7 @@
 'use client'
 
 import { fetchLikes } from '@/app/_utils/apis/likes'
-import { getProduct } from '@/app/_utils/apis/product'
+import { getProductWithID } from '@/app/_utils/apis/product'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import { Separator } from '@/components/ui/separator'
@@ -23,7 +23,7 @@ export default function LikesPage() {
 
           // 여기서 각각의 productId에 대해 getData 함수를 호출합니다.
           const productPromises = data.map((like: any) =>
-            getProduct(like.productId),
+            getProductWithID(like.productId),
           )
           return Promise.all(productPromises)
         })
