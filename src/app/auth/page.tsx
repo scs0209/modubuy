@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/card'
 import { getServerSession } from 'next-auth'
 import { redirect } from 'next/navigation'
-import { authOptions } from '../utils/auth'
+import { authOptions } from '../_utils/auth'
 import SignInForm from '../_components/auth/SignInForm'
 import SigninWithGithub from '../_components/auth/SigninWithGithub.'
 

@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt'
-import prisma from '../../utils/db'
+import prisma from '../../_utils/db'
 
 interface RequestBody {
   name: string

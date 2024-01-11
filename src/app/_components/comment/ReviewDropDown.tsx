@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { useReviewActions } from '@/store/reviewStore'
-import { deleteReview } from '@/app/utils/apis/review'
+import { deleteReview } from '@/app/_utils/apis/review'
 
 interface Props {
   reviewId: string

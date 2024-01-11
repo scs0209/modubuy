@@ -7,7 +7,7 @@ import Navbar from './_components/Navbar'
 import CartProvider from './_components/Providers'
 import ShoppingCartModal from './_components/ShoppingCartModal'
 import NextAuthProvider from '../contexts/NextAuthProvider'
-import { authOptions } from './utils/auth'
+import { authOptions } from './_utils/auth'
 import { ThemeProvider } from './_components/ThemeProvider'
 
 const inter = Inter({ subsets: ['latin'] })

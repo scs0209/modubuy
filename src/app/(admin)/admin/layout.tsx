@@ -3,7 +3,7 @@ import { Metadata } from 'next'
 import '../../globals.css'
 import { ThemeProvider } from '@/app/_components/ThemeProvider'
 import { getServerSession } from 'next-auth'
-import { authOptions } from '@/app/utils/auth'
+import { authOptions } from '@/app/_utils/auth'
 import {
   BadgeDollarSign,
   CircleUserRound,

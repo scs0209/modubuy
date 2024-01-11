@@ -1,4 +1,4 @@
-import { fetchUser } from '@/app/utils/apis/user'
+import { fetchUser } from '@/app/_utils/apis/user'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import React from 'react'
 import UserUpdateForm from '@/app/(admin)/admin/users/[id]/UserUpdateForm'

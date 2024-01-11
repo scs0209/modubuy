@@ -12,7 +12,7 @@ import {
   FormLabel,
 } from '@/components/ui/form'
 import { toast } from '@/components/ui/use-toast'
-import { createReview } from '@/app/utils/apis/review'
+import { createReview } from '@/app/_utils/apis/review'
 import { fullProduct } from '@/app/interface'
 import { Textarea } from '@/components/ui/textarea'
 import { TReviewFormSchema, reviewFormSchema } from '@/lib/types'

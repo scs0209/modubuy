@@ -1,7 +1,7 @@
 'use client'
 
 import { Like, fullProduct } from '@/app/interface'
-import { fetchLikes, toggleLike } from '@/app/utils/apis/likes'
+import { fetchLikes, toggleLike } from '@/app/_utils/apis/likes'
 import { Button } from '@/components/ui/button'
 import { Heart } from 'lucide-react'
 import { useRouter } from 'next/navigation'

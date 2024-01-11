@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import prisma from '../../../../utils/db'
+import prisma from '../../../../_utils/db'
 
 // 리뷰를 수정하는 기능
 export async function PUT(

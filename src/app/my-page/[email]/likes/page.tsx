@@ -1,7 +1,7 @@
 'use client'
 
-import { fetchLikes } from '@/app/utils/apis/likes'
-import { getProduct } from '@/app/utils/apis/product'
+import { fetchLikes } from '@/app/_utils/apis/likes'
+import { getProduct } from '@/app/_utils/apis/product'
 import { useSession } from 'next-auth/react'
 import React, { useEffect, useState } from 'react'
 import { Separator } from '@/components/ui/separator'

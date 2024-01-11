@@ -1,6 +1,6 @@
 'use client'
 
-import { fetchReviewProduct } from '@/app/utils/apis/review'
+import { fetchReviewProduct } from '@/app/_utils/apis/review'
 import React, { useEffect, useState } from 'react'
 import { Review } from '@/app/interface'
 import { useEditingState } from '@/store/reviewStore'

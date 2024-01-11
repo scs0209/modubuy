@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { User } from '@/app/interface'
-import { updateUser } from '@/app/utils/apis/user'
+import { updateUser } from '@/app/_utils/apis/user'
 import {
   Select,
   SelectContent,

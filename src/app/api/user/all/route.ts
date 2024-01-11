@@ -1,6 +1,6 @@
 import { NextApiResponse } from 'next'
 import { NextResponse } from 'next/server'
-import prisma from '../../../utils/db'
+import prisma from '../../../_utils/db'
 
 export async function GET(req: Request, res: NextApiResponse) {
   const users = await prisma.user.findMany({

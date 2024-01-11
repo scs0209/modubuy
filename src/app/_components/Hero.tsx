@@ -8,7 +8,7 @@ import { motion } from 'framer-motion'
 import WatchCanvas from './3dCanvas/WatchWrapper'
 import ShoeCanvas from './3dCanvas/ShoeCanvas'
 import Model from './3dCanvas/Model'
-import { fadeIn } from '../utils/variant'
+import { fadeIn } from '../_utils/variant'
 
 const links = [
   {

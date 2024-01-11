@@ -6,7 +6,7 @@ import {
   calculateRevenueByDay,
   calculateRevenueByMonth,
   createChartData,
-} from '@/app/utils/func'
+} from '@/app/_utils/func'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import React, { useEffect, useState } from 'react'
 import {

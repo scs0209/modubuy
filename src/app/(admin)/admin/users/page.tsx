@@ -1,4 +1,4 @@
-import { fetchUsers } from '@/app/utils/apis/user'
+import { fetchUsers } from '@/app/_utils/apis/user'
 import React from 'react'
 import GenericDataTable from '@/app/_components/Table/GenericDataTable'
 import { User } from '@/app/interface'

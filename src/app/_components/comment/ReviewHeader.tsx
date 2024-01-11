@@ -1,5 +1,5 @@
 import React from 'react'
-import { formatDate } from '@/app/utils/func'
+import { formatDate } from '@/app/_utils/func'
 import { Review } from '@/app/interface'
 import ReviewDropDown from './ReviewDropDown'
 

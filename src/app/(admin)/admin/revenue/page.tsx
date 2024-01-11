@@ -1,4 +1,4 @@
-import { fetchPayments } from '@/app/utils/apis/payment'
+import { fetchPayments } from '@/app/_utils/apis/payment'
 import React from 'react'
 import RevenueData from './RevenueData'
 

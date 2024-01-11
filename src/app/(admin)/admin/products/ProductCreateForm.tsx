@@ -22,7 +22,7 @@ import {
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { slugify } from '@/app/utils/slugify'
+import { slugify } from '@/app/_utils/slugify'
 import Stripe from 'stripe'
 import { toast } from '@/components/ui/use-toast'
 import { TProductSchema, productSchema } from '@/lib/types'

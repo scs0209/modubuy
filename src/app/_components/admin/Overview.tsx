@@ -1,7 +1,7 @@
 'use client'
 
 import { FullPayment } from '@/app/interface'
-import { convertToDesiredFormat, groupByMonth } from '@/app/utils/func'
+import { convertToDesiredFormat, groupByMonth } from '@/app/_utils/func'
 import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from 'recharts'
 
 interface Props {
