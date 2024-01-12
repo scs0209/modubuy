@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Form } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 import FormFieldComponent from '../FormFieldComponent'
 
 export default function LoginForm() {
@@ -77,7 +78,7 @@ export default function LoginForm() {
           <div className="flex flex-row-reverse items-center justify-between w-full">
             <span
               // onClick={handleForgotPasswordClick}
-              className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+              className="text-sm font-medium text-green-400 hover:underline dark:text-green-800"
             >
               Forgot password?
             </span>
@@ -89,10 +90,16 @@ export default function LoginForm() {
             Don’t have an account yet?{' '}
             <span
               onClick={handleSignupClick}
-              className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+              className="font-medium text-green-400 hover:underline dark:text-green-800"
             >
               Sign up
             </span>
+          </p>
+          <p className="text-sm font-light text-gray-500 mt-2 dark:text-gray-400">
+            Or sign in with:{' '}
+            <Link className="font-medium text-green-400" href="/auth">
+              Social login
+            </Link>
           </p>
         </form>
       </Form>

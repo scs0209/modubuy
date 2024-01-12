@@ -70,5 +70,5 @@
 }
 
 .side-btn {
-  @apply mt-5 py-2 px-4 rounded-md text-blue-600 bg-white w-full hover:bg-blue-300 hover:text-white font-bold;
+  @apply mt-5 py-2 px-4 rounded-md text-green-600 bg-white w-full hover:bg-green-300 hover:text-white font-bold;
 }

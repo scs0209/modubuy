@@ -98,7 +98,7 @@ export default function SignUpForm() {
             Already have an account?{' '}
             <span
               onClick={handleLoginClick}
-              className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+              className="font-medium text-green-400 hover:underline dark:text-green-800"
             >
               Login
             </span>
