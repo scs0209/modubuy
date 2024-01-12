@@ -1,10 +1,8 @@
 'use client'
 
-import React from 'react'
 import { useAuthorActions, useIsSignUpActive } from '@/store/authorStore'
 import SignUpForm from '../_components/auth/SignUpForm'
 import LoginForm from '../_components/auth/LoginForm'
-import Image from 'next/image'
 
 export default function LoginPage() {
   const isSignUpActive = useIsSignUpActive()
