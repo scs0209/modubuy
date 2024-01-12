@@ -19,6 +19,7 @@ interface Props<T extends FieldValues> {
   placeholder?: string
   className?: string
   component: React.ElementType
+  type?: string
 }
 
 export default function FormFieldComponent<T extends FieldValues>({
@@ -29,6 +30,7 @@ export default function FormFieldComponent<T extends FieldValues>({
   placeholder,
   className,
   component: Component,
+  type,
 }: Props<T>) {
   return (
     <FormField
@@ -43,6 +45,7 @@ export default function FormFieldComponent<T extends FieldValues>({
               <Component
                 placeholder={placeholder}
                 className={cn(appliedClass, className)}
+                type={type}
                 {...field}
               />
             </FormControl>

@@ -94,3 +94,13 @@ export const profileFormSchema = z.object({
 })
 
 export type TProfileFormSchema = z.infer<typeof profileFormSchema>
+
+export const signupSchema = z.object({
+  email: z.string().email('이메일 형식이 올바르지 않습니다.'),
+  password: z.string().min(8, '비밀번호는 최소 8자리 이상이어야 합니다.'),
+  name: z
+    .string()
+    .regex(/^[a-zA-Z0-9_]+$/, '닉네임은 알파벳, 숫자, 밑줄만 허용합니다.'),
+})
+
+export type TSignupSchema = z.infer<typeof signupSchema>
