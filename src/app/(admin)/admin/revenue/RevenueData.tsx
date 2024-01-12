@@ -60,8 +60,6 @@ export default function RevenueData({ payments }: Props) {
     setDataByDay(chartDataByDay)
   }, [payments, selectedYear, dateRange])
 
-  console.log(dateRange, dataByDay)
-
   return (
     <>
       <Card className="col-span-3">
