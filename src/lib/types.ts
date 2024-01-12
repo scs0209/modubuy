@@ -104,3 +104,10 @@ export const signupSchema = z.object({
 })
 
 export type TSignupSchema = z.infer<typeof signupSchema>
+
+export const loginFormSchema = z.object({
+  email: z.string().email('이메일 형식이 올바르지 않습니다.'),
+  password: z.string().min(8, '비밀번호는 최소 8자리 이상이어야 합니다.'),
+})
+
+export type TLoginFormSchema = z.infer<typeof loginFormSchema>
