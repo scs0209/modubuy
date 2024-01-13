@@ -91,3 +91,30 @@ export async function deleteUser(userId: string) {
     return null
   }
 }
+
+export async function requestTempPassword(email: string, receiveEmail: string) {
+  try {
+    const response = await fetch(`${backUrl}/api/user/find-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email, receiveEmail }),
+    })
+
+    if (!response.ok) {
+      throw new Error('Network response was not ok')
+    }
+
+    const data = await response.json()
+
+    if (data.error) {
+      console.error(data.error)
+      return
+    }
+
+    toast({ description: 'Send email success.' })
+  } catch (error) {
+    console.error('There has been a problem with your fetch operation: ', error)
+  }
+}

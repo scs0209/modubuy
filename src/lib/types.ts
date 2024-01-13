@@ -111,3 +111,13 @@ export const loginFormSchema = z.object({
 })
 
 export type TLoginFormSchema = z.infer<typeof loginFormSchema>
+
+// FindPasswordDialog
+export const findPasswordSchema = z.object({
+  receiveEmail: z
+    .string()
+    .email({ message: '유효한 이메일 주소를 입력해주세요.' }),
+  email: z.string().email({ message: '유효한 이메일 주소를 입력해주세요.' }),
+})
+
+export type TFindPasswordSchema = z.infer<typeof findPasswordSchema>

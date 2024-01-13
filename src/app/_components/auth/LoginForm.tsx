@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import FormFieldComponent from '../FormFieldComponent'
+import { FindPasswordDialog } from './FindPasswordDialog'
 
 export default function LoginForm() {
   const isSignUpActive = useIsSignUpActive()
@@ -76,12 +77,7 @@ export default function LoginForm() {
           </div>
 
           <div className="flex flex-row-reverse items-center justify-between w-full">
-            <span
-              // onClick={handleForgotPasswordClick}
-              className="text-sm font-medium text-green-400 hover:underline dark:text-green-800"
-            >
-              Forgot password?
-            </span>
+            <FindPasswordDialog />
           </div>
           <Button type="submit" className="w-full mt-2 mb-2">
             Sign in
@@ -97,7 +93,10 @@ export default function LoginForm() {
           </p>
           <p className="text-sm font-light text-gray-500 mt-2 dark:text-gray-400">
             Or sign in with:{' '}
-            <Link className="font-medium text-green-400" href="/auth">
+            <Link
+              className="font-medium text-green-400 hover:underline"
+              href="/auth"
+            >
               Social login
             </Link>
           </p>
