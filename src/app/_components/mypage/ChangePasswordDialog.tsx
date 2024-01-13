@@ -15,9 +15,9 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Separator } from '@/components/ui/separator'
-import FormFieldComponent from '../FormFieldComponent'
 import { TChangePasswordSchema, changePasswordSchema } from '@/lib/types'
 import { updatePassword } from '@/app/_utils/apis/user'
+import FormFieldComponent from '../FormFieldComponent'
 
 export default function ChangePasswordDialog() {
   const form = useForm<TChangePasswordSchema>({
@@ -44,7 +44,7 @@ export default function ChangePasswordDialog() {
         <DialogHeader>
           <DialogTitle>Change Password</DialogTitle>
           <DialogDescription>
-            To ensure your account's security, please enter your current
+            To ensure your account&apos;s security, please enter your current
             password and your new password.
           </DialogDescription>
         </DialogHeader>
