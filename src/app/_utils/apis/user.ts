@@ -118,3 +118,29 @@ export async function requestTempPassword(email: string, receiveEmail: string) {
     console.error('There has been a problem with your fetch operation: ', error)
   }
 }
+
+export async function updatePassword(
+  currentPassword: string,
+  newPassword: string,
+) {
+  const response = await fetch(`${backUrl}/api/user/change-password`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      currentPassword,
+      newPassword,
+    }),
+  })
+
+  if (!response.ok) {
+    const data = await response.json()
+    throw new Error(data.error)
+  }
+
+  toast({
+    description: 'Update password success!',
+  })
+  return response.json()
+}

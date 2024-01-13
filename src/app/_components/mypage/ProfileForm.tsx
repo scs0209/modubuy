@@ -12,6 +12,7 @@ import { updateUser } from '@/app/_utils/apis/user'
 import { TProfileFormSchema, profileFormSchema } from '@/lib/types'
 import { PostcodeModal } from './PostcodeModal'
 import FormFieldComponent from '../FormFieldComponent'
+import ChangePasswordDialog from './ChangePasswordDialog'
 
 export default function ProfileForm() {
   const { data: session } = useSession()
@@ -86,6 +87,7 @@ export default function ProfileForm() {
           />
         </div>
         <Button type="submit">Update profile</Button>
+        <ChangePasswordDialog />
       </form>
     </Form>
   )

@@ -121,3 +121,12 @@ export const findPasswordSchema = z.object({
 })
 
 export type TFindPasswordSchema = z.infer<typeof findPasswordSchema>
+
+export const changePasswordSchema = z.object({
+  currentPassword: z
+    .string()
+    .min(8, '비밀번호는 최소 8자리 이상이어야 합니다.'),
+  newPassword: z.string().min(8, '비밀번호는 최소 8자리 이상이어야 합니다.'),
+})
+
+export type TChangePasswordSchema = z.infer<typeof changePasswordSchema>
