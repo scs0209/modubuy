@@ -62,11 +62,12 @@ export interface User {
 
 export interface UpdateUser {
   id?: string
-  name: string
-  email: string
+  name?: string
+  email?: string
   role?: 'user' | 'admin'
   address?: string
   detail_address?: string
+  image?: string
   payments?: Payment[]
 }
 

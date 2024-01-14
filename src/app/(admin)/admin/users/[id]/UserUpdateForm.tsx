@@ -68,30 +68,30 @@ export default function UserUpdateForm({ data: userData }: Props) {
     const timestamp = Date.now()
     const fileName = `${userData.id}-${timestamp}.png`
 
-    const { data, error } = await supabase.storage
+    const { data, error: uploadError } = await supabase.storage
       .from('avatars')
       .upload(fileName, file)
 
-    if (error) {
-      console.error('Error uploading image: ', error)
+    if (uploadError) {
+      console.error('Error uploading image: ', uploadError)
     } else {
-      console.log('Image uploaded successfully: ', data)
+      try {
+        // 서버 사이드 API를 호출하여 이미지 URL을 데이터베이스에 업데이트합니다.
+        const response = await updateUser(userData.id, { image: fileName })
+        console.log(data)
+      } catch (error) {
+        console.error('Error updating user: ', error)
+      }
     }
   }
 
-  console.log(userData.image)
+  console.log(userData.image, userData)
 
   return (
     <>
       <div className="col-span-1 flex justify-center">
         {userData.image ? (
-          <Input
-            type="file"
-            className="h-80 w-80 rounded-md"
-            onChange={(e) => uploadImage(e)}
-          />
-        ) : (
-          <Avatar className="h-80 w-80 rounded-md">
+          <Avatar className="h-40 w-40 md:h-60 md:w-60 rounded-md">
             <AvatarImage
               src={userData.image}
               alt="Avatar"
@@ -99,6 +99,12 @@ export default function UserUpdateForm({ data: userData }: Props) {
             />
             <AvatarFallback className="rounded-md">OM</AvatarFallback>
           </Avatar>
+        ) : (
+          <Input
+            type="file"
+            className="h-80 w-80 rounded-md"
+            onChange={(e) => uploadImage(e)}
+          />
         )}
       </div>
       <div className="col-span-2">
