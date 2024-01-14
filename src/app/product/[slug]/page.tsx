@@ -13,8 +13,6 @@ import { Button } from '@/components/ui/button'
 import { Star, Truck } from 'lucide-react'
 import { getServerSession } from 'next-auth'
 
-export const dynamic = 'force-dynamic'
-
 export default async function ProductPage({
   params,
 }: {

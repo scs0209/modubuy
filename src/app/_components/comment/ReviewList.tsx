@@ -4,7 +4,6 @@ import { fetchReviewProduct } from '@/app/_utils/apis/review'
 import React, { useEffect, useState } from 'react'
 import { Review } from '@/app/interface'
 import { useEditingState } from '@/store/reviewStore'
-import { useRouter } from 'next/navigation'
 import ReviewHeader from './ReviewHeader'
 import ReviewEditForm from './ReviewEditForm'
 
@@ -15,14 +14,12 @@ interface Props {
 export default function ReviewList({ productId }: Props) {
   const [reviews, setReviews] = useState<Review[]>([])
   const editing = useEditingState()
-  const router = useRouter()
 
   useEffect(() => {
     const getReviews = async () => {
       try {
         const reviewData = await fetchReviewProduct(productId)
         setReviews(reviewData)
-        router.refresh()
       } catch (error) {
         console.error('Failed to fetch reviews:', error)
       }
