@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from 'next/server'
 import prisma from '../../_utils/db'
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
   const url = new URL(req.url!)
   const userId = url.searchParams.get('userId')!
 
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
   return NextResponse.json(user)
 }
 
-export async function DELETE(req: NextRequest, res: NextResponse) {
+export async function DELETE(req: NextRequest) {
   const url = new URL(req.url!)
   const userId = url.searchParams.get('userId')!
 
@@ -51,7 +51,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
   return NextResponse.json(deletedUser)
 }
 
-export async function PUT(req: NextRequest, res: NextResponse) {
+export async function PUT(req: NextRequest) {
   const url = new URL(req.url!)
   const userId = url.searchParams.get('userId')!
 

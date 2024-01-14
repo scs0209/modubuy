@@ -55,6 +55,7 @@ export interface User {
   email: string
   role: 'user' | 'admin'
   address: string
+  image?: string
   detail_address: string
   payments: Payment[]
 }
