@@ -28,6 +28,8 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { createClient } from '@supabase/supabase-js'
 import { PostcodeModal } from '../../../../_components/mypage/PostcodeModal'
 import FormFieldComponent from '../../../../_components/FormFieldComponent'
+import { Label } from '@/components/ui/label'
+import { Upload } from 'lucide-react'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL as string,
@@ -90,7 +92,7 @@ export default function UserUpdateForm({ data: userData }: Props) {
   return (
     <>
       <div className="col-span-1 flex justify-center">
-        {userData.image ? (
+        <div>
           <Avatar className="h-40 w-40 md:h-60 md:w-60 rounded-md">
             <AvatarImage
               src={userData.image}
@@ -99,13 +101,20 @@ export default function UserUpdateForm({ data: userData }: Props) {
             />
             <AvatarFallback className="rounded-md">OM</AvatarFallback>
           </Avatar>
-        ) : (
-          <Input
-            type="file"
-            className="h-80 w-80 rounded-md"
-            onChange={(e) => uploadImage(e)}
-          />
-        )}
+          <div className="mt-3">
+            <Input
+              type="file"
+              id="file"
+              className="hidden"
+              onChange={(e) => uploadImage(e)}
+            />
+            <Label htmlFor="file" className="cursor-pointer">
+              <div className="px-4 py-2 bg-green-600 flex justify-center text-white rounded-md shadow-md hover:bg-green-700">
+                <Upload />
+              </div>
+            </Label>
+          </div>
+        </div>
       </div>
       <div className="col-span-2">
         <Form {...form}>
