@@ -26,10 +26,10 @@ import { toast } from '@/components/ui/use-toast'
 import { TUserUpdateSchema, userUpdateSchema } from '@/lib/types'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { createClient } from '@supabase/supabase-js'
-import { PostcodeModal } from '../../../../_components/mypage/PostcodeModal'
-import FormFieldComponent from '../../../../_components/FormFieldComponent'
 import { Label } from '@/components/ui/label'
 import { Upload } from 'lucide-react'
+import { PostcodeModal } from '../../../../_components/mypage/PostcodeModal'
+import FormFieldComponent from '../../../../_components/FormFieldComponent'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL as string,
