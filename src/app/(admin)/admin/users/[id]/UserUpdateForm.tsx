@@ -28,6 +28,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { createClient } from '@supabase/supabase-js'
 import { Label } from '@/components/ui/label'
 import { Upload } from 'lucide-react'
+import { updateUserImage, uploadImageToStorage } from '@/app/_utils/apis/image'
 import { PostcodeModal } from '../../../../_components/mypage/PostcodeModal'
 import FormFieldComponent from '../../../../_components/FormFieldComponent'
 
@@ -65,29 +66,21 @@ export default function UserUpdateForm({ data: userData }: Props) {
     }
   }
 
-  async function uploadImage(e: any) {
+  async function uploadImage(e: React.ChangeEvent<HTMLInputElement>) {
+    if (!e.target.files || e.target.files.length === 0) {
+      return
+    }
+
     const file = e.target.files[0]
     const timestamp = Date.now()
     const fileName = `${userData.id}-${timestamp}.png`
 
-    const { data, error: uploadError } = await supabase.storage
-      .from('avatars')
-      .upload(fileName, file)
+    const uploadedImageData = await uploadImageToStorage(file, fileName)
 
-    if (uploadError) {
-      console.error('Error uploading image: ', uploadError)
-    } else {
-      try {
-        // 서버 사이드 API를 호출하여 이미지 URL을 데이터베이스에 업데이트합니다.
-        const response = await updateUser(userData.id, { image: fileName })
-        console.log(data)
-      } catch (error) {
-        console.error('Error updating user: ', error)
-      }
+    if (uploadedImageData) {
+      const updatedUser = await updateUserImage(userData.id, fileName)
     }
   }
-
-  console.log(userData.image, userData)
 
   return (
     <>
