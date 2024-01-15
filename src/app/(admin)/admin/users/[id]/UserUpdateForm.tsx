@@ -24,18 +24,12 @@ import {
 } from '@/components/ui/select'
 import { toast } from '@/components/ui/use-toast'
 import { TUserUpdateSchema, userUpdateSchema } from '@/lib/types'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { createClient } from '@supabase/supabase-js'
 import { Label } from '@/components/ui/label'
 import { Upload } from 'lucide-react'
 import { updateUserImage, uploadImageToStorage } from '@/app/_utils/apis/image'
+import AvatarImg from '@/app/_components/AvatarImg'
 import { PostcodeModal } from '../../../../_components/mypage/PostcodeModal'
 import FormFieldComponent from '../../../../_components/FormFieldComponent'
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
-)
 
 interface Props {
   data: User
@@ -86,14 +80,10 @@ export default function UserUpdateForm({ data: userData }: Props) {
     <>
       <div className="col-span-1 flex justify-center">
         <div>
-          <Avatar className="h-40 w-40 md:h-60 md:w-60 rounded-md">
-            <AvatarImage
-              src={userData.image}
-              alt="Avatar"
-              className="rounded-md"
-            />
-            <AvatarFallback className="rounded-md">OM</AvatarFallback>
-          </Avatar>
+          <AvatarImg
+            className="h-40 w-40 md:h-60 md:w-60"
+            src={userData.image}
+          />
           <div className="mt-3">
             <Input
               type="file"
