@@ -5,7 +5,7 @@ import { toast } from '@/components/ui/use-toast'
 export async function fetchUsers() {
   try {
     const response = await fetch(`${backUrl}/api/user/all`, {
-      cache: 'no-cache',
+      cache: 'no-store',
     })
 
     const data = await response.json()

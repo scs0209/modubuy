@@ -1,14 +1,13 @@
 'use client'
 
 import { MenuItem } from '@/app/(admin)/admin/layout'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 import { useTitleActions } from '@/store/headerStore'
-import { UserIcon } from 'lucide-react'
 import Link from 'next/link'
 import { HTMLAttributes } from 'react'
+import AvatarImg from '../AvatarImg'
 
 interface SidebarProps {
   className?: HTMLAttributes<HTMLDivElement>
@@ -19,20 +18,13 @@ interface SidebarProps {
 export function Sidebar({ className, user, menuItems }: SidebarProps) {
   const { setCurrentTitle } = useTitleActions()
 
+  console.log(user)
+
   return (
     <div className={cn('pb-12', className)}>
       <div className="space-y-4 py-4">
         <div className="flex px-7 items-center">
-          <Avatar className="h-9 w-9">
-            <AvatarImage
-              src="/avatars/01.png"
-              alt="Avatar"
-              className="rounded-md"
-            />
-            <AvatarFallback className="rounded-md">
-              <UserIcon />
-            </AvatarFallback>
-          </Avatar>
+          <AvatarImg src={user.image} className="h-9 w-9" />
           <span className="text-sm ml-2">{user.user.email}</span>
         </div>
         <Separator />

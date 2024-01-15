@@ -1,5 +1,5 @@
 import { User } from '@/app/interface'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import AvatarImg from '../AvatarImg'
 
 interface Props {
   users: User[]
@@ -12,12 +12,7 @@ export default function RecentSales({ users }: Props) {
         .filter((user) => user.payments.length > 0)
         .map((user) => (
           <div className="flex items-center" key={user.id}>
-            <Avatar className="h-9 w-9">
-              <AvatarImage src="/avatars/01.png" alt="Avatar" />
-              <AvatarFallback>
-                {user.name.slice(0, 2).toUpperCase()}
-              </AvatarFallback>
-            </Avatar>
+            <AvatarImg src={user.image} className="h-9 w-9" />
             <div className="ml-4 space-y-1">
               <p className="text-sm font-medium leading-none">{user.name}</p>
               <p className="text-sm text-muted-foreground">{user.email}</p>

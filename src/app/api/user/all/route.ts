@@ -1,8 +1,7 @@
-import { NextApiResponse } from 'next'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import prisma from '../../../_utils/db'
 
-export async function GET(req: Request, res: NextApiResponse) {
+export async function GET(req: NextRequest) {
   const users = await prisma.user.findMany({
     select: {
       id: true,
@@ -10,11 +9,12 @@ export async function GET(req: Request, res: NextApiResponse) {
       email: true,
       role: true,
       payments: true,
+      image: true,
     },
   })
 
   if (!users) {
-    return res.status(404).json({ error: 'Users not found' })
+    return NextResponse.json({ error: 'Users not found' }, { status: 404 })
   }
 
   return NextResponse.json(users)

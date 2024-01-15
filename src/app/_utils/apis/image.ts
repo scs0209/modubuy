@@ -28,9 +28,11 @@ export async function uploadImageToStorage(file: File, fileName: string) {
   return data
 }
 
-export async function updateUserImage(userId: string, fileName: string) {
+export async function updateUserImage(
+  userId: string | undefined,
+  fileName: string,
+) {
   try {
-    // 서버 사이드 API를 호출하여 이미지 URL을 데이터베이스에 업데이트합니다.
     const response = await updateUser(userId, { image: fileName })
     return response
   } catch (error) {
