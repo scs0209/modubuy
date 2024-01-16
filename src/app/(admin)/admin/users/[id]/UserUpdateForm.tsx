@@ -72,7 +72,7 @@ export default function UserUpdateForm({ data: userData }: Props) {
     const uploadedImageData = await uploadImageToStorage(file, fileName)
 
     if (uploadedImageData) {
-      const updatedUser = await updateUserImage(userData.id, fileName)
+      await updateUserImage(userData.id, fileName)
     }
   }
 

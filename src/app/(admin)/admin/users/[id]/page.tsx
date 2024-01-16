@@ -10,8 +10,6 @@ export default async function UserUpdatePage({
   const { id } = params
   const data = await fetchUser(id)
 
-  console.log('user: ', data)
-
   return (
     <div className="grid grid-cols-3 p-8">
       <UserUpdateForm data={data} />

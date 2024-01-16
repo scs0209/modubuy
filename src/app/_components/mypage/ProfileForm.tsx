@@ -60,12 +60,12 @@ export default function ProfileForm() {
     const uploadedImageData = await uploadImageToStorage(file, fileName)
 
     if (uploadedImageData) {
-      const updatedUser = await updateUserImage(session?.user.id, fileName)
+      await updateUserImage(session?.user.id, fileName)
     }
   }
 
   return (
-    <>
+    <div className="grid grid-cols-3 p-4">
       <div className="col-span-1 flex justify-center">
         <div>
           <AvatarImg
@@ -86,54 +86,54 @@ export default function ProfileForm() {
             </Label>
           </div>
         </div>
-        <div className="col-span-1">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormFieldComponent<TProfileFormSchema>
-                form={form}
-                name="name"
-                label="Username"
-                placeholder="Write your name."
-                description="Update your name."
-                component={Input}
-              />
-              <FormFieldComponent<TProfileFormSchema>
-                form={form}
-                name="email"
-                label="Email"
-                placeholder="Email"
-                component={Input}
-              />
-              <div>
-                <FormField
-                  control={form.control}
-                  name="address"
-                  render={({ field }) => (
-                    <div>
-                      <FormLabel>Address</FormLabel>
-                      <div className="flex">
-                        <Input {...field} type="text" readOnly />
-                        <PostcodeModal setValue={form.setValue} />
-                      </div>
-                    </div>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="detail_address"
-                  render={({ field }) => (
-                    <div>
-                      <Input {...field} />
-                    </div>
-                  )}
-                />
-              </div>
-              <Button type="submit">Update profile</Button>
-              <ChangePasswordDialog />
-            </form>
-          </Form>
-        </div>
       </div>
-    </>
+      <div className="col-span-2">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormFieldComponent<TProfileFormSchema>
+              form={form}
+              name="name"
+              label="Username"
+              placeholder="Write your name."
+              description="Update your name."
+              component={Input}
+            />
+            <FormFieldComponent<TProfileFormSchema>
+              form={form}
+              name="email"
+              label="Email"
+              placeholder="Email"
+              component={Input}
+            />
+            <div>
+              <FormField
+                control={form.control}
+                name="address"
+                render={({ field }) => (
+                  <div>
+                    <FormLabel>Address</FormLabel>
+                    <div className="flex">
+                      <Input {...field} type="text" readOnly />
+                      <PostcodeModal setValue={form.setValue} />
+                    </div>
+                  </div>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="detail_address"
+                render={({ field }) => (
+                  <div>
+                    <Input {...field} />
+                  </div>
+                )}
+              />
+            </div>
+            <Button type="submit">Update profile</Button>
+            <ChangePasswordDialog />
+          </form>
+        </Form>
+      </div>
+    </div>
   )
 }
