@@ -18,7 +18,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { slugify } from '@/app/_utils/slugify'
@@ -30,6 +29,7 @@ import {
   createProductInStripe,
 } from '@/app/_utils/apis/product'
 import { getImageUrls, uploadImages } from '@/app/_utils/apis/image'
+import ImageUploadFormField from '@/app/_components/admin/product/ImageUploadFormField'
 import FormFieldComponent from '../../../_components/FormFieldComponent'
 
 interface Props {
@@ -40,7 +40,6 @@ export default function ProductCreateForm({ data }: Props) {
   const form = useForm<TProductSchema>({
     resolver: zodResolver(productSchema),
   })
-  const [selectedImages, setSelectedImages] = useState<string[]>([])
 
   const name = form.watch('name')
 
@@ -81,46 +80,7 @@ export default function ProductCreateForm({ data }: Props) {
           placeholder="product"
           component={Input}
         />
-        <FormField
-          name="images"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Product images</FormLabel>
-              <FormControl>
-                <Input
-                  accept=".jpg, .jpeg, .png, .svg, .gif, .mp4, .webp"
-                  type="file"
-                  multiple
-                  onChange={(e) => {
-                    if (e.target.files) {
-                      const files: File[] = Array.from(e.target.files)
-                      const fileUrls = files.map((file) =>
-                        URL.createObjectURL(file),
-                      )
-
-                      setSelectedImages((prevImages) => [
-                        ...prevImages,
-                        ...fileUrls,
-                      ])
-                      field.onChange(Array.from(e.target.files))
-                    }
-                  }}
-                  placeholder="product images"
-                />
-              </FormControl>
-              {selectedImages &&
-                selectedImages.map((img: any, index: number) => (
-                  <img
-                    key={index}
-                    src={img}
-                    alt="selected"
-                    className="w-10 h-10"
-                  />
-                ))}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <ImageUploadFormField />
         <FormFieldComponent<TProductSchema>
           form={form}
           name="description"
