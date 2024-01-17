@@ -49,28 +49,22 @@ export default function ReviewForm({ user, product }: Props) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
-        <FormFieldComponent<TReviewFormSchema>
-          form={form}
-          name="content"
-          label="Reviews"
-          description="Your review will be helpful to other buyers"
-          placeholder="Please, write your review."
-          component={Textarea}
-        />
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col w-full space-y-6"
+      >
         <FormField
           control={form.control}
           name="rate"
           render={({ field }) => {
             return (
               <FormItem>
-                <FormLabel>Rate</FormLabel>
                 <FormControl>
-                  <div className="flex items-center space-x-1">
+                  <div className="flex items-center justify-center space-x-1 mt-2">
                     {[1, 2, 3, 4, 5].map((star) => (
                       <svg
                         key={star}
-                        className={`w-4 h-4 ${
+                        className={`w-10 h-10 ${
                           star <= field.value
                             ? 'text-yellow-300'
                             : 'text-gray-300'
@@ -92,7 +86,18 @@ export default function ReviewForm({ user, product }: Props) {
             )
           }}
         />
-        <Button type="submit">Submit</Button>
+        <FormFieldComponent<TReviewFormSchema>
+          form={form}
+          name="content"
+          label="Reviews"
+          description="Your review will be helpful to other buyers"
+          placeholder="Please, write your review."
+          component={Textarea}
+        />
+
+        <Button type="submit" className="flex w-1/3">
+          Submit
+        </Button>
       </form>
     </Form>
   )
