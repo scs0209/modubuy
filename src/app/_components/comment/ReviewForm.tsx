@@ -41,8 +41,8 @@ export default function ReviewForm({ user, product }: Props) {
       })
     } catch (error: any) {
       toast({
-        title: 'Error submitting review',
-        description: error.message,
+        variant: 'destructive',
+        description: 'Login Please',
       })
     }
   }

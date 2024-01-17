@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Heart } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
+import { toast } from '@/components/ui/use-toast'
 
 interface Props {
   data: fullProduct
@@ -29,7 +30,14 @@ export default function LikesButton({ data, user, likeData }: Props) {
   }, [liked])
 
   const handleLikeClick = () => {
-    toggleLike(user.id, data._id)
+    if (!user) {
+      toast({
+        variant: 'destructive',
+        description: 'Login Please',
+      })
+    }
+
+    toggleLike(user?.id, data._id)
       .then((result) => {
         /* @ts-ignore */
         console.log('result', result)
