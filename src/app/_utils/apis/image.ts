@@ -1,4 +1,4 @@
-import { client } from '@/app/_lib/sanity'
+import { client, urlFor } from '@/app/_lib/sanity'
 
 import { updateUser } from './user'
 import { supabaseStorage } from '../supabase'
@@ -35,4 +35,21 @@ export async function updateUserImage(
     console.error('Error updating user: ', error)
     return null
   }
+}
+
+type ImageAsset = {
+  _id: string
+}
+
+export const uploadImages = async (imageFiles: File[]): Promise<string[]> => {
+  const imageAssetIds: ImageAsset[] = await Promise.all(
+    imageFiles.map((file: File) => client.assets.upload('image', file)),
+  )
+  return imageAssetIds.map((asset: ImageAsset) => asset._id)
+}
+
+export const getImageUrls = async (
+  imageAssetIds: string[],
+): Promise<string[]> => {
+  return imageAssetIds.map((id: string) => urlFor(id).url())
 }

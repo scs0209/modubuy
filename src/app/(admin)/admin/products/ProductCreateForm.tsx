@@ -1,7 +1,6 @@
 'use client'
 
 import { Category } from '@/app/interface'
-import { client, urlFor } from '@/app/_lib/sanity'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -30,14 +29,11 @@ import {
   createProductInSanity,
   createProductInStripe,
 } from '@/app/_utils/apis/product'
+import { getImageUrls, uploadImages } from '@/app/_utils/apis/image'
 import FormFieldComponent from '../../../_components/FormFieldComponent'
 
 interface Props {
   data: Category[]
-}
-
-type ImageAsset = {
-  _id: string
 }
 
 export default function ProductCreateForm({ data }: Props) {
@@ -47,17 +43,6 @@ export default function ProductCreateForm({ data }: Props) {
   const [selectedImages, setSelectedImages] = useState<string[]>([])
 
   const name = form.watch('name')
-
-  const uploadImages = async (imageFiles: File[]): Promise<string[]> => {
-    const imageAssetIds: ImageAsset[] = await Promise.all(
-      imageFiles.map((file: File) => client.assets.upload('image', file)),
-    )
-    return imageAssetIds.map((asset: ImageAsset) => asset._id)
-  }
-
-  const getImageUrls = async (imageAssetIds: string[]): Promise<string[]> => {
-    return imageAssetIds.map((id: string) => urlFor(id).url())
-  }
 
   const onSubmit = async (values: TProductSchema) => {
     try {
