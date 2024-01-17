@@ -25,7 +25,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { slugify } from '@/app/_utils/slugify'
 import { toast } from '@/components/ui/use-toast'
 import { TProductSchema, productSchema } from '@/lib/types'
-import { stripe } from '@/app/_utils/supabase'
+import {
+  createPriceInStripe,
+  createProductInSanity,
+  createProductInStripe,
+} from '@/app/_utils/apis/product'
 import FormFieldComponent from '../../../_components/FormFieldComponent'
 
 interface Props {
@@ -60,41 +64,19 @@ export default function ProductCreateForm({ data }: Props) {
       const imageAssetIds: string[] = await uploadImages(values.images)
       const imageUrls: string[] = await getImageUrls(imageAssetIds)
 
-      // Create a product in Stripe
-      const stripeProduct = await stripe.products.create({
-        name: values.name,
-        description: values.description,
-        images: imageUrls,
-      })
+      const stripeProduct = await createProductInStripe(values, imageUrls)
+      const stripePrice = await createPriceInStripe(
+        stripeProduct.id,
+        Number(values.price),
+      )
 
-      // Create a price in Stripe
-      const stripePrice = await stripe.prices.create({
-        product: stripeProduct.id,
-        unit_amount: Number(values.price) * 100, // Stripe uses cents as the unit
-        currency: 'usd',
-      })
+      await createProductInSanity(
+        values,
+        stripePrice.id,
+        stripeProduct.id,
+        imageAssetIds,
+      )
 
-      await client.create({
-        _type: 'product',
-        name: values.name,
-        description: values.description,
-        slug: { current: values.slug },
-        price: Number(values.price),
-        price_id: stripePrice.id,
-        product_id: stripeProduct.id,
-        category: {
-          _type: 'reference',
-          _ref: values.category,
-        },
-        images: imageAssetIds.map((_id: string) => ({
-          _key: `image-${_id}`,
-          _type: 'image',
-          asset: {
-            _type: 'reference',
-            _ref: _id,
-          },
-        })),
-      })
       toast({
         title: 'Product successfully created!',
         description: 'Product has been successfully created and ready for use',

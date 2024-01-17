@@ -1,5 +1,7 @@
 import { client } from '@/app/_lib/sanity'
 import { clientStripe } from '@/app/_lib/stripe'
+import { TProductSchema } from '@/lib/types'
+import { stripe } from '../supabase'
 
 export async function getAllProduct() {
   const query = `*[_type == 'product'] {
@@ -76,4 +78,55 @@ export const deleteProduct = async (
 ) => {
   await deleteProductInStripe(stripeProductId)
   await deleteProductInSanity(productId)
+}
+
+export const createProductInStripe = async (
+  values: TProductSchema,
+  imageUrls: string[],
+) => {
+  return stripe.products.create({
+    name: values.name,
+    description: values.description,
+    images: imageUrls,
+  })
+}
+
+export const createPriceInStripe = async (
+  stripeProductId: string,
+  price: number,
+) => {
+  return stripe.prices.create({
+    product: stripeProductId,
+    unit_amount: price * 100,
+    currency: 'usd',
+  })
+}
+
+export const createProductInSanity = async (
+  values: TProductSchema,
+  stripePriceId: string,
+  stripeProductId: string,
+  imageAssetIds: string[],
+) => {
+  return client.create({
+    _type: 'product',
+    name: values.name,
+    description: values.description,
+    slug: { current: values.slug },
+    price: Number(values.price),
+    price_id: stripePriceId,
+    product_id: stripeProductId,
+    category: {
+      _type: 'reference',
+      _ref: values.category,
+    },
+    images: imageAssetIds.map((_id: string) => ({
+      _key: `image-${_id}`,
+      _type: 'image',
+      asset: {
+        _type: 'reference',
+        _ref: _id,
+      },
+    })),
+  })
 }
