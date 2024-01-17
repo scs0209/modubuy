@@ -19,18 +19,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { slugify } from '@/app/_utils/slugify'
-import Stripe from 'stripe'
 import { toast } from '@/components/ui/use-toast'
 import { TProductSchema, productSchema } from '@/lib/types'
+import { stripe } from '@/app/_utils/supabase'
 import FormFieldComponent from '../../../_components/FormFieldComponent'
-
-const stripe = new Stripe(process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY as string, {
-  apiVersion: '2023-10-16',
-})
 
 interface Props {
   data: Category[]

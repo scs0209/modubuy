@@ -1,6 +1,7 @@
 import { client } from '@/app/_lib/sanity'
-import { createClient } from '@supabase/supabase-js'
+
 import { updateUser } from './user'
+import { supabaseStorage } from '../supabase'
 
 export async function getHeroImgData() {
   const query = "*[_type == 'heroImage'][0]"
@@ -10,13 +11,8 @@ export async function getHeroImgData() {
   return data
 }
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL as string,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string,
-)
-
 export async function uploadImageToStorage(file: File, fileName: string) {
-  const { data, error } = await supabase.storage
+  const { data, error } = await supabaseStorage.storage
     .from('avatars')
     .upload(fileName, file)
 
