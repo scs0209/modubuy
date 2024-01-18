@@ -1,14 +1,14 @@
 'use client'
 
 import { Form } from '@/components/ui/form'
-import { toast } from '@/components/ui/use-toast'
 import { TSignupSchema, signupSchema } from '@/lib/types'
 import { useAuthorActions, useIsSignUpActive } from '@/store/authorStore'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React from 'react'
+
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { signUp } from '@/app/_utils/apis/auth'
 import FormFieldComponent from '../FormFieldComponent'
 
 export default function SignUpForm() {
@@ -18,26 +18,6 @@ export default function SignUpForm() {
     mode: 'onChange',
   })
   const { handleLoginClick } = useAuthorActions()
-
-  async function signUp({ name, email, password }: TSignupSchema) {
-    const response = await fetch('http://localhost:3000/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ name, email, password }),
-    })
-
-    if (!response.ok) {
-      toast({ variant: 'destructive', description: 'Registration failed' })
-    }
-
-    const result = await response.json()
-    toast({
-      description: 'Sign up success.',
-    })
-    return result
-  }
 
   const onSubmit = form.handleSubmit(async (formData) => {
     try {

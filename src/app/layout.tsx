@@ -34,10 +34,12 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <CartProvider>
-              <Navbar />
-              <ShoppingCartModal />
-              <Toaster />
-              {children}
+              <main>
+                <Navbar />
+                <ShoppingCartModal />
+                <Toaster />
+                {children}
+              </main>
             </CartProvider>
           </ThemeProvider>
         </NextAuthProvider>
