@@ -47,6 +47,8 @@ export default function Navbar() {
     }
   }, [session])
 
+  if (pathname.startsWith('/admin')) return null
+
   return (
     <header className="border-b">
       <div className="flex items-center justify-between mx-auto max-w-2xl px-4 sm:px-6 lg:max-w-7xl">

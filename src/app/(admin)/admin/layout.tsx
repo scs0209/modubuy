@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import AdminHeader from '@/app/_components/AdminHeader'
 import { ADMIN_PATH } from '@/constants/path'
+import NextAuthProvider from '@/contexts/NextAuthProvider'
 import { Sidebar } from '../../_components/admin/SideBar'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -38,17 +39,17 @@ const menuItems: { title: string; list: MenuItem[] }[] = [
     list: [
       {
         title: 'Dashboard',
-        path: `${ADMIN_PATH.HOME}`,
+        path: ADMIN_PATH.HOME,
         icon: <LayoutDashboard className="mr-2 h-4 w-4" />,
       },
       {
         title: 'Users',
-        path: `${ADMIN_PATH.USERS}`,
+        path: ADMIN_PATH.USERS,
         icon: <CircleUserRound className="mr-2 h-4 w-4" />,
       },
       {
         title: 'Products',
-        path: `${ADMIN_PATH.PRODUCTS}`,
+        path: ADMIN_PATH.PRODUCTS,
         icon: <ShoppingCart className="mr-2 h-4 w-4" />,
       },
     ],
@@ -58,7 +59,7 @@ const menuItems: { title: string; list: MenuItem[] }[] = [
     list: [
       {
         title: 'Revenue',
-        path: `${ADMIN_PATH.REVENUE}`,
+        path: ADMIN_PATH.REVENUE,
         icon: <BadgeDollarSign className="mr-2 h-4 w-4" />,
       },
       {
@@ -80,7 +81,7 @@ const menuItems: { title: string; list: MenuItem[] }[] = [
       },
       {
         title: 'Exit',
-        path: `${ADMIN_PATH.EXIT}`,
+        path: ADMIN_PATH.EXIT,
         icon: <DoorClosed className="mr-2 h-4 w-4" />,
       },
       {
@@ -91,29 +92,18 @@ const menuItems: { title: string; list: MenuItem[] }[] = [
   },
 ]
 
-const Layout = async ({ children }: { children: React.ReactNode }) => {
+const RootLayout = async ({ children }: { children: React.ReactNode }) => {
   const userData = await getServerSession(authOptions)
 
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="grid lg:grid-cols-5 h-screen">
-            <Sidebar user={userData} menuItems={menuItems} />
-            <div className="col-span-3 lg:col-span-4 lg:border-l p-4">
-              <AdminHeader menuItems={menuItems} />
-              {children}
-            </div>
-          </div>
-        </ThemeProvider>
-      </body>
-    </html>
+    <div className="grid lg:grid-cols-5 h-screen">
+      <Sidebar user={userData} menuItems={menuItems} />
+      <div className="col-span-3 lg:col-span-4 lg:border-l p-4">
+        <AdminHeader menuItems={menuItems} />
+        {children}
+      </div>
+    </div>
   )
 }
 
-export default Layout
+export default RootLayout
