@@ -27,7 +27,7 @@ export default function UserDropdownMenu({ session }: Props) {
           variant="outline"
           className="flex flex-col gap-y-1.5 h-12 w-12 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-none"
         >
-          <AvatarImg src={session.user.image} />
+          <AvatarImg src={session?.user.image} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
@@ -37,7 +37,7 @@ export default function UserDropdownMenu({ session }: Props) {
           <DropdownMenuItem>
             {session ? (
               <Link
-                href={`/my-page/${session.user.email}/profile`}
+                href={`/my-page/${session?.user.email}/profile`}
                 className="flex items-center justify-center"
               >
                 <User className="mr-2 h-4 w-4" />
