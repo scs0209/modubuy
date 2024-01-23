@@ -23,6 +23,7 @@
     "prettier"
   ],
   "rules": {
+    "no-bitwise": ["error", { "allow": ["~", "|", ">>", "<<", "&"] }],
     "import/no-cycle": "warn",
     "@typescript-eslint/ban-ts-comment": "warn",
     "@typescript-eslint/no-unused-vars": "warn",

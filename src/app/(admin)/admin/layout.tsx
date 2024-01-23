@@ -1,7 +1,5 @@
-import { Inter } from 'next/font/google'
 import { Metadata } from 'next'
 import '../../globals.css'
-import { ThemeProvider } from '@/app/_components/ThemeProvider'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/app/_utils/auth'
 import {
@@ -17,10 +15,7 @@ import {
 } from 'lucide-react'
 import AdminHeader from '@/app/_components/AdminHeader'
 import { ADMIN_PATH } from '@/constants/path'
-import NextAuthProvider from '@/contexts/NextAuthProvider'
 import { Sidebar } from '../../_components/admin/SideBar'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'ModuBuy',

@@ -13,6 +13,7 @@ import {
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
 import { COMMON_PATH } from '@/constants/path'
+import AvatarImg from './AvatarImg'
 
 interface Props {
   session: any
@@ -26,7 +27,7 @@ export default function UserDropdownMenu({ session }: Props) {
           variant="outline"
           className="flex flex-col gap-y-1.5 h-12 w-12 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-none"
         >
-          <User />
+          <AvatarImg src={session.user.image} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
