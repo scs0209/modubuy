@@ -24,6 +24,7 @@
   ],
   "rules": {
     "no-bitwise": ["error", { "allow": ["~", "|", ">>", "<<", "&"] }],
+    "no-restricted-syntax": "warn",
     "import/no-cycle": "warn",
     "@typescript-eslint/ban-ts-comment": "warn",
     "@typescript-eslint/no-unused-vars": "warn",
