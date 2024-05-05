@@ -29,7 +29,7 @@ export function FindPasswordDialog() {
     try {
       await requestTempPassword(values.email, values.receiveEmail)
     } catch (error) {
-      console.log(error)
+      console.error(error)
     }
   })
 

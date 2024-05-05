@@ -26,8 +26,6 @@ export default async function ProductPage({
     .reduce((total, review, _, { length }) => total + review.rating / length, 0)
     .toFixed(2)
 
-  console.log('likeData', likeData)
-
   return (
     <div className="bg-white pt-4">
       <div className="mx-auto max-w-screen-xl px-4 md:px-8">
