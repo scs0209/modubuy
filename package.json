@@ -8,6 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "fix": "eslint --fix \"src/**/*.{js,ts,jsx,tsx}\"",
+    "test": "jest",
+    "test:watch": "jest --watchAll",
     "postinstall": "prisma generate"
   },
   "lint-staged": {
@@ -68,6 +70,8 @@
     "zustand": "^4.4.7"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "^15.0.7",
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^20",
     "@types/nodemailer": "^6.4.14",
@@ -86,10 +90,14 @@
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "postcss": "^8",
     "prettier": "^3.1.0",
     "prisma": "^5.7.0",
     "tailwindcss": "^3.3.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
