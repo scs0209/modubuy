@@ -9,6 +9,7 @@ import ShoppingCartModal from './_components/ShoppingCartModal'
 import NextAuthProvider from '../contexts/NextAuthProvider'
 import { authOptions } from './_utils/auth'
 import { ThemeProvider } from './_components/ThemeProvider'
+import ScrollToTop from './_components/ScrollToTop'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,6 +27,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <ScrollToTop />
         <NextAuthProvider session={session}>
           <ThemeProvider
             attribute="class"

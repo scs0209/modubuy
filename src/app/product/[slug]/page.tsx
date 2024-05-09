@@ -2,7 +2,7 @@ import AddToBag from '@/app/_components/AddToBag'
 import CheckoutNow from '@/app/_components/CheckoutNow'
 import ImageGallery from '@/app/_components/ImageGallery'
 import ReviewForm from '@/app/_components/comment/ReviewForm'
-import ReviewList from '@/app/_components/comment/ReviewList'
+// import ReviewList from '@/app/_components/comment/ReviewList'
 import LikesButton from '@/app/_components/mypage/LikesButton'
 import { Review, fullProduct } from '@/app/interface'
 import { fetchProductLikes } from '@/app/_utils/apis/likes'
@@ -12,6 +12,12 @@ import { authOptions } from '@/app/_utils/auth'
 import { Button } from '@/components/ui/button'
 import { Star, Truck } from 'lucide-react'
 import { getServerSession } from 'next-auth'
+import dynamic from 'next/dynamic'
+
+const ReviewList = dynamic(
+  () => import('@/app/_components/comment/ReviewList'),
+  { ssr: false },
+)
 
 export default async function ProductPage({
   params,
