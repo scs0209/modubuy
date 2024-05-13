@@ -1,45 +1,57 @@
 import LoginPage from '@/app/login/page'
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
+const mockHandleLoginClick = jest.fn()
+const mockHandleSignupClick = jest.fn()
+
+// jest.mock을 사용하여 모듈을 모의합니다.
 jest.mock('@/store/authorStore', () => ({
   useIsSignUpActive: jest.fn(),
   useAuthorActions: () => ({
-    handleSignupClick: jest.fn(),
-    handleLoginClick: jest.fn(),
+    handleSignupClick: mockHandleSignupClick,
+    handleLoginClick: mockHandleLoginClick, // 생성한 모의 함수를 할당합니다.
   }),
 }))
 
 jest.mock('next/navigation', () => jest.requireActual('next-router-mock'))
 
 describe('LoginPage', () => {
-  // isSignUpActive가 true일 때
-  it('should show sign up related text when isSignUpActive is true', () => {
-    // useIsSignUpActive가 true를 반환하도록 설정
-    require('@/store/authorStore').useIsSignUpActive.mockImplementation(
-      () => true,
-    )
-    render(<LoginPage />)
-    expect(screen.getByText('Hello, Friend!')).toBeInTheDocument()
-    expect(screen.queryByText('Welcome Back!')).not.toBeInTheDocument()
+  describe('Rendering', () => {
+    it('should have Text', () => {
+      render(<LoginPage />)
+      expect(screen.getByText('Hello, Friend!')).toBeInTheDocument()
+      expect(screen.getByText('Welcome Back!')).toBeInTheDocument()
+      expect(screen.getByText('Hello, Friend!')).toBeInTheDocument()
+      expect(
+        screen.getByText(
+          'Register with your personal details to use all of site features',
+        ),
+      ).toBeInTheDocument()
+    })
   })
 
-  // isSignUpActive가 false일 때
-  it('should show login related text when isSignUpActive is false', () => {
-    // useIsSignUpActive가 false를 반환하도록 설정
-    require('@/store/authorStore').useIsSignUpActive.mockImplementation(
-      () => false,
-    )
-    render(<LoginPage />)
-    expect(screen.getByText('Welcome Back!')).toBeInTheDocument()
-    expect(screen.queryByText('Hello, Friend!')).not.toBeInTheDocument()
+  describe('Button interactions', () => {
+    it('should call handleLoginClick when Sign In button is clicked', async () => {
+      const { handleLoginClick } =
+        require('@/store/authorStore').useAuthorActions()
+      render(<LoginPage />)
+      const signInBtn = screen.getByText('Sign In') // 버튼을 정확히 선택하는지 확인하세요.
+      await userEvent.click(signInBtn)
+      await waitFor(() => {
+        expect(handleLoginClick).toHaveBeenCalled()
+      })
+    })
+
+    it('should call handleSignupClick when Sign Up button is clicked', async () => {
+      const { handleSignupClick } =
+        require('@/store/authorStore').useAuthorActions()
+      render(<LoginPage />)
+      const signUpBtn = screen.getByText('Sign Up') // 버튼을 정확히 선택하는지 확인하세요.
+      await userEvent.click(signUpBtn)
+      await waitFor(() => {
+        expect(handleSignupClick).toHaveBeenCalled()
+      })
+    })
   })
 })
-
-// describe('LoginPage', () => {
-//   describe('Rendering', () => {
-//     it('should have Text', () => {
-//       render(<LoginPage />)
-//       expect(screen.getByText('Welcome Back!')).toBeInTheDocument()
-//     })
-//   })
-// })
