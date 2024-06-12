@@ -82,6 +82,7 @@ model Payment {
 model Like {
   user   User   @relation(fields: [userId], references: [id])
   userId String
+  // product    Product  @relation(fields: [productId], references: [id])
   productId String
   createdAt DateTime @default(now())
 
@@ -89,12 +90,45 @@ model Like {
 }
 
 model Review {
-  id        String   @id @default(cuid())
-  content   String
-  rating    Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId    String
-  productId String
-  user      User     @relation(fields: [userId], references: [id])
+  id         String   @id @default(cuid())
+  content    String
+  rating     Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  userId     String
+  productId  String
+  user       User     @relation(fields: [userId], references: [id])
+  // product    Product  @relation(fields: [productId], references: [id])
+}
+
+model Product {
+  id           String    @id @default(cuid())
+  url          String    @unique
+  currency     String
+  image        String
+  title        String
+  currentPrice Float
+  originalPrice Float
+  priceHistory PriceHistoryItem[]
+  highestPrice Float?
+  lowestPrice  Float?
+  averagePrice Float?
+  discountRate Float?
+  description  String?
+  category     String?
+  reviewsCount Int?
+  stars        Float
+  isOutOfStock Boolean? @default(false)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  // reviews      Review[]
+  // likes        Like[]
+}
+
+model PriceHistoryItem {
+  id         String   @id @default(cuid())
+  price      Float
+  date       DateTime @default(now())
+  productId  String   @unique
+  product    Product  @relation(fields: [productId], references: [id])
 }

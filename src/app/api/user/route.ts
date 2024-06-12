@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import prisma from '../../_utils/db'
+import prisma from '../../../lib/db'
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url!)

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { hash } from 'bcrypt'
 import sendTempPasswordEmail from '@/app/_lib/mailer'
-import prisma from '../../../_utils/db'
+import prisma from '../../../../lib/db'
 
 export async function POST(req: NextRequest) {
   const { email, receiveEmail } = await req.json()

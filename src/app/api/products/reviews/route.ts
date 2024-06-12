@@ -1,5 +1,5 @@
 import { NextResponse, NextRequest } from 'next/server'
-import prisma from '../../../_utils/db'
+import prisma from '../../../../lib/db'
 
 // 리뷰를 가져오는 기능
 export async function GET(req: NextRequest, res: NextResponse) {

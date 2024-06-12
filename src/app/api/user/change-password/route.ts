@@ -2,7 +2,7 @@ import { authOptions } from '@/app/_utils/auth'
 import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
 import { compare, hash } from 'bcrypt'
-import prisma from '../../../_utils/db'
+import prisma from '../../../../lib/db'
 
 export async function PUT(req: NextRequest) {
   const { currentPassword, newPassword } = await req.json()

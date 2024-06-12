@@ -4,7 +4,7 @@ import EmailProvider from 'next-auth/providers/email'
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { PrismaAdapter } from '@auth/prisma-adapter'
 import { compare } from 'bcrypt'
-import prisma from './db'
+import prisma from '../../lib/db'
 
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
