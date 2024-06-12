@@ -36,7 +36,7 @@ describe('LoginPage', () => {
       const { handleLoginClick } =
         require('@/store/authorStore').useAuthorActions()
       render(<LoginPage />)
-      const signInBtn = screen.getByText('Sign In') // 버튼을 정확히 선택하는지 확인하세요.
+      const signInBtn = screen.getByText('Sign In')
       await userEvent.click(signInBtn)
       await waitFor(() => {
         expect(handleLoginClick).toHaveBeenCalled()
@@ -47,7 +47,7 @@ describe('LoginPage', () => {
       const { handleSignupClick } =
         require('@/store/authorStore').useAuthorActions()
       render(<LoginPage />)
-      const signUpBtn = screen.getByText('Sign Up') // 버튼을 정확히 선택하는지 확인하세요.
+      const signUpBtn = screen.getByText('Sign Up')
       await userEvent.click(signUpBtn)
       await waitFor(() => {
         expect(handleSignupClick).toHaveBeenCalled()
