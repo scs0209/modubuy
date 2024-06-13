@@ -129,6 +129,6 @@ model PriceHistoryItem {
   id         String   @id @default(cuid())
   price      Float
   date       DateTime @default(now())
-  productId  String   @unique
+  productId  String  
   product    Product  @relation(fields: [productId], references: [id])
 }

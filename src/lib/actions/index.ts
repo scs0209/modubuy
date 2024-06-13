@@ -21,23 +21,26 @@ export async function scrapeAndStoreProduct(productUrl: string) {
     })
 
     if (existingProduct) {
-      // const existingPriceHistory = await prisma.priceHistoryItem.findUnique({
-      //   where: {
-      //     productId: existingProduct.id,
-      //   },
-      // })
+      await prisma.priceHistoryItem.create({
+        data: {
+          productId: existingProduct.id,
+          price: scrapedProduct.currentPrice,
+        },
+      })
 
-      const updatedPriceHistory: any = [
-        // @ts-ignore
-        ...existingProduct.priceHistory,
-        { price: scrapedProduct.currentPrice },
-      ]
+      const existingPriceHistory = await prisma.priceHistoryItem.findMany({
+        where: {
+          productId: existingProduct.id,
+        },
+      })
+
+      console.log(existingPriceHistory)
 
       product = {
         ...scrapedProduct,
-        lowestPrice: getLowestPrice(updatedPriceHistory),
-        highestPrice: getHighestPrice(updatedPriceHistory),
-        averagePrice: getAveragePrice(updatedPriceHistory),
+        lowestPrice: getLowestPrice(existingPriceHistory),
+        highestPrice: getHighestPrice(existingPriceHistory),
+        averagePrice: getAveragePrice(existingPriceHistory),
       }
     }
 
@@ -46,7 +49,7 @@ export async function scrapeAndStoreProduct(productUrl: string) {
       create: product,
       update: product,
     })
-    // console.log('scrapedProduct:', scrapedProduct)
+    console.log('scrapedProduct:', scrapedProduct)
     revalidatePath(`/products/${newProduct.id}`)
   } catch (error: any) {
     throw new Error(`Failed to create/update product: ${error.message}`)
