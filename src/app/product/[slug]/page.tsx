@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button'
 import { Star, Truck } from 'lucide-react'
 import { getServerSession } from 'next-auth'
 import dynamic from 'next/dynamic'
+import { getProductById } from '@/lib/actions'
 
 const ReviewList = dynamic(
   () => import('@/app/_components/comment/ReviewList'),
@@ -24,17 +25,20 @@ export default async function ProductPage({
 }: {
   params: { slug: string }
 }) {
-  const data: fullProduct = await getDetailProduct(params.slug)
-  const userData = await getServerSession(authOptions)
-  const rateData: Review[] = await fetchReviewProduct(data._id)
-  const likeData = await fetchProductLikes(data._id)
-  const averageRating = rateData
-    .reduce((total, review, _, { length }) => total + review.rating / length, 0)
-    .toFixed(2)
+  // const data: fullProduct = await getDetailProduct(params.slug)
+  // const userData = await getServerSession(authOptions)
+  // const rateData: Review[] = await fetchReviewProduct(data._id)
+  // const likeData = await fetchProductLikes(data._id)
+  // const averageRating = rateData
+  //   .reduce((total, review, _, { length }) => total + review.rating / length, 0)
+  //   .toFixed(2)
+  const product = await getProductById(params.slug)
+
+  console.log(product)
 
   return (
-    <div className="bg-white pt-4">
-      <div className="mx-auto max-w-screen-xl px-4 md:px-8">
+    <div className="pt-4 bg-white">
+      {/* <div className="max-w-screen-xl px-4 mx-auto md:px-8">
         <div className="grid gap-8 md:grid-cols-2">
           <ImageGallery images={data.images} />
 
@@ -48,7 +52,7 @@ export default async function ProductPage({
               </h2>
             </div>
 
-            <div className="mb-6 flex items-center gap-3 md:mb-10">
+            <div className="flex items-center gap-3 mb-6 md:mb-10">
               <LikesButton
                 user={userData?.user}
                 data={data}
@@ -57,7 +61,7 @@ export default async function ProductPage({
 
               <Button className="rounded-full gap-x-2">
                 <span className="text-sm">{averageRating}</span>
-                <Star className="h-5 w-5" />
+                <Star className="w-5 h-5" />
               </Button>
 
               <span className="text-sm text-gray-500 transition duration-100">
@@ -80,7 +84,7 @@ export default async function ProductPage({
               </span>
             </div>
 
-            <div className="mb-6 flex items-center gap-2 text-gray-500">
+            <div className="flex items-center gap-2 mb-6 text-gray-500">
               <Truck className="w-6 h-6" />
               <span className="text-sm">2-4 Day Shipping</span>
             </div>
@@ -106,7 +110,7 @@ export default async function ProductPage({
               />
             </div>
 
-            <p className="mt-12 text-base text-gray-500 tracking-wide">
+            <p className="mt-12 text-base tracking-wide text-gray-500">
               {data.description}
             </p>
           </div>
@@ -114,7 +118,7 @@ export default async function ProductPage({
 
         <ReviewForm user={userData?.user} product={data} />
         <ReviewList productId={data._id} />
-      </div>
+      </div> */}
     </div>
   )
 }

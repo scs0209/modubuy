@@ -9,10 +9,10 @@ interface Props {
 
 export default function AvatarImg({ src, className }: Props) {
   return (
-    <Avatar className={cn('rounded-md', className)}>
+    <Avatar className={cn('rounded-md border-none', className)}>
       <AvatarImage src={src} alt="Avatar" className="rounded-md" />
-      <AvatarFallback className="rounded-md">
-        <UserIcon />
+      <AvatarFallback className="bg-transparent">
+        <UserIcon className="w-[22px] h-[22px] cursor-pointer" />
       </AvatarFallback>
     </Avatar>
   )

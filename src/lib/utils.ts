@@ -2,7 +2,10 @@ import { type ClassValue, clsx } from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
 type PriceHistoryItem = {
+  id: string
   price: number
+  date: Date
+  productId: string
 }
 
 type User = {

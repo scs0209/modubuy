@@ -1,6 +1,6 @@
+import Link from 'next/link'
+import { signOut } from 'next-auth/react'
 import { LockKeyholeIcon, LogIn, LogOut, User } from 'lucide-react'
-
-import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +10,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { signOut } from 'next-auth/react'
-import Link from 'next/link'
 import { COMMON_PATH } from '@/constants/path'
 import AvatarImg from './AvatarImg'
 
@@ -23,12 +21,9 @@ export default function UserDropdownMenu({ session }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          className="flex flex-col gap-y-1.5 h-12 w-12 sm:h-20 sm:w-20 md:h-24 md:w-24 rounded-none"
-        >
+        <button>
           <AvatarImg src={session?.user.image} />
-        </Button>
+        </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -40,7 +35,7 @@ export default function UserDropdownMenu({ session }: Props) {
                 href={`/my-page/${session?.user.email}/profile`}
                 className="flex items-center justify-center"
               >
-                <User className="mr-2 h-4 w-4" />
+                <User className="w-4 h-4 mr-2" />
                 <span>Profile</span>
               </Link>
             ) : (
@@ -48,7 +43,7 @@ export default function UserDropdownMenu({ session }: Props) {
                 href={COMMON_PATH.LOGIN}
                 className="flex items-center justify-center"
               >
-                <LogIn className="mr-2 h-4 w-4" />
+                <LogIn className="w-4 h-4 mr-2" />
                 <span>Log In</span>
               </Link>
             )}
@@ -59,7 +54,7 @@ export default function UserDropdownMenu({ session }: Props) {
                 href={COMMON_PATH.ADMIN}
                 className="flex items-center justify-center"
               >
-                <LockKeyholeIcon className="mr-2 h-4 w-4" />
+                <LockKeyholeIcon className="w-4 h-4 mr-2" />
                 <span>Admin</span>
               </Link>
             </DropdownMenuItem>
@@ -67,7 +62,7 @@ export default function UserDropdownMenu({ session }: Props) {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/' })}>
-          <LogOut className="mr-2 h-4 w-4" />
+          <LogOut className="w-4 h-4 mr-2" />
           <span>Log out</span>
         </DropdownMenuItem>
       </DropdownMenuContent>

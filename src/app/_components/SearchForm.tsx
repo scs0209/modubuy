@@ -4,6 +4,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { scrapeAndStoreProduct } from '@/lib/actions'
+import { SearchIcon } from 'lucide-react'
 import { FormEvent, useState } from 'react'
 
 const isValidAmazonProductURL = (url: string) => {
@@ -40,7 +41,7 @@ const SearchForm = () => {
       setIsLoading(true)
 
       // Scrape the product page
-      const product = await scrapeAndStoreProduct(searchPrompt)
+      await scrapeAndStoreProduct(searchPrompt)
     } catch (error) {
       console.log(error)
     } finally {
@@ -50,20 +51,21 @@ const SearchForm = () => {
 
   return (
     <form
-      className="flex flex-wrap gap-4 mt-12 w-full justify-center"
+      className="flex items-center justify-between flex-1 gap-4 p-2 bg-gray-100 rounded-md"
       onSubmit={handleSubmit}
     >
-      <Input
+      <input
         type="text"
+        name="name"
         value={searchPrompt}
         onChange={(e) => setSearchPrompt(e.target.value)}
         placeholder="Enter product link"
-        className="w-[500px]"
+        className="flex-1 bg-transparent outline-none"
       />
 
-      <Button type="submit" disabled={searchPrompt === ''}>
-        {isLoading ? 'Searching...' : 'Search'}
-      </Button>
+      <button className="cursor-pointer">
+        <SearchIcon className="w-[16px] h-[16px]" />
+      </button>
     </form>
   )
 }
