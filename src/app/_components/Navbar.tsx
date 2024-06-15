@@ -1,12 +1,12 @@
 'use client'
-import { useEffect, useState } from 'react'
+
+import { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useShoppingCart } from 'use-shopping-cart'
-import { Search, ShoppingBag } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { ShoppingBag } from 'lucide-react'
 import UserDropdownMenu from './DropDown'
 import SearchForm from './SearchForm'
 import Menu from './Menu'
@@ -17,7 +17,6 @@ export default function Navbar() {
   const pathname = usePathname()
   const { handleCartClick } = useShoppingCart()
   const { data: session } = useSession()
-  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     if (session) {
@@ -31,7 +30,7 @@ export default function Navbar() {
           paymentIds.forEach(async (paymentId: string) => {
             // 두 번째 호출: Stripe 결제 정보 불러오기
             const result = await fetch(`${backUrl}/api/payment/${paymentId}`)
-            const paymentInfo = await result.json()
+            await result.json()
           })
         } catch (error) {
           console.error(error)

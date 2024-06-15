@@ -3,15 +3,13 @@
 import { Button } from '@/components/ui/button'
 import React from 'react'
 import { useShoppingCart } from 'use-shopping-cart'
-import { Image } from '../interface'
-import { urlFor } from '../_lib/sanity'
 
 export interface ProductCart {
   name: string
   description: string
   price: number
   currency: string
-  image: Image
+  image: string
   price_id: string
 }
 
@@ -29,7 +27,7 @@ export default function AddToBag({
     description,
     price,
     currency,
-    image: urlFor(image).url(),
+    image,
     id: price_id,
   }
 

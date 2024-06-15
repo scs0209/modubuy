@@ -14,6 +14,8 @@ export async function scrapeAndStoreProduct(productUrl: string) {
 
     let product = scrapedProduct
 
+    console.log(product)
+
     const existingProduct = await prisma.product.findUnique({
       where: {
         url: scrapedProduct.url,
@@ -48,7 +50,7 @@ export async function scrapeAndStoreProduct(productUrl: string) {
       update: product,
     })
 
-    // revalidatePath(`/products/${newProduct.id}`)
+    revalidatePath(`/products/${newProduct.id}`)
   } catch (error: any) {
     throw new Error(`Failed to create/update product: ${error.message}`)
   }

@@ -4,6 +4,15 @@ import axios from 'axios'
 import * as cheerio from 'cheerio'
 import { extractCurrency, extractDescription, extractPrice } from '../utils'
 
+const isValidUrl = (url: string) => {
+  try {
+    new URL(url)
+    return true
+  } catch (e) {
+    return false
+  }
+}
+
 export async function scrapeAmazonProduct(url: string) {
   if (!url) return
 
@@ -55,6 +64,24 @@ export async function scrapeAmazonProduct(url: string) {
 
     const imageUrls = Object.keys(JSON.parse(images))
 
+    const imageList: string[] = []
+    $('img').each((i, element) => {
+      const imgUrl = $(element).attr('src')
+      if (imgUrl && isValidUrl(imgUrl)) {
+        imageList.push(imgUrl)
+      }
+    })
+
+    if (
+      imageUrls[0] &&
+      !imageList.includes(imageUrls[0]) &&
+      isValidUrl(imageUrls[0])
+    ) {
+      imageList.unshift(imageUrls[0])
+    }
+
+    console.log(imageList)
+
     const currency = extractCurrency($('.a-price-symbol'))
     const discountRate = $('.savingsPercentage').text().replace(/[-%]/g, '')
 
@@ -63,7 +90,7 @@ export async function scrapeAmazonProduct(url: string) {
     const data = {
       url,
       currency: currency || '$',
-      image: imageUrls[0],
+      image: imageList.slice(0, 8),
       title,
       currentPrice: Number(currentPrice) || Number(originalPrice),
       originalPrice: Number(originalPrice) || Number(currentPrice),

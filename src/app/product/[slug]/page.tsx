@@ -34,25 +34,23 @@ export default async function ProductPage({
   //   .toFixed(2)
   const product = await getProductById(params.slug)
 
-  console.log(product)
-
   return (
     <div className="pt-4 bg-white">
-      {/* <div className="max-w-screen-xl px-4 mx-auto md:px-8">
+      <div className="relative max-w-screen-xl px-4 mx-auto md:px-8">
         <div className="grid gap-8 md:grid-cols-2">
-          <ImageGallery images={data.images} />
+          <ImageGallery images={product?.image ? product.image : []} />
 
           <div className="md:py-8">
             <div className="mb-2 md:mb-3">
               <span className="mb-0.5 inline-block text-gray-500">
-                {data.categoryName}
+                {product?.category}
               </span>
               <h2 className="text-2xl font-bold text-gray-800 lg:text-3xl">
-                {data.name}
+                {product?.title}
               </h2>
             </div>
 
-            <div className="flex items-center gap-3 mb-6 md:mb-10">
+            {/* <div className="flex items-center gap-3 mb-6 md:mb-10">
               <LikesButton
                 user={userData?.user}
                 data={data}
@@ -67,15 +65,15 @@ export default async function ProductPage({
               <span className="text-sm text-gray-500 transition duration-100">
                 {rateData.length} Ratings
               </span>
-            </div>
+            </div> */}
 
             <div className="mb-4">
               <div className="flex items-end gap-2">
                 <span className="text-xl font-bold text-gray-800 md:text-2xl">
-                  ${data.price}
+                  ${product?.currentPrice}
                 </span>
                 <span className="mb-0.5 text-red-500 line-through">
-                  ${data.price + 30}
+                  ${product!.currentPrice! + 30}
                 </span>
               </div>
 
@@ -90,35 +88,39 @@ export default async function ProductPage({
             </div>
 
             <div className="flex gap-2.5">
-              <AddToBag
-                currency="USD"
-                description={data.description}
-                image={data.images[0]}
-                name={data.name}
-                price={data.price}
-                price_id={data.price_id}
-                key={data._id}
-              />
-              <CheckoutNow
-                currency="USD"
-                description={data.description}
-                image={data.images[0]}
-                name={data.name}
-                price={data.price}
-                price_id={data.price_id}
-                key={data._id}
-              />
+              {product && product.description && (
+                <>
+                  <AddToBag
+                    currency="USD"
+                    description={product.description}
+                    image={product.image[0]}
+                    name={product.title}
+                    price={product.currentPrice}
+                    price_id={product.id}
+                    key={product.id}
+                  />
+                  <CheckoutNow
+                    currency="USD"
+                    description={product.description}
+                    image={product.image[0]}
+                    name={product.title}
+                    price={product?.currentPrice}
+                    price_id={product.id}
+                    key={product.id}
+                  />
+                </>
+              )}
             </div>
 
             <p className="mt-12 text-base tracking-wide text-gray-500">
-              {data.description}
+              {product?.description}
             </p>
           </div>
         </div>
 
-        <ReviewForm user={userData?.user} product={data} />
-        <ReviewList productId={data._id} />
-      </div> */}
+        {/* <ReviewForm user={userData?.user} product={data} />
+        <ReviewList productId={data._id} /> */}
+      </div>
     </div>
   )
 }

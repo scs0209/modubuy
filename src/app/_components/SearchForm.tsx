@@ -1,8 +1,6 @@
 /* eslint-disable */
 'use client'
 
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { scrapeAndStoreProduct } from '@/lib/actions'
 import { SearchIcon } from 'lucide-react'
 import { FormEvent, useState } from 'react'
@@ -63,9 +61,11 @@ const SearchForm = () => {
         className="flex-1 bg-transparent outline-none"
       />
 
-      <button className="cursor-pointer">
+      <button type="submit" className="cursor-pointer">
         <SearchIcon className="w-[16px] h-[16px]" />
       </button>
+      {/* <Button type="submit" disabled={searchPrompt === ''}>
+      </Button> */}
     </form>
   )
 }

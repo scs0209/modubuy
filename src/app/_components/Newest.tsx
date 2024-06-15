@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { simplifiedProduct } from '../interface'
 import { client } from '../_lib/sanity'
 import { backUrl } from '../_config/url'
+import { getAllProducts } from '@/lib/actions'
 
 async function getData() {
   const query = `*[_type == 'product'][0...4] | order(_createdAt desc) {
@@ -43,6 +44,8 @@ export const dynamic = 'force-dynamic'
 export default async function Newest() {
   const data: simplifiedProduct[] = await getData()
   await fetchPayment()
+  const allProduct = await getAllProducts()
+  const newProduct = await allProduct?.slice(0, 4)
 
   return (
     <div>
@@ -65,11 +68,11 @@ export default async function Newest() {
 
         {/* product */}
         <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {data.map((product) => (
-            <div key={product._id} className="group relative">
+          {newProduct?.map((product) => (
+            <div key={product.id} className="group relative">
               <div className="aspect-square w-full overflow-hidden rounded-md bg-gray-200 group-hover:opacity-75 lg:h-80">
                 <Image
-                  src={product.imageUrl}
+                  src={product.image[0]}
                   alt="Product image"
                   className="w-full h-full object-cover object-center lg:h-full lg:w-full"
                   width={300}
@@ -79,17 +82,15 @@ export default async function Newest() {
 
               <div className="flex mt-4 justify-between">
                 <div>
-                  <h3 className="text-sm text-gray-700">
-                    <Link href={`/product/${product.slug}`}>
-                      {product.name}
-                    </Link>
+                  <h3 className="text-sm text-gray-700 line-clamp-2">
+                    <Link href={`/product/${product.id}`}>{product.title}</Link>
                   </h3>
                   <p className="text-sm mt-1 text-gray-500">
-                    {product.categoryName}
+                    {product.category}
                   </p>
                 </div>
                 <p className="text-sm font-medium text-gray-900">
-                  ${product.price}
+                  ${product.currentPrice}
                 </p>
               </div>
             </div>

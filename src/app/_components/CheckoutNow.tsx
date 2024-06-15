@@ -25,7 +25,7 @@ export default function CheckoutNow({
     description,
     price,
     currency,
-    image: urlFor(image).url(),
+    image,
     price_id,
   }
 
