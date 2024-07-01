@@ -2,10 +2,10 @@ import React from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import Image from 'next/image'
+import { getAllProducts } from '@/lib/actions'
 import { simplifiedProduct } from '../interface'
 import { client } from '../_lib/sanity'
 import { backUrl } from '../_config/url'
-import { getAllProducts } from '@/lib/actions'
 
 async function getData() {
   const query = `*[_type == 'product'][0...4] | order(_createdAt desc) {

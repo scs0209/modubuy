@@ -80,12 +80,23 @@ export async function scrapeAmazonProduct(url: string) {
       imageList.unshift(imageUrls[0])
     }
 
-    console.log(imageList)
-
     const currency = extractCurrency($('.a-price-symbol'))
     const discountRate = $('.savingsPercentage').text().replace(/[-%]/g, '')
 
     const description = extractDescription($)
+
+    const category = $('#detailBullets_feature_div .a-list-item')
+      .filter((i, el) =>
+        $(el)
+          .find('.a-text-bold')
+          .text()
+          .trim()
+          .toLowerCase()
+          .includes('department'),
+      )
+      .find('span:not(.a-text-bold)')
+      .text()
+      .trim()
 
     const data = {
       url,
@@ -95,7 +106,7 @@ export async function scrapeAmazonProduct(url: string) {
       currentPrice: Number(currentPrice) || Number(originalPrice),
       originalPrice: Number(originalPrice) || Number(currentPrice),
       discountRate: Number(discountRate),
-      category: 'category',
+      category: category,
       reviewsCount: 100,
       stars: 4.5,
       isOutOfStock: outOfStock,

@@ -7,11 +7,11 @@ import { usePathname } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useShoppingCart } from 'use-shopping-cart'
 import { ShoppingBag } from 'lucide-react'
+import { navLinks } from '@/constants'
 import UserDropdownMenu from './DropDown'
 import SearchForm from './SearchForm'
 import Menu from './Menu'
 import { backUrl } from '../_config/url'
-import { navLinks } from '@/constants'
 
 export default function Navbar() {
   const pathname = usePathname()

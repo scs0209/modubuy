@@ -2,7 +2,6 @@ import AddToBag from '@/app/_components/AddToBag'
 import CheckoutNow from '@/app/_components/CheckoutNow'
 import ImageGallery from '@/app/_components/ImageGallery'
 import ReviewForm from '@/app/_components/comment/ReviewForm'
-// import ReviewList from '@/app/_components/comment/ReviewList'
 import LikesButton from '@/app/_components/mypage/LikesButton'
 import { Review, fullProduct } from '@/app/interface'
 import { fetchProductLikes } from '@/app/_utils/apis/likes'
@@ -13,7 +12,11 @@ import { Button } from '@/components/ui/button'
 import { Star, Truck } from 'lucide-react'
 import { getServerSession } from 'next-auth'
 import dynamic from 'next/dynamic'
+import DOMPurify from 'isomorphic-dompurify'
 import { getProductById } from '@/lib/actions'
+import PriceInfoCard from '@/components/PriceInfoCard'
+import { formatNumber } from '@/lib/utils'
+import ProductDescription from '@/components/ProductDescription'
 
 const ReviewList = dynamic(
   () => import('@/app/_components/comment/ReviewList'),
@@ -40,7 +43,7 @@ export default async function ProductPage({
         <div className="grid gap-8 md:grid-cols-2">
           <ImageGallery images={product?.image ? product.image : []} />
 
-          <div className="md:py-8">
+          <div className="py-8 md:py-0">
             <div className="mb-2 md:mb-3">
               <span className="mb-0.5 inline-block text-gray-500">
                 {product?.category}
@@ -67,16 +70,38 @@ export default async function ProductPage({
               </span>
             </div> */}
 
-            <div className="mb-4">
-              <div className="flex items-end gap-2">
-                <span className="text-xl font-bold text-gray-800 md:text-2xl">
-                  ${product?.currentPrice}
-                </span>
-                <span className="mb-0.5 text-red-500 line-through">
-                  ${product!.currentPrice! + 30}
-                </span>
-              </div>
+            <div className="flex flex-wrap gap-5">
+              <PriceInfoCard
+                title="Current Price"
+                iconSrc="/assets/icons/price-tag.svg"
+                value={`${product?.currency} ${formatNumber(
+                  product?.currentPrice,
+                )}`}
+              />
+              <PriceInfoCard
+                title="Average Price"
+                iconSrc="/assets/icons/chart.svg"
+                value={`${product?.currency} ${formatNumber(
+                  product?.averagePrice!,
+                )}`}
+              />
+              <PriceInfoCard
+                title="Highest Price"
+                iconSrc="/assets/icons/arrow-up.svg"
+                value={`${product?.currency} ${formatNumber(
+                  product?.highestPrice!,
+                )}`}
+              />
+              <PriceInfoCard
+                title="Lowest Price"
+                iconSrc="/assets/icons/arrow-down.svg"
+                value={`${product?.currency} ${formatNumber(
+                  product?.lowestPrice!,
+                )}`}
+              />
+            </div>
 
+            <div className="mb-4">
               <span className="text-sm text-gray-500">
                 Incl. Vat plus shipping
               </span>
@@ -112,9 +137,13 @@ export default async function ProductPage({
               )}
             </div>
 
-            <p className="mt-12 text-base tracking-wide text-gray-500">
-              {product?.description}
-            </p>
+            {/* <p
+              className="mt-12 text-base tracking-wide text-gray-500"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(product?.description!),
+              }}
+            /> */}
+            <ProductDescription description={product?.description!} />
           </div>
         </div>
 

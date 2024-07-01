@@ -18,11 +18,11 @@ export default function ImageGallery({ images }: Props) {
 
   return (
     <div className="h-[500px] grid gap-4 lg:grid-cols-5 lg:sticky top-4">
-      <div className="order-last flex gap-4 lg:order-none lg:flex-col">
-        {images.slice(1, 5).map((image) => (
+      <div className="flex order-last gap-4 lg:order-none lg:flex-col">
+        {images.slice(0, 4).map((image) => (
           <div
             key={image}
-            className="overflow-hidden rounded-lg h-1/4  bg-gray-100"
+            className="overflow-hidden bg-gray-100 rounded-lg h-1/4"
             onClick={() => handleChangeImageClick(image)}
           >
             <Image
@@ -44,7 +44,7 @@ export default function ImageGallery({ images }: Props) {
           alt="main-product"
           width={500}
           height={500}
-          className="h-full object-cover"
+          className="h-full object-cotain"
         />
 
         <span className="absolute left-0 top-0 rounded-br-lg bg-red-500 px-3 py-1.5 text-sm uppercase tracking-wider text-white">

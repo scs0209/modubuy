@@ -29,7 +29,7 @@ type Product = {
   category: string
   reviewsCount: number
   stars: number
-  isOutOfStock: Boolean
+  isOutOfStock: boolean
   users?: User[]
 }
 
@@ -75,7 +75,7 @@ export function extractCurrency(element: any) {
 export function extractDescription($: any) {
   // these are possible elements holding description of the product
   const selectors = [
-    '.a-unordered-list .a-list-item',
+    '.a-unordered-list .a-size-base',
     '.a-expander-content p',
     // Add more selectors here if needed
   ]

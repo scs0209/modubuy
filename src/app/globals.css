@@ -70,5 +70,12 @@
 }
 
 .side-btn {
-  @apply mt-5 py-2 px-4 rounded-md text-green-600 bg-white w-full hover:bg-green-300 hover:text-white font-bold;
+  @apply w-full px-4 py-2 mt-5 font-bold text-green-600 bg-white rounded-md hover:bg-green-300 hover:text-white;
+}
+
+@layer utilities {
+  /* PRICE INFO */
+  .price-info_card {
+    @apply flex-1 min-w-[200px] flex flex-col gap-2 border-l-[3px] rounded-[10px] bg-secondary-white-100 px-5 py-4;
+  }
 }
