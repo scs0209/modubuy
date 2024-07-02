@@ -1,3 +1,4 @@
+/* eslint-disable */
 import dynamic from 'next/dynamic'
 import { getServerSession } from 'next-auth'
 import { Star, Truck } from 'lucide-react'

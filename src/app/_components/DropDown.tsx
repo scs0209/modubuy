@@ -21,7 +21,7 @@ export default function UserDropdownMenu({ session }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button>
+        <button aria-label="User Menu">
           <AvatarImg src={session?.user.image} />
         </button>
       </DropdownMenuTrigger>

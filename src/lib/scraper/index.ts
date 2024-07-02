@@ -2,16 +2,12 @@
 
 import axios from 'axios'
 import * as cheerio from 'cheerio'
-import { extractCurrency, extractDescription, extractPrice } from '../utils'
-
-const isValidUrl = (url: string) => {
-  try {
-    new URL(url)
-    return true
-  } catch (e) {
-    return false
-  }
-}
+import {
+  extractCurrency,
+  extractDescription,
+  extractPrice,
+  isValidUrl,
+} from '../utils'
 
 export async function scrapeAmazonProduct(url: string) {
   if (!url) return
@@ -106,7 +102,7 @@ export async function scrapeAmazonProduct(url: string) {
       currentPrice: Number(currentPrice) || Number(originalPrice),
       originalPrice: Number(originalPrice) || Number(currentPrice),
       discountRate: Number(discountRate),
-      category: category,
+      category,
       reviewsCount: 100,
       stars: 4.5,
       isOutOfStock: outOfStock,

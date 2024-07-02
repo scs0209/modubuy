@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/toaster'
 import { getServerSession } from 'next-auth'
+import Footer from '@/components/Footer'
 import Navbar from './_components/Navbar'
 import CartProvider from './_components/Providers'
 import ShoppingCartModal from './_components/ShoppingCartModal'
@@ -10,7 +11,6 @@ import NextAuthProvider from '../contexts/NextAuthProvider'
 import { authOptions } from './_utils/auth'
 import { ThemeProvider } from './_components/ThemeProvider'
 import ScrollToTop from './_components/ScrollToTop'
-import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 

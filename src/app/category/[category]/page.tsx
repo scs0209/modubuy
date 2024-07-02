@@ -31,11 +31,11 @@ export default async function CategoryPage({
 
         {/* product */}
         <div className="grid grid-cols-1 mt-6 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {product?.map((product) => (
-            <div key={product.id} className="relative group">
+          {product?.map((item) => (
+            <div key={item.id} className="relative group">
               <div className="w-full overflow-hidden bg-gray-200 rounded-md aspect-square group-hover:opacity-75 lg:h-80">
                 <Image
-                  src={product.image}
+                  src={item.image[0]}
                   alt="Product image"
                   className="object-cover object-center w-full h-full lg:h-full lg:w-full"
                   width={300}
@@ -46,14 +46,12 @@ export default async function CategoryPage({
               <div className="flex justify-between mt-4">
                 <div>
                   <h3 className="text-sm text-gray-700">
-                    <Link href={`/product/${product.id}`}>{product.title}</Link>
+                    <Link href={`/product/${item.id}`}>{item.title}</Link>
                   </h3>
-                  <p className="mt-1 text-sm text-gray-500">
-                    {product.category}
-                  </p>
+                  <p className="mt-1 text-sm text-gray-500">{item.category}</p>
                 </div>
                 <p className="text-sm font-medium text-gray-900">
-                  ${product.currentPrice}
+                  ${item.currentPrice}
                 </p>
               </div>
             </div>
