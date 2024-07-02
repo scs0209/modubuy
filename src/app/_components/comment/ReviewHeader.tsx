@@ -9,10 +9,10 @@ interface Props {
 
 export default function ReviewHeader({ review }: Props) {
   return (
-    <div className="flex justify-between items-center mb-2">
+    <div className="flex items-center justify-between mb-2">
       <div className="flex items-center">
-        <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
-          {review.user.name}
+        <p className="inline-flex items-center mr-3 text-sm font-semibold text-gray-900 dark:text-white">
+          {review?.user?.name}
         </p>
         <p className="text-sm text-gray-600 dark:text-gray-400">
           {formatDate(review.createdAt)}

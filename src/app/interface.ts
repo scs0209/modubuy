@@ -18,10 +18,11 @@ export interface Review {
   id: string
   content: string
   rating: number
-  createdAt: Date
+  createdAt: any
   updatedAt: Date
   userId: string
   productId: string
+  user?: User
 }
 export interface fullProduct {
   id: string
