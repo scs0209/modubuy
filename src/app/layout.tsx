@@ -10,6 +10,7 @@ import NextAuthProvider from '../contexts/NextAuthProvider'
 import { authOptions } from './_utils/auth'
 import { ThemeProvider } from './_components/ThemeProvider'
 import ScrollToTop from './_components/ScrollToTop'
+import Footer from '@/components/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -45,6 +46,7 @@ export default async function RootLayout({
             </CartProvider>
           </ThemeProvider>
         </NextAuthProvider>
+        <Footer />
       </body>
     </html>
   )
