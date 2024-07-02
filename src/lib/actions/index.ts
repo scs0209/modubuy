@@ -106,3 +106,39 @@ export async function getLikesByProductId(productId?: string, userId?: string) {
     console.error(error)
   }
 }
+
+// reviews
+export async function getReviewsByProductId(
+  productId?: string,
+  userId?: string,
+) {
+  try {
+    let reviews
+
+    if (userId && productId) {
+      reviews = await prisma.review.findMany({
+        where: {
+          AND: [{ productId }, { userId }],
+        },
+      })
+    } else if (productId) {
+      reviews = await prisma.review.findMany({
+        where: {
+          productId,
+        },
+        include: {
+          user: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+        },
+      })
+    }
+    return reviews
+  } catch (e) {
+    console.error(e)
+  }
+}

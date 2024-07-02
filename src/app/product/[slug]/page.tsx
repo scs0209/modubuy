@@ -10,9 +10,12 @@ import ProductDescription from '@/components/ProductDescription'
 import { Button } from '@/components/ui/button'
 import PriceInfoCard from '@/components/PriceInfoCard'
 import { Review } from '@/app/interface'
-import { getLikesByProductId, getProductById } from '@/lib/actions'
+import {
+  getLikesByProductId,
+  getProductById,
+  getReviewsByProductId,
+} from '@/lib/actions'
 import { formatNumber } from '@/lib/utils'
-import { fetchReviewProduct } from '@/app/_utils/apis/review'
 import { authOptions } from '@/app/_utils/auth'
 
 const ReviewList = dynamic(
@@ -27,9 +30,14 @@ export default async function ProductPage({
 }) {
   const userData = await getServerSession(authOptions)
   const product = await getProductById(params.slug)
-  const rateData: Review[] = await fetchReviewProduct(product?.id!)
+  const rateData: Review[] | undefined = await getReviewsByProductId(
+    product?.id,
+  )
   const averageRating = rateData
-    .reduce((total, review, _, { length }) => total + review.rating / length, 0)
+    ?.reduce(
+      (total, review, _, { length }) => total + review.rating / length,
+      0,
+    )
     .toFixed(2)
   const likeData = (await getLikesByProductId(product?.id)) || []
 
@@ -62,7 +70,7 @@ export default async function ProductPage({
               </Button>
 
               <span className="text-sm text-gray-500 transition duration-100">
-                {rateData.length} Ratings
+                {rateData?.length} Ratings
               </span>
             </div>
 
