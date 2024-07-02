@@ -1,19 +1,19 @@
+import dynamic from 'next/dynamic'
+import { getServerSession } from 'next-auth'
+import { Star, Truck } from 'lucide-react'
 import AddToBag from '@/app/_components/AddToBag'
 import CheckoutNow from '@/app/_components/CheckoutNow'
 import ImageGallery from '@/app/_components/ImageGallery'
 import ReviewForm from '@/app/_components/comment/ReviewForm'
 import LikesButton from '@/app/_components/mypage/LikesButton'
-import { Review, fullProduct } from '@/app/interface'
-import { getDetailProduct } from '@/app/_utils/apis/product'
-import { authOptions } from '@/app/_utils/auth'
-import { Button } from '@/components/ui/button'
-import { Star, Truck } from 'lucide-react'
-import { getServerSession } from 'next-auth'
-import dynamic from 'next/dynamic'
-import { getLikesByProductId, getProductById } from '@/lib/actions'
-import PriceInfoCard from '@/components/PriceInfoCard'
-import { formatNumber } from '@/lib/utils'
 import ProductDescription from '@/components/ProductDescription'
+import { Button } from '@/components/ui/button'
+import PriceInfoCard from '@/components/PriceInfoCard'
+import { Review } from '@/app/interface'
+import { getLikesByProductId, getProductById } from '@/lib/actions'
+import { formatNumber } from '@/lib/utils'
+import { fetchReviewProduct } from '@/app/_utils/apis/review'
+import { authOptions } from '@/app/_utils/auth'
 
 const ReviewList = dynamic(
   () => import('@/app/_components/comment/ReviewList'),
@@ -25,13 +25,12 @@ export default async function ProductPage({
 }: {
   params: { slug: string }
 }) {
-  // const data: fullProduct = await getDetailProduct(params.slug)
   const userData = await getServerSession(authOptions)
-  // const rateData: Review[] = await fetchReviewProduct(data._id)
-  // const averageRating = rateData
-  //   .reduce((total, review, _, { length }) => total + review.rating / length, 0)
-  //   .toFixed(2)
   const product = await getProductById(params.slug)
+  const rateData: Review[] = await fetchReviewProduct(product?.id!)
+  const averageRating = rateData
+    .reduce((total, review, _, { length }) => total + review.rating / length, 0)
+    .toFixed(2)
   const likeData = (await getLikesByProductId(product?.id)) || []
 
   return (
@@ -57,14 +56,14 @@ export default async function ProductPage({
                 likeData={likeData}
               />
 
-              {/* <Button className="rounded-full gap-x-2">
+              <Button className="rounded-full gap-x-2">
                 <span className="text-sm">{averageRating}</span>
                 <Star className="w-5 h-5" />
               </Button>
 
               <span className="text-sm text-gray-500 transition duration-100">
                 {rateData.length} Ratings
-              </span> */}
+              </span>
             </div>
 
             <div className="flex flex-wrap gap-5">

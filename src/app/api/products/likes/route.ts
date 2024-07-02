@@ -23,8 +23,6 @@ export async function GET(req: NextRequest) {
     })
   }
 
-  console.log('likes: ', likes)
-
   if (!likes) {
     return NextResponse.json({ error: 'Likes not found' }, { status: 404 })
   }

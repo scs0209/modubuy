@@ -1,11 +1,11 @@
 'use client'
 
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { Heart } from 'lucide-react'
 import { Like, fullProduct } from '@/app/interface'
 import { fetchLikes, toggleLike } from '@/app/_utils/apis/likes'
 import { Button } from '@/components/ui/button'
-import { Heart } from 'lucide-react'
-import { useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
 import { toast } from '@/components/ui/use-toast'
 
 interface Props {
