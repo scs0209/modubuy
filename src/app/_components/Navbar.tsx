@@ -44,7 +44,7 @@ export default function Navbar() {
   if (pathname.startsWith('/admin')) return null
 
   return (
-    <header className="relative h-20 px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64">
+    <header className="relative h-20 common-padding">
       {/* mobile */}
       <div className="flex items-center justify-between h-full md:hidden">
         <Link href="/" className="flex items-center gap-2">

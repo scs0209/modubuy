@@ -32,7 +32,7 @@ export default function ReviewList({ productId }: Props) {
     <div>
       {reviews.map((review) => (
         <div key={review.id}>
-          <article className="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
+          <article className="py-4 text-base bg-white rounded-lg dark:bg-gray-900">
             <ReviewHeader review={review} />
             {editing[review.id] ? (
               <ReviewEditForm review={review} />

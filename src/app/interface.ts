@@ -8,15 +8,42 @@ export interface simplifiedProduct {
   product_id: string
 }
 
-export interface fullProduct {
-  _id: string
-  images: Image[]
+interface PriceHistoryItem {
+  id: string
   price: number
-  slug: string
-  categoryName: string
-  name: string
-  description: string
-  price_id: string
+  date: Date
+}
+
+export interface Review {
+  id: string
+  content: string
+  rating: number
+  createdAt: Date
+  updatedAt: Date
+  userId: string
+  productId: string
+}
+export interface fullProduct {
+  id: string
+  url: string
+  currency: string
+  title: string
+  currentPrice: number
+  originalPrice: number
+  highestPrice?: number | null
+  lowestPrice?: number | null
+  averagePrice?: number | null
+  discountRate?: number | null
+  description?: string | null
+  category?: string | null
+  reviewsCount?: number | null
+  stars: number
+  isOutOfStock: boolean | null
+  createdAt: Date
+  updatedAt: Date
+  image: string[]
+  priceHistory?: PriceHistoryItem[]
+  reviews?: Review[]
 }
 
 export interface ImageAsset {
@@ -76,17 +103,6 @@ export interface Category {
   name: string
   _type: string
   _rev: string
-}
-
-export interface Review {
-  id: string
-  content: string
-  rating: number
-  createdAt: string
-  updatedAt: string
-  userId: string
-  productId: string
-  user: User
 }
 
 export interface LikesProduct {

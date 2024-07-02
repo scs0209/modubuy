@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button'
 import { Star, Truck } from 'lucide-react'
 import { getServerSession } from 'next-auth'
 import dynamic from 'next/dynamic'
-import DOMPurify from 'isomorphic-dompurify'
 import { getProductById } from '@/lib/actions'
 import PriceInfoCard from '@/components/PriceInfoCard'
 import { formatNumber } from '@/lib/utils'
@@ -29,7 +28,7 @@ export default async function ProductPage({
   params: { slug: string }
 }) {
   // const data: fullProduct = await getDetailProduct(params.slug)
-  // const userData = await getServerSession(authOptions)
+  const userData = await getServerSession(authOptions)
   // const rateData: Review[] = await fetchReviewProduct(data._id)
   // const likeData = await fetchProductLikes(data._id)
   // const averageRating = rateData
@@ -39,7 +38,7 @@ export default async function ProductPage({
 
   return (
     <div className="pt-4 bg-white">
-      <div className="relative max-w-screen-xl px-4 mx-auto md:px-8">
+      <div className="relative common-padding">
         <div className="grid gap-8 md:grid-cols-2">
           <ImageGallery images={product?.image ? product.image : []} />
 
@@ -137,18 +136,12 @@ export default async function ProductPage({
               )}
             </div>
 
-            {/* <p
-              className="mt-12 text-base tracking-wide text-gray-500"
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(product?.description!),
-              }}
-            /> */}
             <ProductDescription description={product?.description!} />
+
+            <ReviewForm user={userData?.user} product={product!} />
+            <ReviewList productId={product?.id!} />
           </div>
         </div>
-
-        {/* <ReviewForm user={userData?.user} product={data} />
-        <ReviewList productId={data._id} /> */}
       </div>
     </div>
   )

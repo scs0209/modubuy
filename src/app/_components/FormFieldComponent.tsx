@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { UseFormReturn, FieldValues, Path } from 'react-hook-form'
 import {
   FormField,
@@ -20,6 +20,7 @@ interface Props<T extends FieldValues> {
   className?: string
   component: React.ElementType
   type?: string
+  children?: ReactNode
 }
 
 export default function FormFieldComponent<T extends FieldValues>({
@@ -31,6 +32,7 @@ export default function FormFieldComponent<T extends FieldValues>({
   className,
   component: Component,
   type,
+  children,
 }: Props<T>) {
   return (
     <FormField
@@ -42,12 +44,15 @@ export default function FormFieldComponent<T extends FieldValues>({
           <FormItem>
             <FormLabel>{label}</FormLabel>
             <FormControl>
-              <Component
-                placeholder={placeholder}
-                className={cn(appliedClass, className)}
-                type={type}
-                {...field}
-              />
+              <>
+                <Component
+                  placeholder={placeholder}
+                  className={cn(appliedClass, className)}
+                  type={type}
+                  {...field}
+                />
+                {children && children}
+              </>
             </FormControl>
             <FormDescription>{description}</FormDescription>
             <FormMessage />

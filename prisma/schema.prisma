@@ -87,8 +87,12 @@ model Review {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   userId    String
-  productId String
+  productId String 
   user      User     @relation(fields: [userId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+
+  @@index([userId])
+  @@index([productId])
 }
 
 model Product {
@@ -111,6 +115,7 @@ model Product {
   updatedAt     DateTime           @updatedAt
   image         String[]
   priceHistory  PriceHistoryItem[]
+  reviews       Review[]
 }
 
 model PriceHistoryItem {
