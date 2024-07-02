@@ -2,7 +2,7 @@ import { NextResponse, NextRequest } from 'next/server'
 import prisma from '../../../../lib/db'
 
 // 유저가 좋아요를 누른 상품들을 가져오는 기능
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
   const url = new URL(req.url!)
   const userId = url.searchParams.get('userId')
   const productId = url.searchParams.get('productId')
@@ -22,6 +22,8 @@ export async function GET(req: NextRequest, res: NextResponse) {
       },
     })
   }
+
+  console.log('likes: ', likes)
 
   if (!likes) {
     return NextResponse.json({ error: 'Likes not found' }, { status: 404 })

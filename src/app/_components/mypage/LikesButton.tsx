@@ -21,7 +21,7 @@ export default function LikesButton({ data, user, likeData }: Props) {
   useEffect(() => {
     fetchLikes(user?.id)
       .then((likes) => {
-        const isLiked = likes.some((like: Like) => like.productId === data._id)
+        const isLiked = likes.some((like: Like) => like.productId === data.id)
         setLiked(isLiked)
       })
       .catch((error) => {
@@ -37,7 +37,7 @@ export default function LikesButton({ data, user, likeData }: Props) {
       })
     }
 
-    toggleLike(user?.id, data._id)
+    toggleLike(user?.id, data.id)
       .then((result) => {
         /* @ts-ignore */
         console.log('result', result)

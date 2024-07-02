@@ -76,6 +76,7 @@ model Like {
   productId String
   createdAt DateTime @default(now())
   user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
 
   @@id([userId, productId])
 }
@@ -116,6 +117,7 @@ model Product {
   image         String[]
   priceHistory  PriceHistoryItem[]
   reviews       Review[]
+  likes         Like[]
 }
 
 model PriceHistoryItem {

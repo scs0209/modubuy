@@ -130,5 +130,5 @@ export interface Asset {
 export interface Like {
   userId: string
   productId: string
-  createdAt: string
+  createdAt: any
 }

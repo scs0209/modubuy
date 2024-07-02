@@ -81,3 +81,28 @@ export async function getProductById(productId: string) {
     console.log(error)
   }
 }
+
+// Likes
+export async function getLikesByProductId(productId?: string, userId?: string) {
+  try {
+    let likes
+
+    if (userId) {
+      likes = await prisma.like.findMany({
+        where: {
+          userId,
+        },
+      })
+    } else if (productId) {
+      likes = await prisma.like.findMany({
+        where: {
+          productId,
+        },
+      })
+    }
+
+    return likes
+  } catch (error) {
+    console.error(error)
+  }
+}
