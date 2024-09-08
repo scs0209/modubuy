@@ -4,9 +4,9 @@ on:
   pull_request:
     branches: [main]
 
-  permissions:
-    pull-requests: write
-    contents: read
+permissions:
+  pull-requests: write
+  contents: read
 
 jobs:
   run_code_review:
@@ -21,4 +21,4 @@ jobs:
         with:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           MODEL: 'gpt-4o'
-          GITHUB_TOKEN: ${{ github.token }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
