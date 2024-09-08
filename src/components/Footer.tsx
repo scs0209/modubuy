@@ -14,7 +14,7 @@ const Footer = () => {
           <Link href="/">
             <div className="text-2xl tracking-wide">ModuBuy</div>
           </Link>
-          <p>서울특별시 강남구 테헤란로 123 4층</p>
+          <p>서울특별시 강남구 테헤란로 123 4층-</p>
           <span className="font-semibold">tjdckdtn2463@naver.com</span>
           <span className="font-semibold">+82 010 8665 5745</span>
           <div className="flex gap-6">

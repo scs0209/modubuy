@@ -10,7 +10,8 @@
     "fix": "eslint --fix \"src/**/*.{js,ts,jsx,tsx}\"",
     "test": "jest",
     "test:watch": "jest --watchAll",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "precommit": "bash ./run-pre-commit.sh"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
