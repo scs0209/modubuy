@@ -2,7 +2,7 @@
 
 import { ColumnDef, OnChangeFn, SortingState } from '@tanstack/react-table'
 import { useState } from 'react'
-import Table from './Table'
+import Table from './CommonTable'
 
 function TableView() {
   const [data] = useState([
