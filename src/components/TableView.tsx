@@ -215,8 +215,65 @@ function TableView() {
           { index: 0, position: 'left' },
           { index: columns.length - 1, position: 'right' },
         ]}
-      />
-      <Table.Body />
+      >
+        {({ headerGroup, getCommonPinningStyles, flexRender, Filter }) => (
+          <tr>
+            {headerGroup.headers.map((header) => (
+              <th
+                key={header.id}
+                style={{
+                  ...getCommonPinningStyles(header.column),
+                  width: `calc(var(--header-${header?.id}-size) * 1px)`,
+                }}
+              >
+                {flexRender(
+                  header.column.columnDef.header,
+                  header.getContext(),
+                )}
+                {header.column.getCanFilter() ? (
+                  <div>
+                    <Filter column={header.column} />
+                  </div>
+                ) : null}
+                <div
+                  {...{
+                    onDoubleClick: () => header.column.resetSize(),
+                    onMouseDown: header.getResizeHandler(),
+                    onTouchStart: header.getResizeHandler(),
+                    className: `resizer ${
+                      header.column.getIsResizing() ? 'isResizing' : ''
+                    }`,
+                  }}
+                />
+              </th>
+            ))}
+          </tr>
+        )}
+      </Table.Header>
+      <Table.Body>
+        {({ virtualRows, rows, getCommonPinningStyles, flexRender }) => (
+          <>
+            {virtualRows().map((virtualRow) => {
+              const row = rows[virtualRow.index]
+              return (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      style={getCommonPinningStyles(cell.column)}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              )
+            })}
+          </>
+        )}
+      </Table.Body>
       {/* <Table.Pagination /> */}
     </Table>
   )

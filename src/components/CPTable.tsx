@@ -100,7 +100,7 @@ export const Table = <T extends object>({
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    enableColumnResizing: false,
+    // enableColumnResizing: false,
   })
 
   return <TableProvider value={{ table }}>{children}</TableProvider>
@@ -140,7 +140,12 @@ interface TableHeaderProps {
 }
 
 const TableHeader = memo(
-  <T extends object>({ fixedColumns = [] }: TableHeaderProps) => {
+  <T extends object>({
+    fixedColumns = [],
+    children,
+  }: TableHeaderProps & {
+    children: (props: any) => React.ReactNode
+  }) => {
     const { table } = useTable()
 
     useMemo(() => {
@@ -176,6 +181,16 @@ const TableHeader = memo(
           }}
         >
           <thead>
+            {table.getHeaderGroups().map((headerGroup) =>
+              children({
+                headerGroup,
+                getCommonPinningStyles,
+                flexRender,
+                Filter,
+              }),
+            )}
+          </thead>
+          {/* <thead>
             {table.getHeaderGroups().map((headerGroup) => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -212,7 +227,7 @@ const TableHeader = memo(
                 ))}
               </tr>
             ))}
-          </thead>
+          </thead> */}
         </table>
       </div>
     )
@@ -221,7 +236,11 @@ const TableHeader = memo(
 
 Table.Header = TableHeader
 
-const TableBody: React.FC = () => {
+const TableBody = <T extends object>({
+  children,
+}: {
+  children: (props: BodyRenderProps<T>) => React.ReactNode
+}) => {
   const { table } = useTable()
   const { rows } = table.getRowModel()
   const tableContainerRef = useRef<HTMLDivElement>(null)
@@ -276,13 +295,31 @@ const TableBody: React.FC = () => {
               <td style={{ height: `${paddingTop}px` }} />
             </tr>
           )}
-          {virtualRows().map((row) => renderRow(row))}
+          {children({
+            virtualRows,
+            rows,
+            getCommonPinningStyles,
+            flexRender,
+          })}
           {paddingBottom > 0 && (
             <tr>
               <td style={{ height: `${paddingBottom}px` }} />
             </tr>
           )}
         </tbody>
+        {/* <tbody>
+          {paddingTop > 0 && (
+            <tr>
+              <td style={{ height: `${paddingTop}px` }} />
+            </tr>
+          )}
+          {virtualRows().map((row) => renderRow(row))}
+          {paddingBottom > 0 && (
+            <tr>
+              <td style={{ height: `${paddingBottom}px` }} />
+            </tr>
+          )}
+        </tbody> */}
       </table>
     </div>
   )
