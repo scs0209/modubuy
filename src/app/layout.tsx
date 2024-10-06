@@ -11,6 +11,8 @@ import NextAuthProvider from '../contexts/NextAuthProvider'
 import { authOptions } from './_utils/auth'
 import { ThemeProvider } from './_components/ThemeProvider'
 import ScrollToTop from './_components/ScrollToTop'
+import '@shoplflow/base/styles'
+import '@shoplflow/base/reset'
 
 const inter = Inter({ subsets: ['latin'] })
 
