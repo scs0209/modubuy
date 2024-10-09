@@ -13,6 +13,7 @@ import {
 } from '@shoplflow/base'
 import { SearchIcon } from '@shoplflow/shopl-assets'
 import styled from '@emotion/styled'
+import { debounce } from 'lodash'
 
 interface SearchType extends InputHTMLAttributes<HTMLInputElement> {
   width?: string
@@ -29,6 +30,8 @@ interface SearchType extends InputHTMLAttributes<HTMLInputElement> {
   dropDownSizeVar?: 'S' | 'M'
   /* 엔터 및 아이콘 버튼 클릭 시 검색할 때 사용하는 props */
   onSearch?: (value: string) => void
+  dropdownStyle?: React.CSSProperties
+  inputStyle?: React.CSSProperties
 }
 
 const SearchBar = ({
@@ -49,7 +52,8 @@ const SearchBar = ({
   selectedDropdownItem,
   onDropdownSelect,
   onSearch,
-  ...rest
+  dropdownStyle,
+  inputStyle,
 }: SearchType) => {
   const [text, setText] = useState('')
   const [isOpen, setIsOpen] = useState(false)
@@ -64,13 +68,20 @@ const SearchBar = ({
     [],
   )
 
+  const debouncedOnChange = useCallback(
+    debounce((event: ChangeEvent<HTMLInputElement>) => {
+      const newValue = event.target.value
+      setText(newValue)
+      if (type === 'real-time') {
+        onChange && onChange(event)
+        onSearch && onSearch(newValue)
+      }
+    }, 300),
+    [onChange, onSearch, type],
+  )
+
   const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value
-    setText(newValue)
-    if (type === 'real-time') {
-      onChange && onChange(event)
-      onSearch && onSearch(newValue)
-    }
+    debouncedOnChange(event)
   }
 
   const handleOnClear = () => {
@@ -114,6 +125,7 @@ const SearchBar = ({
   return (
     <StyledStackContainer
       width={width}
+      height={height}
       spacing="spacing08"
       type={type}
       isOpen={isOpen}
@@ -134,7 +146,7 @@ const SearchBar = ({
               }
               sizeVar={dropDownSizeVar}
               onClick={toggleOpen}
-              style={{ borderRadius: '4px', minWidth: '126px' }}
+              style={{ ...dropdownStyle }}
             />
           }
           popper={
@@ -159,7 +171,7 @@ const SearchBar = ({
         onChange={handleOnChange}
         onKeyDown={handleKeyDown}
         value={text}
-        {...rest}
+        style={{ ...inputStyle }}
         onClear={handleOnClear}
         width="100%"
       />
@@ -210,11 +222,11 @@ const StyledStackContainer = styled(Stack.Horizontal)<{
   div[data-shoplflow="Dropdown"] {
     label {
       border: none;
-      border-radius: 0;
-      height: 32px;
+      border-radius: 4px;
     }
 
     button {
+      border-radius: 4px;
       background-color: ${({ isOpen }) =>
         isOpen ? colorTokens.neutral350 : colorTokens.neutral100};
     }
