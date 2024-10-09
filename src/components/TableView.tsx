@@ -3,6 +3,7 @@
 import { useMemo } from 'react'
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
 import { Person, Table } from './CPTable'
+import SearchBar from './SearchBar'
 
 // function TableView() {
 //   const [data] = useState([
@@ -147,6 +148,12 @@ import { Person, Table } from './CPTable'
 //   )
 // }
 
+const dropdownItem = [
+  { label: '문서명', value: 'TITLE' },
+  { label: '발송자', value: 'SENDER' },
+  { label: '수신자', value: 'RECIPIENT' },
+]
+
 function TableView() {
   const data = useMemo<Person[]>(
     () =>
@@ -210,6 +217,15 @@ function TableView() {
 
   return (
     <Table data={data} columns={columns}>
+      <SearchBar
+        category
+        dropdownItems={dropdownItem}
+        selectedDropdownItem={{
+          label: '문서명',
+          value: 'TITLE',
+        }}
+        type="real-time"
+      />
       <Table.Header
         fixedColumns={[
           { index: 0, position: 'left' },

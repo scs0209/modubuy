@@ -370,8 +370,6 @@ function Filter({ column }: { column: Column<any, unknown> }) {
       ? []
       : Array.from(column.getFacetedUniqueValues().keys()).sort().slice(0, 5000)
 
-  console.log(column.getFacetedUniqueValues().keys())
-
   return filterVariant === 'select' ? (
     <select
       onChange={(e) => column.setFilterValue(e.target.value)}
