@@ -31,6 +31,7 @@ declare module '@tanstack/react-table' {
   interface ColumnMeta<TData extends RowData, TValue> {
     filterVariant?: 'text' | 'range' | 'select'
     filterOptions?: { label: string; value: string }[]
+    sortLabels?: string[]
   }
 }
 
@@ -190,6 +191,7 @@ const TableHeader = memo(
                 getCommonPinningStyles,
                 flexRender,
                 Filter,
+                SortMenu,
               }),
             )}
           </thead>
@@ -434,6 +436,34 @@ function DebouncedInput({
       value={value}
       onChange={(e) => setValue(e.target.value)}
     />
+  )
+}
+
+function SortMenu({
+  onSortChange,
+  column,
+}: {
+  onSortChange: (direction: 'asc' | 'desc' | false) => void
+  column: Column<any, unknown>
+}) {
+  const sortLabels: string[] = column.columnDef.meta?.sortLabels ?? [
+    '오름차순',
+    '내림차순',
+    '정렬 해제',
+  ]
+
+  return (
+    <div className="relative top-0 z-10 h-5 sort-menu">
+      <button className="text-black" onClick={() => onSortChange('asc')}>
+        {sortLabels[0] ?? '오름차순'}
+      </button>
+      <button onClick={() => onSortChange('desc')}>
+        {sortLabels[1] ?? '내림차순'}
+      </button>
+      <button onClick={() => onSortChange(false)}>
+        {sortLabels[2] ?? '정렬 해제'}
+      </button>
+    </div>
   )
 }
 

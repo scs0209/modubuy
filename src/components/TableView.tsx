@@ -3,6 +3,7 @@
 import { ColumnDef, createColumnHelper, SortingFn } from '@tanstack/react-table'
 import { useQuery } from '@tanstack/react-query'
 import { DocumentData, DocumentDataList } from '@/lib/types'
+import { useState } from 'react'
 import { Table } from './CPTable'
 import SearchBar from './SearchBar'
 
@@ -28,8 +29,7 @@ function TableView() {
       return response.json()
     },
   })
-
-  console.log(data)
+  const [isSortMenuOpen, setSortMenuOpen] = useState(false)
 
   const columnHelper = createColumnHelper<DocumentData>()
 
@@ -50,6 +50,9 @@ function TableView() {
     columnHelper.accessor('completeCnt', {
       header: '완료율',
       cell: (props) => props.getValue(),
+      meta: {
+        sortLabels: ['최신순', '느린순', '기본'],
+      },
       sortingFn: sortStatusFn,
       enableSorting: true,
       size: 250,
@@ -88,45 +91,71 @@ function TableView() {
           { index: columns.length - 1, position: 'right' },
         ]}
       >
-        {({ headerGroup, getCommonPinningStyles, flexRender, Filter }) => (
+        {({
+          headerGroup,
+          getCommonPinningStyles,
+          flexRender,
+          Filter,
+          SortMenu,
+        }) => (
           <tr>
-            {headerGroup.headers.map((header) => (
-              <th
-                key={header.id}
-                style={{
-                  ...getCommonPinningStyles(header.column),
-                  width: `calc(var(--header-${header?.id}-size) * 1px)`,
-                }}
-                onClick={header.column.getToggleSortingHandler()}
-              >
-                {flexRender(
-                  header.column.columnDef.header,
-                  header.getContext(),
-                )}
-                {{
-                  asc: ' 🔼',
-                  desc: ' 🔽',
-                }[header.column.getIsSorted() as string] ?? null}
-                {header.column.getCanFilter() ? (
-                  <Filter
-                    column={header.column}
-                    onFilterChange={(value) =>
-                      console.log(`Filter changed to: ${value}`)
-                    }
-                  />
-                ) : null}
-                <div
-                  {...{
-                    onDoubleClick: () => header.column.resetSize(),
-                    onMouseDown: header.getResizeHandler(),
-                    onTouchStart: header.getResizeHandler(),
-                    className: `resizer ${
-                      header.column.getIsResizing() ? 'isResizing' : ''
-                    }`,
+            {headerGroup.headers.map((header) => {
+              const handleSortChange = (direction: 'asc' | 'desc' | false) => {
+                header.column.toggleSorting(
+                  direction === 'asc' ? 'asc' : 'desc',
+                )
+                setSortMenuOpen(false)
+              }
+              return (
+                <th
+                  key={header.id}
+                  style={{
+                    ...getCommonPinningStyles(header.column),
+                    width: `calc(var(--header-${header?.id}-size) * 1px)`,
                   }}
-                />
-              </th>
-            ))}
+                  // onClick={header.column.getToggleSortingHandler()}
+                >
+                  {flexRender(
+                    header.column.columnDef.header,
+                    header.getContext(),
+                  )}
+                  <button
+                    onClick={() => setSortMenuOpen((prev) => !prev)}
+                    className="sort-button"
+                  >
+                    🔽
+                  </button>
+                  {isSortMenuOpen && (
+                    <SortMenu
+                      column={header.column}
+                      onSortChange={handleSortChange}
+                    />
+                  )}
+                  {/* {{
+                    asc: ' 🔼',
+                    desc: ' 🔽',
+                  }[header.column.getIsSorted() as string] ?? null} */}
+                  {header.column.getCanFilter() ? (
+                    <Filter
+                      column={header.column}
+                      onFilterChange={(value) =>
+                        console.log(`Filter changed to: ${value}`)
+                      }
+                    />
+                  ) : null}
+                  <div
+                    {...{
+                      onDoubleClick: () => header.column.resetSize(),
+                      onMouseDown: header.getResizeHandler(),
+                      onTouchStart: header.getResizeHandler(),
+                      className: `resizer ${
+                        header.column.getIsResizing() ? 'isResizing' : ''
+                      }`,
+                    }}
+                  />
+                </th>
+              )
+            })}
           </tr>
         )}
       </Table.Header>
