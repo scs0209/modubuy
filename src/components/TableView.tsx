@@ -1,9 +1,165 @@
 'use client'
 
-import { useMemo } from 'react'
-import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
-import { Person, Table } from './CPTable'
+import { ColumnDef, createColumnHelper, SortingFn } from '@tanstack/react-table'
+import { useQuery } from '@tanstack/react-query'
+import { DocumentData, DocumentDataList } from '@/lib/types'
+import { Table } from './CPTable'
 import SearchBar from './SearchBar'
+
+const dropdownItem = [
+  { label: '문서명', value: 'TITLE' },
+  { label: '발송자', value: 'SENDER' },
+  { label: '수신자', value: 'RECIPIENT' },
+]
+
+// custom sorting logic for one of our enum columns
+const sortStatusFn: SortingFn<DocumentData> = (rowA, rowB, _columnId) => {
+  const statusA = rowA.original.completeCnt
+  const statusB = rowB.original.completeCnt
+  return statusA - statusB
+}
+
+function TableView() {
+  const { data, error, isLoading } = useQuery<DocumentDataList>({
+    queryKey: ['fetchData'],
+    queryFn: async () => {
+      const response = await fetch('./data.json')
+      if (!response.ok) throw new Error('Network response was not ok')
+      return response.json()
+    },
+  })
+
+  console.log(data)
+
+  const columnHelper = createColumnHelper<DocumentData>()
+
+  const columns = [
+    columnHelper.accessor('title', {
+      header: '문서명',
+      cell: (props) => props.getValue(),
+      meta: {
+        filterVariant: 'select',
+        filterOptions: [
+          { label: 'All', value: '' },
+          { label: 'High Priority', value: 'high' },
+          { label: 'Low Priority', value: 'low' },
+        ],
+      },
+      size: 250,
+    }),
+    columnHelper.accessor('completeCnt', {
+      header: '완료율',
+      cell: (props) => props.getValue(),
+      sortingFn: sortStatusFn,
+      enableSorting: true,
+      size: 250,
+    }),
+    columnHelper.accessor('regUserInfo', {
+      header: '발신자',
+      cell: (props) => props.getValue().name,
+      meta: {
+        filterVariant: 'select',
+        filterOptions: [
+          { label: 'High Priority', value: 'high' },
+          { label: 'Low Priority', value: 'low' },
+        ],
+      },
+      size: 250,
+    }),
+  ] as ColumnDef<DocumentData>[]
+
+  if (isLoading) return <p>Loading...</p>
+  if (error) return <p>Error: {error.message}</p>
+
+  return (
+    <Table data={data?.content || []} columns={columns}>
+      <SearchBar
+        category
+        dropdownItems={dropdownItem}
+        selectedDropdownItem={{
+          label: '문서명',
+          value: 'TITLE',
+        }}
+        type="real-time"
+      />
+      <Table.Header
+        fixedColumns={[
+          { index: 0, position: 'left' },
+          { index: columns.length - 1, position: 'right' },
+        ]}
+      >
+        {({ headerGroup, getCommonPinningStyles, flexRender, Filter }) => (
+          <tr>
+            {headerGroup.headers.map((header) => (
+              <th
+                key={header.id}
+                style={{
+                  ...getCommonPinningStyles(header.column),
+                  width: `calc(var(--header-${header?.id}-size) * 1px)`,
+                }}
+                onClick={header.column.getToggleSortingHandler()}
+              >
+                {flexRender(
+                  header.column.columnDef.header,
+                  header.getContext(),
+                )}
+                {{
+                  asc: ' 🔼',
+                  desc: ' 🔽',
+                }[header.column.getIsSorted() as string] ?? null}
+                {header.column.getCanFilter() ? (
+                  <Filter
+                    column={header.column}
+                    onFilterChange={(value) =>
+                      console.log(`Filter changed to: ${value}`)
+                    }
+                  />
+                ) : null}
+                <div
+                  {...{
+                    onDoubleClick: () => header.column.resetSize(),
+                    onMouseDown: header.getResizeHandler(),
+                    onTouchStart: header.getResizeHandler(),
+                    className: `resizer ${
+                      header.column.getIsResizing() ? 'isResizing' : ''
+                    }`,
+                  }}
+                />
+              </th>
+            ))}
+          </tr>
+        )}
+      </Table.Header>
+      <Table.Body>
+        {({ virtualRows, rows, getCommonPinningStyles, flexRender }) => (
+          <>
+            {virtualRows().map((virtualRow) => {
+              const row = rows[virtualRow.index]
+              return (
+                <tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <td
+                      key={cell.id}
+                      style={getCommonPinningStyles(cell.column)}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              )
+            })}
+          </>
+        )}
+      </Table.Body>
+      <Table.Pagination />
+    </Table>
+  )
+}
+
+export default TableView
 
 // function TableView() {
 //   const [data] = useState([
@@ -147,152 +303,3 @@ import SearchBar from './SearchBar'
 //     </Table>
 //   )
 // }
-
-const dropdownItem = [
-  { label: '문서명', value: 'TITLE' },
-  { label: '발송자', value: 'SENDER' },
-  { label: '수신자', value: 'RECIPIENT' },
-]
-
-function TableView() {
-  const data = useMemo<Person[]>(
-    () =>
-      Array.from({ length: 100 }, (_, index) => ({
-        id: index,
-        firstName: `First${index}`,
-        lastName: `Last${index}`,
-        age: Math.floor(Math.random() * 100),
-        visits: Math.floor(Math.random() * 100),
-        status: ['active', 'inactive'][Math.floor(Math.random() * 2)],
-        progress: Math.floor(Math.random() * 100),
-      })),
-    [],
-  )
-
-  const columnHelper = createColumnHelper<Person>()
-
-  const columns = useMemo<ColumnDef<Person, any>[]>(
-    () => [
-      {
-        accessorKey: 'firstName',
-        cell: (info) => info.getValue(),
-      },
-      {
-        accessorFn: (row) => row.lastName,
-        id: 'lastName',
-        cell: (info) => info.getValue(),
-        header: () => <span>Last Name</span>,
-      },
-      {
-        accessorKey: 'age',
-        header: () => 'Age',
-        meta: {
-          filterVariant: 'range',
-        },
-      },
-      {
-        accessorKey: 'visits',
-        header: () => <span>Visits</span>,
-        meta: {
-          filterVariant: 'range',
-        },
-      },
-      {
-        accessorKey: 'status',
-        header: 'Status',
-        meta: {
-          filterVariant: 'select',
-        },
-      },
-      {
-        accessorKey: 'progress',
-        header: 'Profile Progress',
-        meta: {
-          filterVariant: 'range',
-        },
-      },
-    ],
-    [],
-  )
-
-  return (
-    <Table data={data} columns={columns}>
-      <SearchBar
-        category
-        dropdownItems={dropdownItem}
-        selectedDropdownItem={{
-          label: '문서명',
-          value: 'TITLE',
-        }}
-        type="real-time"
-      />
-      <Table.Header
-        fixedColumns={[
-          { index: 0, position: 'left' },
-          { index: columns.length - 1, position: 'right' },
-        ]}
-      >
-        {({ headerGroup, getCommonPinningStyles, flexRender, Filter }) => (
-          <tr>
-            {headerGroup.headers.map((header) => (
-              <th
-                key={header.id}
-                style={{
-                  ...getCommonPinningStyles(header.column),
-                  width: `calc(var(--header-${header?.id}-size) * 1px)`,
-                }}
-              >
-                {flexRender(
-                  header.column.columnDef.header,
-                  header.getContext(),
-                )}
-                {header.column.getCanFilter() ? (
-                  <div>
-                    <Filter column={header.column} />
-                  </div>
-                ) : null}
-                <div
-                  {...{
-                    onDoubleClick: () => header.column.resetSize(),
-                    onMouseDown: header.getResizeHandler(),
-                    onTouchStart: header.getResizeHandler(),
-                    className: `resizer ${
-                      header.column.getIsResizing() ? 'isResizing' : ''
-                    }`,
-                  }}
-                />
-              </th>
-            ))}
-          </tr>
-        )}
-      </Table.Header>
-      <Table.Body>
-        {({ virtualRows, rows, getCommonPinningStyles, flexRender }) => (
-          <>
-            {virtualRows().map((virtualRow) => {
-              const row = rows[virtualRow.index]
-              return (
-                <tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      style={getCommonPinningStyles(cell.column)}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </td>
-                  ))}
-                </tr>
-              )
-            })}
-          </>
-        )}
-      </Table.Body>
-      {/* <Table.Pagination /> */}
-    </Table>
-  )
-}
-
-export default TableView

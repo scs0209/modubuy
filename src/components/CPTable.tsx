@@ -30,6 +30,7 @@ import { Pagination } from '@shoplflow/base'
 declare module '@tanstack/react-table' {
   interface ColumnMeta<TData extends RowData, TValue> {
     filterVariant?: 'text' | 'range' | 'select'
+    filterOptions?: { label: string; value: string }[]
   }
 }
 
@@ -62,12 +63,14 @@ export const TableProvider = TableContext.Provider
 interface TableProps<T extends object> {
   data: T[]
   columns: ColumnDef<T>[]
+  columnResizing?: boolean
   children: React.ReactNode
 }
 
 export const Table = <T extends object>({
   data,
   columns,
+  columnResizing = true,
   children,
 }: TableProps<T>) => {
   const [sorting, setSorting] = useState<SortingState>([])
@@ -100,7 +103,7 @@ export const Table = <T extends object>({
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    // enableColumnResizing: false,
+    enableColumnResizing: columnResizing,
   })
 
   return <TableProvider value={{ table }}>{children}</TableProvider>
@@ -361,27 +364,30 @@ const TablePagination: React.FC = memo(() => {
 
 Table.Pagination = TablePagination
 
-function Filter({ column }: { column: Column<any, unknown> }) {
-  const columnFilterValue = column.getFilterValue()
-  const { filterVariant } = column.columnDef.meta ?? {}
+interface FilterProps {
+  column: Column<any, unknown>
+  onFilterChange?: (value: string) => void
+}
 
-  const sortedUniqueValues =
-    filterVariant === 'range'
-      ? []
-      : Array.from(column.getFacetedUniqueValues().keys()).sort().slice(0, 5000)
+function Filter({ column, onFilterChange }: FilterProps) {
+  const columnFilterValue = column.getFilterValue()
+  const { filterVariant, filterOptions } = column.columnDef.meta ?? {}
+
+  const handleFilterChange = (value: string) => {
+    column.setFilterValue(value)
+    if (onFilterChange) {
+      onFilterChange(value)
+    }
+  }
 
   return filterVariant === 'select' ? (
     <select
-      onChange={(e) => column.setFilterValue(e.target.value)}
+      onChange={(e) => handleFilterChange(e.target.value)}
       value={columnFilterValue?.toString()}
     >
-      {/* See faceted column filters example for dynamic select options */}
-      <option value="">All</option>
-      <option value="active">Active</option>
-      <option value="inactive">Inactive</option>
-      {sortedUniqueValues.map((value) => (
-        <option value={value} key={value}>
-          {value}
+      {filterOptions?.map((option) => (
+        <option value={option.value} key={option.value}>
+          {option.label}
         </option>
       ))}
     </select>
