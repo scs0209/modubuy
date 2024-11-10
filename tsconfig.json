@@ -27,6 +27,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "jest.setup.js"
-  ],
+, "src/constants/fakeJson.js", "src/constants/fakeData.js"  ],
   "exclude": ["node_modules"]
 }

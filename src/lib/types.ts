@@ -130,3 +130,84 @@ export const changePasswordSchema = z.object({
 })
 
 export type TChangePasswordSchema = z.infer<typeof changePasswordSchema>
+
+interface UserInfo {
+  id: string
+  name: string
+}
+
+interface DocumentViewer {
+  viewerId: string
+  viewerName: string
+}
+
+interface DocumentRecipient {
+  id: string
+  name: string
+}
+
+interface DocumentAttachFileInfo {
+  fileId: string
+  fileName: string
+  fileSize: number
+}
+
+interface DocumentComponent {
+  componentId: string
+  componentName: string
+}
+
+interface DocumentTask {
+  taskId: string
+  taskName: string
+}
+
+interface RecipientInfo {
+  id: string
+  name: string
+}
+
+export interface DocumentData {
+  clientId: string
+  completeCnt: number
+  completeRate: number
+  documentGroupId: string
+  documentId: string
+  documentType: string
+  title: string
+  description: string
+  documentStatus: string
+  reserveDt: string
+  isDelete: boolean
+  regUserInfo: UserInfo
+  regDt: string
+  modUserInfo: UserInfo
+  modDt: string
+  delUserInfo?: UserInfo
+  delDt?: string
+  viewerType: string
+  recipientCnt: number
+  documentViewerList: DocumentViewer[]
+  recipientType: string
+  documentRecipientList: DocumentRecipient[]
+  documentAttachFileInfo: DocumentAttachFileInfo
+  attachFileId: string
+  documentCpntInfoList: DocumentComponent[]
+  documentThumbnailInfo: string
+  documentThumbnailPath: string
+  documentTaskList: DocumentTask[]
+  isFavorites: boolean
+  favoritesIdx: number
+  taskCnt: number
+  recipientInfoList: RecipientInfo[]
+}
+
+export interface DocumentDataList {
+  content: DocumentData[]
+  empty: boolean
+  last: boolean
+  page: number
+  size: number
+  total: number
+  totalElements: number
+}
